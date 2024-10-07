@@ -1,0 +1,34 @@
+Mobile:
+	Utilizador:
+		- permitir colocar anúncios para itens e serviços
+		- permitir emprestar algum item
+		- permitir doar algum item
+		- permitir o utilizador fazer propostas a um anúncio
+		- listar as propostas que foram feitas para um anúncio meu 
+		- permitir aceitar ou rejeitar propostas
+		- listar os vários anúncios disponíveis
+		- listar os meus anúncios
+		- listar as minhas propostas
+		- permitir o utilizador guardar itens ou serviços no seu "inventário"
+			- permitir criar um anúncio diretamente do item/serviço
+		- permitir fazer uma review ao finalizar uma troca
+		- permitir reportar uma troca/anúncio/utilizador
+		- permitir o utilizador editar o seu perfil
+		- permitir o utilizador ver outros perfis e os seus anúncios
+
+FrontOffice:
+	Utilizador:
+		o mesmo de mobile
+
+BackOffice:
+	Admin:
+		- listar todos os utilizadores
+		- listar todas os anuncios
+			- listar propostas
+	Gestor de utilizadores:
+
+	Avaliador:
+		- listar os vários anúncios disponíveis
+			- permitir remover anúncios
+			- permitir dar flag de um utilizador para ban/suspensão
+		- listar os reportes de outras pessoas para um utilizador/troca/anúncio
