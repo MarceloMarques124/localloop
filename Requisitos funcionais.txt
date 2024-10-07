@@ -15,6 +15,7 @@ Mobile:
 		- permitir reportar uma troca/anúncio/utilizador
 		- permitir o utilizador editar o seu perfil
 		- permitir o utilizador ver outros perfis e os seus anúncios
+		- guardar um anuncio nos favoritos
 
 FrontOffice:
 	Utilizador:
