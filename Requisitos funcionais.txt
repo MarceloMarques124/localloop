@@ -1,14 +1,25 @@
 Mobile:
 	Utilizador:
 		- permitir colocar anúncios para itens e serviços
-		- permitir emprestar algum item
+		- permitir o utilizador fazer propostas a um anúncio
+		- permitir aceitar ou rejeitar propostas
+		- ver os meus anúncios
+		- ver as minhas propostas feitas/recebidas
+		- permitir fazer uma review ao finalizar uma troca
+		- permitir reportar uma troca/anúncio/utilizador
+		- permitir o utilizador editar o seu perfil
+		- permitir o utilizador ver outros perfis e os seus anúncios
+		- guardar um anuncio nos favoritos
+		- "carrinho" guardar um anuncio que queremos fazer proposta
+
+FrontOffice:
+	Utilizador:
+		- permitir colocar anúncios para itens e serviços
 		- permitir doar algum item
 		- permitir o utilizador fazer propostas a um anúncio
-		- listar as propostas que foram feitas para um anúncio meu 
 		- permitir aceitar ou rejeitar propostas
-		- listar os vários anúncios disponíveis
-		- listar os meus anúncios
-		- listar as minhas propostas
+		- ver os meus anúncios
+		- ver as minhas propostas feitas/recebidas
 		- permitir o utilizador guardar itens ou serviços no seu "inventário"
 			- permitir criar um anúncio diretamente do item/serviço
 		- permitir fazer uma review ao finalizar uma troca
@@ -16,10 +27,7 @@ Mobile:
 		- permitir o utilizador editar o seu perfil
 		- permitir o utilizador ver outros perfis e os seus anúncios
 		- guardar um anuncio nos favoritos
-
-FrontOffice:
-	Utilizador:
-		o mesmo de mobile
+		- "carrinho" guardar um anuncio que queremos fazer proposta
 
 BackOffice:
 	Admin:
