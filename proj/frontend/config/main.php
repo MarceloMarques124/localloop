@@ -20,10 +20,11 @@ return [
         'request' => [
             'csrfParam' => '_csrf-frontend',
             'parsers' => [
-            'application/json' => 'yii\web\JsonParser',
-        ]
+                'application/json' => 'yii\web\JsonParser',
+            ]
 
         ],
+
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
@@ -49,7 +50,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule','controller' => 'api/user', 'extraPatterns' => [], 'tokens'=> []],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/user', 'extraPatterns' => [], 'tokens' => []],
             ],
         ],
     ],
