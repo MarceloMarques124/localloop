@@ -7,7 +7,7 @@ Mobile:
 		- ver as minhas propostas feitas/recebidas
 		- permitir fazer uma review ao finalizar uma troca
 		- permitir reportar uma troca/anúncio/utilizador
-		- permitir o utilizador editar o seu perfil 
+		- permitir o utilizador editar o seu perfil
 		- permitir o utilizador ver outros perfis e os seus anúncios
 		- guardar um anuncio nos favoritos
 		- "carrinho" guardar um anuncio que queremos fazer proposta
