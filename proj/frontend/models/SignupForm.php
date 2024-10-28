@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use common\models\UserInfo;
 
 /**
  * Signup form
@@ -14,6 +15,11 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+
+    /* user info */
+    public $name;
+    public $address;
+    public $postalCode;
 
 
     /**
@@ -35,6 +41,10 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+
+            ['name', 'string'],
+            ['address', 'string'],
+            ['postalCode', 'string']
         ];
     }
 
@@ -48,13 +58,23 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+
+        $userInfo = new UserInfo();
+        $userInfo->name = $this->name;
+        $userInfo->address = $this->address;
+        $userInfo->postal_code = $this->postalCode;
+
+        if ($user->save() && $this->sendEmail($user)) {
+            $userInfo->id = $user->id;
+            $userInfo->save();
+        }
 
         return $user->save() && $this->sendEmail($user);
     }
