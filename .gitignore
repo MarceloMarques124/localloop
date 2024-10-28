@@ -5,3 +5,4 @@ proj/common/config/codeception-local.php
 proj/common/config/main-local.php
 proj/frontend/config/main-local.php
 proj/composer.lock
+proj/.idea
