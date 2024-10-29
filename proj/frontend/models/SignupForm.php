@@ -75,6 +75,7 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+        $user->status = 10;
 
         $userInfo = new UserInfo();
         $userInfo->name = $this->name;
@@ -83,6 +84,15 @@ class SignupForm extends Model
 
         if ($user->save() && $this->sendEmail($user)) {
             $userInfo->id = $user->id;
+
+            /* se ñ houver assign da role admin faz assign admin se ñ faz assign user */
+            $auth = \Yii::$app->authManager;
+            $existingAdmins = $auth->getUserIdsByRole('admin');
+            $role = empty($existingAdmins) ? 'admin' : 'user';
+            $authorRole = $auth->getRole($role);
+
+            $auth->assign($authorRole, $user->getId());
+
             $userInfo->save();
         }
 
