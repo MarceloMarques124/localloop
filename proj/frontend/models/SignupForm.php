@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use common\models\UserInfo;
 
 /**
  * Signup form
@@ -14,6 +15,11 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+
+    /* user info */
+    public $name;
+    public $address;
+    public $postalCode;
 
 
     /**
@@ -35,6 +41,20 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+
+            ['name', 'trim'],
+            ['name', 'required'],
+            ['name', 'string', 'min' => 2, 'max' => 255],
+
+            ['address', 'trim'],
+            ['address', 'required'],
+            ['address', 'string', 'min' => 2, 'max' => 255],
+
+            ['postalCode', 'trim'],
+            ['postalCode', 'required'],
+            ['postalCode', 'string', 'max' => 10],
+            ['postalCode', 'match', 'pattern' => '/\b\d{4}\b-\b\d{3}\b/'],
+
         ];
     }
 
@@ -48,13 +68,33 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+        $user->status = 10;
+
+        $userInfo = new UserInfo();
+        $userInfo->name = $this->name;
+        $userInfo->address = $this->address;
+        $userInfo->postal_code = $this->postalCode;
+
+        if ($user->save() && $this->sendEmail($user)) {
+            $userInfo->id = $user->id;
+
+            /* se ñ houver assign da role admin faz assign admin se ñ faz assign user */
+            $auth = \Yii::$app->authManager;
+            $existingAdmins = $auth->getUserIdsByRole('admin');
+            $role = empty($existingAdmins) ? 'admin' : 'user';
+            $authorRole = $auth->getRole($role);
+
+            $auth->assign($authorRole, $user->getId());
+
+            $userInfo->save();
+        }
 
         return $user->save() && $this->sendEmail($user);
     }
