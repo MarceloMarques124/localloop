@@ -40,51 +40,99 @@ AppAsset::register($this);
                 'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
             ],
         ]);
-        $menuItems = [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-        ];
-        if (Yii::$app->user->isGuest) {
-            $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        }
+
+        // // Parte da esquerda (nome da aplicação)
+        // echo Html::tag('div', Yii::$app->name, [
+        //     'class' => 'navbar-brand d-flex justify-content-start me-auto',  // 'me-auto' empurra os itens seguintes para a direita
+        // ]);
+
+        // Parte da direita (ícones)
         if (Yii::$app->user->can('user')) {
             $user = Yii::$app->user;
-
-            $menuItems[] = [
-                'label' => 'Profile',
-                'items' => [
-                    [
-                        'label' => 'Edit Info',
-                        'linkOptions' => [
-                            'data-bs-toggle' => 'modal',
-                            'data-bs-target' => '#modalUserInfo', // ID do modal
-                            'data-user-id' => $user->id,
-                            'style' => 'cursor: pointer;', // Altera o cursor para pointer
-                        ],
-                        'url' => '#', // Mantém a URL em # para evitar navegação
-                    ]
-                ]
+            $menuItems = [
+                [
+                    'label' => '<i class="fas fa-user"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '#modalUserInfo',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-heart"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-bell"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-briefcase"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-shopping-cart"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-plus-circle"></i> Criar Anúncio',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '#modalCriarAnuncio',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
             ];
+
+            // Exibe os ícones na navbar à direita
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav ms-auto mb-2 mb-md-0'],  // 'ms-auto' para alinhar à direita
+                'items' => $menuItems,
+            ]);
         }
 
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
-            'items' => $menuItems,
-        ]);
         if (Yii::$app->user->isGuest) {
             echo Html::tag('div', Html::a('Login', ['/site/login'], ['class' => ['btn btn-link login text-decoration-none']]), ['class' => ['d-flex']]);
-        } else {
-            echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
-                . Html::submitButton(
-                    'Logout (<span id="logoutUsername">' . Yii::$app->user->identity->username . '</span>)',
-                    ['class' => 'btn btn-link logout text-decoration-none']
-                )
-                . Html::endForm();
         }
+
         NavBar::end();
         ?>
     </header>
+
 
     <main role="main" class="flex-shrink-0">
         <div class="container">
