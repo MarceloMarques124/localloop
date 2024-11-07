@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'name') ?>
             <?= $form->field($model, 'address') ?>
-            <?= $form->field($model, 'postalCode') ?>
+            <?= $form->field($model, 'postal_code') ?>
 
 
             <div class="form-group">
