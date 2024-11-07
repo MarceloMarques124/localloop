@@ -5,14 +5,22 @@ use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var common\models\UserInfo $model */
+/** @var common\models\User $user */
 /** @var yii\widgets\ActiveForm $form */
+
 ?>
+
 
 <div class="user-info-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?= $form->errorSummary($model); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($user, 'username')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($user, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 

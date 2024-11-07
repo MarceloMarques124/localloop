@@ -19,7 +19,7 @@ class SignupForm extends Model
     /* user info */
     public $name;
     public $address;
-    public $postalCode;
+    public $postal_code;
 
 
     /**
@@ -50,10 +50,11 @@ class SignupForm extends Model
             ['address', 'required'],
             ['address', 'string', 'min' => 2, 'max' => 255],
 
-            ['postalCode', 'trim'],
-            ['postalCode', 'required'],
-            ['postalCode', 'string', 'max' => 10],
-            ['postalCode', 'match', 'pattern' => '/\b\d{4}\b-\b\d{3}\b/'],
+            ['postal_code', 'trim'],
+            ['postal_code', 'unique', 'targetClass' => '\common\models\UserInfo'],
+            ['postal_code', 'required'],
+            ['postal_code', 'string', 'max' => 10],
+            ['postal_code', 'match', 'pattern' => '/\b\d{4}\b-\b\d{3}\b/'],
 
         ];
     }
@@ -76,25 +77,22 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->status = 10;
+        $user->save();
 
         $userInfo = new UserInfo();
         $userInfo->name = $this->name;
         $userInfo->address = $this->address;
-        $userInfo->postal_code = $this->postalCode;
+        $userInfo->postal_code = $this->postal_code;
+        $userInfo->id = $user->id;
+        $userInfo->save();
 
-        if ($user->save() && $this->sendEmail($user)) {
-            $userInfo->id = $user->id;
+        /* se ñ houver assign da role admin faz assign admin se ñ faz assign user */
+        $auth = \Yii::$app->authManager;
+        $existingAdmins = $auth->getUserIdsByRole('admin');
+        $role = empty($existingAdmins) ? 'admin' : 'user';
+        $authorRole = $auth->getRole($role);
 
-            /* se ñ houver assign da role admin faz assign admin se ñ faz assign user */
-            $auth = \Yii::$app->authManager;
-            $existingAdmins = $auth->getUserIdsByRole('admin');
-            $role = empty($existingAdmins) ? 'admin' : 'user';
-            $authorRole = $auth->getRole($role);
-
-            $auth->assign($authorRole, $user->getId());
-
-            $userInfo->save();
-        }
+        $auth->assign($authorRole, $user->getId());
 
         return $user->save() && $this->sendEmail($user);
     }

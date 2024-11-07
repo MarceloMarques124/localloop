@@ -2,11 +2,14 @@
 
 namespace frontend\controllers;
 
-use common\models\UserInfo;
-use yii\data\ActiveDataProvider;
+use common\models\User;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use common\models\UserInfo;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use frontend\models\EditUserInfo;
+use yii\web\NotFoundHttpException;
+use yii\web\BadRequestHttpException;
 
 /**
  * UserInfoController implements the CRUD actions for UserInfo model.
@@ -65,8 +68,12 @@ class UserInfoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $user = User::findOne($model->id);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'user' => $user
         ]);
     }
 
@@ -102,15 +109,69 @@ class UserInfoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $user = User::findOne($model->id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $userData = $this->request->post('User');
+            $user->username = $userData['username'];
+            $user->email = $userData['email'];
+
+            // Verifica se o username ou email existe na db
+            $userExists = User::find()
+                ->where([
+                    'or',
+                    ['username' => $user->username],
+                    ['email' => $user->email]
+                ])
+                ->andWhere(['<>', 'id', $user->id])
+                ->one(); // Obtém o primeiro registo que corresponda
+
+            if ($userExists) {
+                if ($userExists->username === $user->username) {
+                    $model->addError('username', 'Este nome de utilizador já está em uso. Por favor, escolha outro.');
+                }
+                if ($userExists->email === $user->email) {
+                    $model->addError('email', 'Este email já está em uso. Por favor, escolha outro.');
+                }
+            } else {
+                if ($user->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'user' => $user,
         ]);
     }
+
+    public function actionGetUserInfo()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $id = \Yii::$app->request->get('id');
+
+        if (\Yii::$app->request->isAjax) {
+            $user = UserInfo::getUserInfo($id);
+            return $user;
+        }
+    }
+
+    public function actionSaveUserInfo()
+    {
+        $id = \Yii::$app->request->post('id');
+        $userDataString = \Yii::$app->request->post('userData');
+
+        // Converter a string userData em um array
+        parse_str($userDataString, $userData);
+
+        if ($id) {
+            return EditUserInfo::saveUserInfo($id, $userData);
+        }
+        throw new BadRequestHttpException('ID não fornecido');
+    }
+
+
 
     /**
      * Deletes an existing UserInfo model.

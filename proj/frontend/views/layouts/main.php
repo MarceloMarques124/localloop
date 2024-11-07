@@ -17,12 +17,16 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>" class="h-100">
 
 <head>
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
+
 
 <body class="d-flex flex-column h-100">
     <?php $this->beginBody() ?>
@@ -46,7 +50,22 @@ AppAsset::register($this);
         }
         if (Yii::$app->user->can('user')) {
             $user = Yii::$app->user;
-            $menuItems[] = ['label' => 'Profile', 'url' => ['/user-info/view', 'id' => $user->id]];
+
+            $menuItems[] = [
+                'label' => 'Profile',
+                'items' => [
+                    [
+                        'label' => 'Edit Info',
+                        'linkOptions' => [
+                            'data-bs-toggle' => 'modal',
+                            'data-bs-target' => '#modalUserInfo', // ID do modal
+                            'data-user-id' => $user->id,
+                            'style' => 'cursor: pointer;', // Altera o cursor para pointer
+                        ],
+                        'url' => '#', // Mantém a URL em # para evitar navegação
+                    ]
+                ]
+            ];
         }
 
         echo Nav::widget([
@@ -58,7 +77,7 @@ AppAsset::register($this);
         } else {
             echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Logout (<span id="logoutUsername">' . Yii::$app->user->identity->username . '</span>)',
                     ['class' => 'btn btn-link logout text-decoration-none']
                 )
                 . Html::endForm();
@@ -88,4 +107,9 @@ AppAsset::register($this);
 </body>
 
 </html>
+<?php
+echo $this->render('modalUserInfo');
+echo $this->render('modalError');
+echo $this->render('toastSuccess');
+?>
 <?php $this->endPage();

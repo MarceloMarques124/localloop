@@ -76,9 +76,31 @@ class m241024_202254_rbac extends Migration
      */
     public function safeDown()
     {
-        echo "m241024_202254_rbac cannot be reverted.\n";
+        $auth = Yii::$app->authManager;
 
-        return false;
+        // Remover atribuições de roles a usuários
+        $auth->revokeAll(1); // Revoga todas as permissões e roles do usuário com ID 1 (ajuste conforme necessário)
+
+        // Remover permissões
+        $auth->remove($auth->getPermission('userManagement'));
+        $auth->remove($auth->getPermission('myOwnAdvertisement'));
+        $auth->remove($auth->getPermission('donateItem'));
+        $auth->remove($auth->getPermission('proposalManagement'));
+        $auth->remove($auth->getPermission('reviewManagement'));
+        $auth->remove($auth->getPermission('report'));
+        $auth->remove($auth->getPermission('editMyOwnInformation'));
+        $auth->remove($auth->getPermission('usersInformation'));
+        $auth->remove($auth->getPermission('favorites'));
+        $auth->remove($auth->getPermission('cart'));
+        $auth->remove($auth->getPermission('advertisementManagement'));
+        $auth->remove($auth->getPermission('reportManagement'));
+
+        // Remover roles
+        $auth->remove($auth->getRole('admin'));
+        $auth->remove($auth->getRole('user'));
+        $auth->remove($auth->getRole('reviwer'));
+
+        return true;
     }
 
     /*
