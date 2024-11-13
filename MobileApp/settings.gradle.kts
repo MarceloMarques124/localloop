@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MobileApp"
+rootProject.name = "LocalLoop"
 include(":app")
+ 

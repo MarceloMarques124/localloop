@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mobileapp"
+    namespace = "com.example.localloop"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.mobileapp"
-        minSdk = 24
+        applicationId = "com.example.localloop"
+        minSdk = 34
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
