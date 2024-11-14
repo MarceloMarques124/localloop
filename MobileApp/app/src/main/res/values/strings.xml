@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">LocalLoop</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="APP_NAME">LocalLoop</string>
+    <string name="EXPLORE">Explore</string>
+    <string name="PROFILE">Profile</string>
+    <string name="NOTIFICATIONS">Notifications</string>
+
+    <string name="AD_IMAGE">Ad Image</string>
+    <string name="AD_TITLE">Ad Title</string>
+    <string name="AD_DESCRIPTION">Ad Description</string>
 </resources>
