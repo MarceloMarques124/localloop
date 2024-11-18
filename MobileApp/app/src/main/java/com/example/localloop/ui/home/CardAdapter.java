@@ -9,13 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.localloop.R;
+import com.example.localloop.models.Advertisement;
 
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
-    private final List<String> data;
+    private final List<Advertisement> data;
 
-    public CardAdapter(List<String> data) {
+    public CardAdapter(List<Advertisement> data) {
         this.data = data;
     }
 
@@ -28,7 +29,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        holder.textTitle.setText(data.get(position));
+        Advertisement advertisement = data.get(position);
+
+        holder.title.setText(advertisement.getUserId() + advertisement.getCreatedDate().toString());
+        holder.description.setText(advertisement.getDescription());
     }
 
     @Override
@@ -37,11 +41,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     static class CardViewHolder extends RecyclerView.ViewHolder {
-        TextView textTitle;
+        TextView title;
+        TextView description;
 
         CardViewHolder(@NonNull View itemView) {
             super(itemView);
-            textTitle = itemView.findViewById(R.id.text_card_title);
+            title = itemView.findViewById(R.id.text_card_title);
+            description = itemView.findViewById(R.id.text_card_description);
         }
     }
 }

@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.localloop.databinding.FragmentHomeBinding;
+import com.example.localloop.models.Advertisement;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
 
@@ -38,67 +41,20 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    private List<String> getCardData() {
-        List<String> data = new ArrayList<>();
-        data.add("Card 1");
-        data.add("Card 2");
-        data.add("Card 3");
-        data.add("Card 4");
-        data.add("Card 5");
-        data.add("Card 6");
-        data.add("Card 7");
-        data.add("Card 8");
-        data.add("Card 9");
-        data.add("Card 10");
-        data.add("Card 11");
-        data.add("Card 12");
-        data.add("Card 14");
-        data.add("Card 15");
-        data.add("Card 16");
-        data.add("Card 17");
-        data.add("Card 18");
-        data.add("Card 19");
-        data.add("Card 20");
+    private List<Advertisement> getCardData() {
+        List<Advertisement> data = new ArrayList<>();
+        Random random = new Random();
 
-        data.add("Card 1");
-        data.add("Card 2");
-        data.add("Card 3");
-        data.add("Card 4");
-        data.add("Card 5");
-        data.add("Card 6");
-        data.add("Card 7");
-        data.add("Card 8");
-        data.add("Card 9");
-        data.add("Card 10");
-        data.add("Card 11");
-        data.add("Card 12");
-        data.add("Card 14");
-        data.add("Card 15");
-        data.add("Card 16");
-        data.add("Card 17");
-        data.add("Card 18");
-        data.add("Card 19");
-        data.add("Card 20");
+        for (int i = 1; i <= 20; i++) {
+            Advertisement ad = new Advertisement();
+            ad.setId(i);
+            ad.setUserId(random.nextInt(1000) + 1);
+            ad.setDescription("Sample Description " + i);
+            ad.setService(random.nextBoolean());
+            ad.setCreatedDate(LocalDateTime.now().minusDays(random.nextInt(30)));
 
-        data.add("Card 1");
-        data.add("Card 2");
-        data.add("Card 3");
-        data.add("Card 4");
-        data.add("Card 5");
-        data.add("Card 6");
-        data.add("Card 7");
-        data.add("Card 8");
-        data.add("Card 9");
-        data.add("Card 10");
-        data.add("Card 11");
-        data.add("Card 12");
-        data.add("Card 14");
-        data.add("Card 15");
-        data.add("Card 16");
-        data.add("Card 17");
-        data.add("Card 18");
-        data.add("Card 19");
-        data.add("Card 20");
+            data.add(ad);
+        }
 
         return data;
     }
