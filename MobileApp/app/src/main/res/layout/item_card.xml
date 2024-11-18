@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/FAVORITE_ICON"
-                android:src="@drawable/baseline_check_24" />
+                android:src="@drawable/baseline_add_circle_outline_24" />
         </LinearLayout>
 
     </LinearLayout>
