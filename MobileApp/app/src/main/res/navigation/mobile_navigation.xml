@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.localloop.ui.dashboard.DashboardFragment"
+        android:name="com.example.localloop.ui.profile.ProfileFragment"
         android:label="@string/PROFILE"
         tools:layout="@layout/fragment_dashboard" />
 
