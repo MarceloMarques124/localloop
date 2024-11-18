@@ -7,4 +7,6 @@
     <string name="AD_IMAGE">Ad Image</string>
     <string name="AD_TITLE">Ad Title</string>
     <string name="AD_DESCRIPTION">Ad Description</string>
+    <string name="FAVORITE_ICON">Favorite Icon</string>
+    <string name="MAKE_PROPOSAL">Make Proposal</string>
 </resources>

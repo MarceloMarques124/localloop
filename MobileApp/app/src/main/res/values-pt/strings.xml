@@ -8,4 +8,5 @@
     <string name="AD_TITLE">Título do Anúncio</string>
     <string name="AD_DESCRIPTION">Descrição do Anúncio</string>
     <string name="MAKE_PROPOSAL">Fazer Proposta</string>
+    <string name="FAVORITE_ICON">Ícone Favorito</string>
 </resources>
