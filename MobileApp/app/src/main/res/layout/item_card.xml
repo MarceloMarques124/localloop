@@ -1,0 +1,47 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:backgroundTint="?attr/colorSurface"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"> <!-- Use colorSurface for dynamic background -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="@string/AD_IMAGE"
+            android:scaleType="centerCrop"
+            android:src="@drawable/place_holder_image" />
+
+        <TextView
+            android:id="@+id/text_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingTop="8dp"
+            android:text="@string/AD_TITLE"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_card_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingTop="4dp"
+            android:text="@string/AD_DESCRIPTION"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
