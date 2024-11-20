@@ -3,12 +3,13 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\Html;
 use common\widgets\Alert;
+use yii\bootstrap5\Modal;
+use yii\bootstrap5\NavBar;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
-use yii\bootstrap5\Html;
-use yii\bootstrap5\Nav;
-use yii\bootstrap5\NavBar;
 
 AppAsset::register($this);
 ?>
@@ -19,7 +20,6 @@ AppAsset::register($this);
 <head>
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags() ?>
@@ -32,6 +32,7 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
 
     <header>
+
         <?php
         NavBar::begin([
             'brandLabel' => Yii::$app->name,
@@ -47,19 +48,33 @@ AppAsset::register($this);
         // ]);
 
         // Parte da direita (ícones)
-        if (Yii::$app->user->can('user')) {
+        if (Yii::$app->user->can('admin')) {
             $user = Yii::$app->user;
+
             $menuItems = [
                 [
                     'label' => '<i class="fas fa-user"></i>',
                     'encode' => false,
-                    'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '#modalUserInfo',
-                        'data-user-id' => $user->id,
-                        'style' => 'cursor: pointer;',
+                    'items' => [ // Adicionando um dropdown
+                        [
+                            'label' => 'User Info',
+                            'encode' => false,
+                            'url' => ['user-info/update', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
+                            'label' => 'Logout',
+                            'encode' => false,
+                            'url' => ['site/logout'], // Defina a URL de logout conforme necessário
+                            'linkOptions' => [
+                                'data-method' => 'post', // Para enviar o logout como um post
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
                     ],
-                    'url' => '#',
                 ],
                 [
                     'label' => '<i class="fas fa-heart"></i>',
@@ -133,7 +148,6 @@ AppAsset::register($this);
         ?>
     </header>
 
-
     <main role="main" class="flex-shrink-0">
         <div class="container">
             <?= Breadcrumbs::widget([
@@ -142,6 +156,8 @@ AppAsset::register($this);
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
+
+
     </main>
 
     <footer class="footer mt-auto py-3 text-muted">
@@ -155,9 +171,5 @@ AppAsset::register($this);
 </body>
 
 </html>
-<?php
-echo $this->render('modalUserInfo');
-echo $this->render('modalError');
-echo $this->render('toastSuccess');
-?>
+
 <?php $this->endPage();
