@@ -3,12 +3,13 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\Html;
 use common\widgets\Alert;
+use yii\bootstrap5\Modal;
+use yii\bootstrap5\NavBar;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
-use yii\bootstrap5\Html;
-use yii\bootstrap5\Nav;
-use yii\bootstrap5\NavBar;
 
 AppAsset::register($this);
 ?>
@@ -19,7 +20,6 @@ AppAsset::register($this);
 <head>
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags() ?>
@@ -32,6 +32,7 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
 
     <header>
+
         <?php
         NavBar::begin([
             'brandLabel' => Yii::$app->name,
@@ -40,48 +41,109 @@ AppAsset::register($this);
                 'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
             ],
         ]);
-        $menuItems = [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-        ];
-        if (Yii::$app->user->isGuest) {
-            $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        }
-        if (Yii::$app->user->can('user')) {
+
+        // // Parte da esquerda (nome da aplicação)
+        // echo Html::tag('div', Yii::$app->name, [
+        //     'class' => 'navbar-brand d-flex justify-content-start me-auto',  // 'me-auto' empurra os itens seguintes para a direita
+        // ]);
+
+        // Parte da direita (ícones)
+        if (Yii::$app->user->can('admin')) {
             $user = Yii::$app->user;
 
-            $menuItems[] = [
-                'label' => 'Profile',
-                'items' => [
-                    [
-                        'label' => 'Edit Info',
-                        'linkOptions' => [
-                            'data-bs-toggle' => 'modal',
-                            'data-bs-target' => '#modalUserInfo', // ID do modal
-                            'data-user-id' => $user->id,
-                            'style' => 'cursor: pointer;', // Altera o cursor para pointer
+            $menuItems = [
+                [
+                    'label' => '<i class="fas fa-user"></i>',
+                    'encode' => false,
+                    'items' => [ // Adicionando um dropdown
+                        [
+                            'label' => 'User Info',
+                            'encode' => false,
+                            'url' => ['user-info/update', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
                         ],
-                        'url' => '#', // Mantém a URL em # para evitar navegação
-                    ]
-                ]
+                        [
+                            'label' => 'Logout',
+                            'encode' => false,
+                            'url' => ['site/logout'], // Defina a URL de logout conforme necessário
+                            'linkOptions' => [
+                                'data-method' => 'post', // Para enviar o logout como um post
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'label' => '<i class="fas fa-heart"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-bell"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-briefcase"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-shopping-cart"></i>',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
+                [
+                    'label' => '<i class="fas fa-plus-circle"></i> Criar Anúncio',
+                    'encode' => false,
+                    'linkOptions' => [
+                        'data-bs-toggle' => 'modal',
+                        'data-bs-target' => '#modalCriarAnuncio',
+                        'data-user-id' => $user->id,
+                        'style' => 'cursor: pointer;',
+                    ],
+                    'url' => '#',
+                ],
             ];
+
+            // Exibe os ícones na navbar à direita
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav ms-auto mb-2 mb-md-0'],  // 'ms-auto' para alinhar à direita
+                'items' => $menuItems,
+            ]);
         }
 
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
-            'items' => $menuItems,
-        ]);
         if (Yii::$app->user->isGuest) {
             echo Html::tag('div', Html::a('Login', ['/site/login'], ['class' => ['btn btn-link login text-decoration-none']]), ['class' => ['d-flex']]);
-        } else {
-            echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
-                . Html::submitButton(
-                    'Logout (<span id="logoutUsername">' . Yii::$app->user->identity->username . '</span>)',
-                    ['class' => 'btn btn-link logout text-decoration-none']
-                )
-                . Html::endForm();
         }
+
         NavBar::end();
         ?>
     </header>
@@ -94,6 +156,8 @@ AppAsset::register($this);
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
+
+
     </main>
 
     <footer class="footer mt-auto py-3 text-muted">
@@ -107,9 +171,5 @@ AppAsset::register($this);
 </body>
 
 </html>
-<?php
-echo $this->render('modalUserInfo');
-echo $this->render('modalError');
-echo $this->render('toastSuccess');
-?>
+
 <?php $this->endPage();

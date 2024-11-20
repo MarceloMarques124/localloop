@@ -1,5 +1,8 @@
 <?php
 
+use yii\bootstrap5\Modal;
+use frontend\models\EditUserInfo;
+
 /** @var yii\web\View $this */
 
 $this->title = 'My Yii Application';
@@ -14,7 +17,6 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="body-content">
-
         <div class="row">
             <div class="col-lg-4">
                 <h2>Heading</h2>
@@ -50,3 +52,13 @@ $this->title = 'My Yii Application';
 
     </div>
 </div>
+
+<?php
+// Verifique se há uma flash message de sucesso
+if (Yii::$app->session->hasFlash('success')) {
+    $this->registerJs("
+            $('#toastMessage').text('Info updated with success!!')
+            showToast();
+    ");
+}
+?>
