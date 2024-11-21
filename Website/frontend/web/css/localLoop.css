@@ -11,6 +11,16 @@
   pointer-events: none;
 }
 
+/* card click */
+.card-click {
+  text-decoration: none;
+  color: black;
+}
+/* card click */
+.card-click:hover {
+  color: black;
+}
+
 /* toast success */
 .wrapper {
   width: 420px;

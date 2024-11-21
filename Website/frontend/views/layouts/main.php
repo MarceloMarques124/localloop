@@ -6,7 +6,6 @@
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\Html;
 use common\widgets\Alert;
-use yii\bootstrap5\Modal;
 use yii\bootstrap5\NavBar;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
@@ -48,7 +47,7 @@ AppAsset::register($this);
         // ]);
 
         // Parte da direita (ícones)
-        if (Yii::$app->user->can('admin')) {
+        if (Yii::$app->user->can('user')) {
             $user = Yii::$app->user;
 
             $menuItems = [
@@ -142,6 +141,7 @@ AppAsset::register($this);
 
         if (Yii::$app->user->isGuest) {
             echo Html::tag('div', Html::a('Login', ['/site/login'], ['class' => ['btn btn-link login text-decoration-none']]), ['class' => ['d-flex']]);
+            echo Html::tag('div', Html::a('Signup', ['/site/signup'], ['class' => ['btn btn-link login text-decoration-none']]), ['class' => ['d-flex']]);
         }
 
         NavBar::end();
