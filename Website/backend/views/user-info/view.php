@@ -16,21 +16,50 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?php
+        if (Yii::$app->user->can('admin')) {
+        ?>
+
+            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(
+                $user->status == 10 ? 'Deactivate' : 'Activate',
+                ['user-info/toggle-status', 'id' => $user->id],
+                [
+                    'class' => 'btn btn-' . ($user->status == 10 ? 'danger' : 'success'),
+                    'data' => [
+                        'confirm' => 'Are you sure you want to ' . ($user->status == 10 ? 'deactivate' : 'activate') . ' this user?',
+                        'method' => 'post',
+                    ],
+                ]
+            ) ?>
+        <?php } ?>
+
+        <?= Html::a(
+            $model->flagged_for_ban == 1 ? 'Unban' : 'Ban',
+            ['user-info/toggle-ban-status', 'id' => $model->id],
+            [
+                'class' => 'btn btn-' . ($model->flagged_for_ban == 1 ? 'danger' : 'success'),
+                'data' => [
+                    'confirm' => 'Are you sure you want to ' . ($model->flagged_for_ban == 1 ? 'unban' : 'ban') . ' this user?',
+                    'method' => 'post',
+                ],
+            ]
+        ) ?>
+
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'name',
+            // Atributos do modelo User
+            [
+                'label' => 'Username',
+                'value' => $user->username, // Acessando o atributo username do User
+            ],
+            [
+                'label' => 'Email',
+                'value' => $user->email, // Acessando o atributo email do User
+            ],
             'address',
             'postal_code',
             'flagged_for_ban',

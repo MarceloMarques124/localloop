@@ -52,4 +52,10 @@ class UserInfo extends \yii\db\ActiveRecord
             'postal_code' => 'Postal Code',
         ];
     }
+
+    // UserInfo model
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'id']);
+    }
 }

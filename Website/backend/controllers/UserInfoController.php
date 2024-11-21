@@ -2,11 +2,13 @@
 
 namespace backend\controllers;
 
-use common\models\UserInfo;
-use yii\data\ActiveDataProvider;
+use common\models\User;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use common\models\UserInfo;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use frontend\models\EditUserInfo;
+use yii\web\NotFoundHttpException;
 
 /**
  * UserInfoController implements the CRUD actions for UserInfo model.
@@ -39,7 +41,7 @@ class UserInfoController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => UserInfo::find(),
+            'query' => UserInfo::find()->with('user'),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -51,7 +53,6 @@ class UserInfoController extends Controller
             ],
             */
         ]);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -65,8 +66,12 @@ class UserInfoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $user = User::findOne($model->id);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'user' => $user
         ]);
     }
 
@@ -99,12 +104,72 @@ class UserInfoController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        // Carrega os modelos reais da base de dados
+        $user = User::findOne($id);
+        $userInfo = UserInfo::findOne($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (!$user || !$userInfo) {
+            throw new \yii\web\NotFoundHttpException('User not found.');
+        }
+
+        // Cria uma instância do modelo `EditUserInfo`
+        $model = new EditUserInfo();
+
+        // Carrega os dados atuais nos modelos
+        $model->username = $user->username;
+        $model->email = $user->email;
+        $model->name = $userInfo->name;
+        $model->address = $userInfo->address;
+        $model->postal_code = $userInfo->postal_code;
+        $model->id = $id; // Atribui o ID ao modelo de validação
+
+        // Verifica se os dados foram enviados via POST
+        if ($this->request->isPost) {
+            // Carrega os dados vindos do POST nas chaves certas
+            if ($model->load($this->request->post())) {
+
+                // Valida os dados carregados
+                if ($model->validate()) {
+
+                    // Atualiza os modelos reais com os dados validados do `EditUserInfo`
+                    $user->username = $model->username;
+                    $user->email = $model->email;
+                    $userInfo->name = $model->name;
+                    $userInfo->address = $model->address;
+                    $userInfo->postal_code = $model->postal_code;
+
+                    // Salva os dados nos modelos reais
+                    if ($user->save() && $userInfo->save()) {
+                        \Yii::$app->session->setFlash('success', 'Informações atualizadas com sucesso!');
+                        return $this->render('update', [
+                            'model' => $model,
+                        ]);
+                    } else {
+                        // Exibe erros de salvamento
+                        $errors = array_merge($user->getErrors(), $userInfo->getErrors());
+                        $errorMessages = [];
+
+                        foreach ($errors as $attribute => $error) {
+                            $errorMessages[] = implode(', ', $error);
+                        }
+
+                        \Yii::$app->session->setFlash('error', implode('<br>', $errorMessages));
+                    }
+                } else {
+                    // Exibe erros de validação
+                    $validationErrors = $model->getErrors();
+                    $validationMessages = [];
+
+                    foreach ($validationErrors as $attribute => $errors) {
+                        $validationMessages[] = implode(', ', $errors);
+                    }
+
+                    \Yii::$app->session->setFlash('error', implode('<br>', $validationMessages));
+                }
+            }
         }
 
         return $this->render('update', [
@@ -140,5 +205,24 @@ class UserInfoController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionToggleStatus($id)
+    {
+        $user = $user = User::findOne($id);
+        $user->status = $user->status == 10 ? 9 : 10;
+        $user->save();
+
+        \Yii::$app->session->setFlash('success', 'User status updated successfully.');
+        return $this->redirect(['index']);
+    }
+    public function actionToggleBanStatus($id)
+    {
+        $model = $this->findModel($id);
+        $model->flagged_for_ban = $model->flagged_for_ban == 1 ? 0 : 1;
+        $model->save();
+
+        \Yii::$app->session->setFlash('success', 'User status updated successfully.');
+        return $this->redirect(['index']);
     }
 }

@@ -8,7 +8,6 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use backend\models\User;
 
 /**
  * Site controller
@@ -25,7 +24,7 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'register'],
+                        'actions' => ['login', 'error'],
                         'allow' => true,
                     ],
                     [
@@ -81,6 +80,16 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $user = Yii::$app->user->identity;
+
+
+            // Verifica se o usuário tem a permissão de loginReviewer
+            if (!Yii::$app->user->can('reviwer')) {
+                Yii::$app->session->setFlash('error', 'Apenas revisores podem fazer login.');
+                Yii::$app->user->logout();
+                return $this->goBack();
+            }
+
             return $this->goBack();
         }
 
@@ -101,20 +110,5 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-
-    public function actionRegister()
-    {
-        $model = new \backend\models\User();
-
-        if ($model->load(Yii::$app->request->post()) && $model->createUser()) {
-            Yii::$app->session->setFlash('success', 'Cadastro realizado com sucesso!');
-            return $this->redirect(['site/login']);
-        }
-
-        return $this->render('register', [
-            'model' => $model,
-        ]);
     }
 }
