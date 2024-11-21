@@ -37,7 +37,6 @@ class UserInfo extends \yii\db\ActiveRecord
             [['address'], 'string', 'max' => 200],
             [['postal_code'], 'string', 'max' => 8],
             [['id'], 'unique'],
-            ['postal_code', 'unique']
         ];
     }
 
