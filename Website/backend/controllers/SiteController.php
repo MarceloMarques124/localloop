@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
+use backend\models\User;
 
 /**
  * Site controller
@@ -24,7 +25,7 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'register'],
                         'allow' => true,
                     ],
                     [
@@ -100,5 +101,20 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+
+    public function actionRegister()
+    {
+        $model = new \backend\models\User();
+
+        if ($model->load(Yii::$app->request->post()) && $model->createUser()) {
+            Yii::$app->session->setFlash('success', 'Cadastro realizado com sucesso!');
+            return $this->redirect(['site/login']);
+        }
+
+        return $this->render('register', [
+            'model' => $model,
+        ]);
     }
 }
