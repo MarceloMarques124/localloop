@@ -6,10 +6,10 @@ use common\models\User;
 use yii\web\Controller;
 use common\models\UserInfo;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use frontend\models\EditUserInfo;
 use yii\web\NotFoundHttpException;
-use yii\web\BadRequestHttpException;
 
 /**
  * UserInfoController implements the CRUD actions for UserInfo model.
@@ -24,6 +24,17 @@ class UserInfoController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [],
+                    'rules' => [
+                        [
+                            'actions' => ['update'],
+                            'allow' => true,
+                            'roles' => ['editMyOwnInformation'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -108,67 +119,74 @@ class UserInfoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $user = User::findOne($model->id);
+        // Carrega os modelos reais da base de dados
+        $user = User::findOne($id);
+        $userInfo = UserInfo::findOne($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            $userData = $this->request->post('User');
-            $user->username = $userData['username'];
-            $user->email = $userData['email'];
+        if (!$user || !$userInfo) {
+            throw new \yii\web\NotFoundHttpException('User not found.');
+        }
 
-            // Verifica se o username ou email existe na db
-            $userExists = User::find()
-                ->where([
-                    'or',
-                    ['username' => $user->username],
-                    ['email' => $user->email]
-                ])
-                ->andWhere(['<>', 'id', $user->id])
-                ->one(); // Obtém o primeiro registo que corresponda
+        // Cria uma instância do modelo `EditUserInfo`
+        $model = new EditUserInfo();
 
-            if ($userExists) {
-                if ($userExists->username === $user->username) {
-                    $model->addError('username', 'Este nome de utilizador já está em uso. Por favor, escolha outro.');
-                }
-                if ($userExists->email === $user->email) {
-                    $model->addError('email', 'Este email já está em uso. Por favor, escolha outro.');
-                }
-            } else {
-                if ($user->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
+        // Carrega os dados atuais nos modelos
+        $model->username = $user->username;
+        $model->email = $user->email;
+        $model->name = $userInfo->name;
+        $model->address = $userInfo->address;
+        $model->postal_code = $userInfo->postal_code;
+        $model->id = $id; // Atribui o ID ao modelo de validação
+
+        // Verifica se os dados foram enviados via POST
+        if ($this->request->isPost) {
+            // Carrega os dados vindos do POST nas chaves certas
+            if ($model->load($this->request->post())) {
+
+                // Valida os dados carregados
+                if ($model->validate()) {
+
+                    // Atualiza os modelos reais com os dados validados do `EditUserInfo`
+                    $user->username = $model->username;
+                    $user->email = $model->email;
+                    $userInfo->name = $model->name;
+                    $userInfo->address = $model->address;
+                    $userInfo->postal_code = $model->postal_code;
+
+                    // Salva os dados nos modelos reais
+                    if ($user->save() && $userInfo->save()) {
+                        \Yii::$app->session->setFlash('success', 'Informações atualizadas com sucesso!');
+                        return $this->render('update', [
+                            'model' => $model,
+                        ]);
+                    } else {
+                        // Exibe erros de salvamento
+                        $errors = array_merge($user->getErrors(), $userInfo->getErrors());
+                        $errorMessages = [];
+
+                        foreach ($errors as $attribute => $error) {
+                            $errorMessages[] = implode(', ', $error);
+                        }
+
+                        \Yii::$app->session->setFlash('error', implode('<br>', $errorMessages));
+                    }
+                } else {
+                    // Exibe erros de validação
+                    $validationErrors = $model->getErrors();
+                    $validationMessages = [];
+
+                    foreach ($validationErrors as $attribute => $errors) {
+                        $validationMessages[] = implode(', ', $errors);
+                    }
+
+                    \Yii::$app->session->setFlash('error', implode('<br>', $validationMessages));
                 }
             }
         }
 
         return $this->render('update', [
             'model' => $model,
-            'user' => $user,
         ]);
-    }
-
-    public function actionGetUserInfo()
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $id = \Yii::$app->request->get('id');
-
-        if (\Yii::$app->request->isAjax) {
-            $user = UserInfo::getUserInfo($id);
-            return $user;
-        }
-    }
-
-    public function actionSaveUserInfo()
-    {
-        $id = \Yii::$app->request->post('id');
-        $userDataString = \Yii::$app->request->post('userData');
-
-        // Converter a string userData em um array
-        parse_str($userDataString, $userData);
-
-        if ($id) {
-            return EditUserInfo::saveUserInfo($id, $userData);
-        }
-        throw new BadRequestHttpException('ID não fornecido');
     }
 
 

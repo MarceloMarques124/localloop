@@ -80,6 +80,16 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $user = Yii::$app->user->identity;
+
+
+            // Verifica se o usuário tem a permissão de loginReviewer
+            if (!Yii::$app->user->can('reviwer')) {
+                Yii::$app->session->setFlash('error', 'Apenas revisores podem fazer login.');
+                Yii::$app->user->logout();
+                return $this->goBack();
+            }
+
             return $this->goBack();
         }
 

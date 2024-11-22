@@ -51,7 +51,6 @@ class SignupForm extends Model
             ['address', 'string', 'min' => 2, 'max' => 255],
 
             ['postal_code', 'trim'],
-            ['postal_code', 'unique', 'targetClass' => '\common\models\UserInfo'],
             ['postal_code', 'required'],
             ['postal_code', 'string', 'max' => 10],
             ['postal_code', 'match', 'pattern' => '/\b\d{4}\b-\b\d{3}\b/'],

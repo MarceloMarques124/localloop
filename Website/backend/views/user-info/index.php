@@ -17,7 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create User Info', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        /*         if (Yii::$app->user->can('admin')) { ?>
+            <?= Html::a('Create User Info', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php }  */ ?>
     </p>
 
 
@@ -26,13 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'name',
             'address',
             'postal_code',
             'flagged_for_ban',
+            // Access User model properties directly
+            'user.username',
+            'user.email',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view}{update}',
                 'urlCreator' => function ($action, UserInfo $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
