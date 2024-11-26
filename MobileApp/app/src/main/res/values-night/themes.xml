@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="Theme.LocalLoop" parent="Theme.Material3.Dark" />
+</resources>

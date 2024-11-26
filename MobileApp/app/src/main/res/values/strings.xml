@@ -1,0 +1,13 @@
+<resources>
+    <string name="APP_NAME" translatable="false">LocalLoop</string>
+    <string name="EXPLORE">Explore</string>
+    <string name="PROFILE">Profile</string>
+    <string name="NOTIFICATIONS">Notifications</string>
+
+    <string name="AD_IMAGE">Ad Image</string>
+    <string name="AD_TITLE">Ad Title</string>
+    <string name="AD_DESCRIPTION">Ad Description</string>
+    <string name="FAVORITE_ICON">Favorite Icon</string>
+    <string name="MAKE_PROPOSAL">Make Proposal</string>
+    <string name="SEARCH_HERE">Search here…</string>
+</resources>
