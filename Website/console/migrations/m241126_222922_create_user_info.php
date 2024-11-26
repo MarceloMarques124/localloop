@@ -37,10 +37,6 @@ class m241126_222922_create_user_info extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_user_info_user', 'user_info');
-
-        $this->dropPrimaryKey('pk_user_info_id', 'user_info');
-
         $this->dropTable('user_info');
     }
 }
