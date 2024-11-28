@@ -4,6 +4,11 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use yii\bootstrap5\Nav;
+use common\widgets\Alert;
+use yii\bootstrap5\NavBar;
+use frontend\assets\AppAsset;
+use yii\bootstrap5\Breadcrumbs;
 
 \hail812\adminlte3\assets\FontAwesomeAsset::register($this);
 \hail812\adminlte3\assets\AdminLteAsset::register($this);
@@ -31,12 +36,17 @@ $this->registerJsFile($publishedRes[1] . '/control_sidebar.js', ['depends' => '\
     <?php $this->beginBody() ?>
 
     <div class="wrapper">
+        <?= Alert::widget() ?>
+
         <!-- Navbar -->
         <?= $this->render('navbar', ['assetDir' => $assetDir]) ?>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
         <?= $this->render('sidebar', ['assetDir' => $assetDir]) ?>
+
+        <div>
+        </div>
 
         <!-- Content Wrapper. Contains page content -->
         <?= $this->render('content', ['content' => $content, 'assetDir' => $assetDir]) ?>
@@ -49,6 +59,8 @@ $this->registerJsFile($publishedRes[1] . '/control_sidebar.js', ['depends' => '\
         <!-- Main Footer -->
         <?= $this->render('footer') ?>
     </div>
+
+
 
     <?php $this->endBody() ?>
 </body>

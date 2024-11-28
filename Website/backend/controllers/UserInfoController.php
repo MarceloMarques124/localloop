@@ -82,20 +82,51 @@ class UserInfoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new UserInfo();
+        $model = new EditUserInfo();
+        //$model->scenario = 'create'; // Define o cenário para validação
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            if ($model->validate()) {
+                // Inicializa os modelos reais
+                $user = new User();
+                $userInfo = new UserInfo();
+
+                // Atualiza os modelos reais com os dados validados
+                $user->username = $model->username;
+                $user->email = $model->email;
+
+                if ($user->save()) {
+                    // Associa o UserInfo ao User salvo
+                    $userInfo->id = $user->id; // Certifique-se de que o campo `user_id` existe
+                    $userInfo->name = $model->name;
+                    $userInfo->address = $model->address;
+                    $userInfo->postal_code = $model->postal_code;
+
+                    if ($userInfo->save()) {
+                        \Yii::$app->session->setFlash('success', 'Informações atualizadas com sucesso!');
+                        return $this->render('view', [
+                            'model' => $userInfo,
+                            'user' => $user,
+                        ]);
+                    } else {
+                        // Exibe os erros do UserInfo caso o salvamento falhe
+                        \Yii::$app->session->setFlash('error', implode('<br>', array_map(fn($e) => implode(', ', $e), $userInfo->getErrors())));
+                    }
+                } else {
+                    // Exibe os erros do User caso o salvamento falhe
+                    \Yii::$app->session->setFlash('error', implode('<br>', array_map(fn($e) => implode(', ', $e), $user->getErrors())));
+                }
+            } else {
+                // Exibe erros de validação
+                \Yii::$app->session->setFlash('error', implode('<br>', array_map(fn($e) => implode(', ', $e), $model->getErrors())));
             }
-        } else {
-            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
     }
+
 
     /**
      * Updates an existing UserInfo model.
@@ -117,6 +148,7 @@ class UserInfoController extends Controller
 
         // Cria uma instância do modelo `EditUserInfo`
         $model = new EditUserInfo();
+        // $model->scenario = 'update'; // Define o cenário para validação
 
         // Carrega os dados atuais nos modelos
         $model->username = $user->username;
@@ -130,6 +162,7 @@ class UserInfoController extends Controller
         if ($this->request->isPost) {
             // Carrega os dados vindos do POST nas chaves certas
             if ($model->load($this->request->post())) {
+                // dd($model);
 
                 // Valida os dados carregados
                 if ($model->validate()) {

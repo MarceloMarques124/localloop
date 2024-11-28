@@ -67,6 +67,8 @@ use yii\widgets\ActiveForm;
             $('#w0 input').removeAttr('readonly').removeClass('readOnly');
         });
 
+        showToast();
+
         // Quando o formulário for submetido, preenchendo o campo oculto com o userId
         $('#user-form').submit(function() {
             var userId = $('#modalUserInfo').data('idUser'); // Recupera o ID do usuário do modal
