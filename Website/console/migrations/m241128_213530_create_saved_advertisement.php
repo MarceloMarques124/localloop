@@ -49,9 +49,7 @@ class m241128_213530_create_saved_advertisement extends Migration
      */
     public function safeDown()
     {
-        echo "m241128_213530_create_saved_advertisement cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('saved_advertisement');
     }
 
     /*

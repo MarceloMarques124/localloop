@@ -36,9 +36,7 @@ class m241128_214301_create_cart extends Migration
      */
     public function safeDown()
     {
-        echo "m241128_214301_create_cart cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('cart');
     }
 
     /*
