@@ -13,7 +13,7 @@ class m241128_220600_create_cart_item extends Migration
     public function safeUp()
     {
         $this->createTable('cart_item', [
-            'card_id' => $this->integer()->notNull(),
+            'cart_id' => $this->integer()->notNull(),
             'trade_proposal_id' => $this->integer()->notNull(),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE CURRENT_TIMESTAMP'),
@@ -22,14 +22,14 @@ class m241128_220600_create_cart_item extends Migration
         $this->addPrimaryKey(
             'pk_cart_item',
             'cart_item',
-            ['card_id', 'trade_proposal_id']
+            ['cart_id', 'trade_proposal_id']
         );
 
         $this->addForeignKey(
             'fk_cart_item_cart',
             'cart_item',
-            'card_id',
-            'card',
+            'cart_id',
+            'cart',
             'id',
             'CASCADE'
         );
