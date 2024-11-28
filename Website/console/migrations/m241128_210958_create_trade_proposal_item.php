@@ -20,7 +20,7 @@ class m241128_210958_create_trade_proposal_item extends Migration
         ], 'ENGINE=InnoDB');
 
         $this->addPrimaryKey(
-            'pk_trade_proposal-item',
+            'pk_trade_proposal_item',
             'trade_proposal_item',
             ['trade_proposal_id', 'item_id']
         );
