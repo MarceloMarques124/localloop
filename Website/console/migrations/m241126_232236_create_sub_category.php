@@ -16,6 +16,8 @@ class m241126_232236_create_sub_category extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'category_id' => $this->integer()->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE CURRENT_TIMESTAMP'),
         ], 'ENGINE=InnoDB');
 
         $this->addForeignKey(

@@ -15,6 +15,8 @@ class m241126_232106_create_category extends Migration
         $this->createTable('category', [
             'id' => $this->primaryKey(),
             'name' => $this->string(50)->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE CURRENT_TIMESTAMP'),
         ], 'ENGINE=InnoDB');
     }
 

@@ -17,6 +17,8 @@ class m241126_233106_create_item extends Migration
             'name' => $this->string()->notNull(),
             'user_info_id' => $this->integer()->notNull(),
             'sub_category_id' => $this->integer()->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE CURRENT_TIMESTAMP'),
         ], 'ENGINE=InnoDB');
 
         $this->addForeignKey(

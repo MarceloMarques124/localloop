@@ -18,6 +18,8 @@ class m241126_222922_create_user_info extends Migration
             'address' => $this->string(200)->notNull(),
             'postal_code' => $this->string(8)->notNull(),
             'flagged_for_ban' => $this->boolean()->notNull()->defaultValue(0),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE CURRENT_TIMESTAMP'),
         ], 'ENGINE=InnoDB');
 
         $this->addPrimaryKey('pk_user_info_id', 'user_info', 'id');
