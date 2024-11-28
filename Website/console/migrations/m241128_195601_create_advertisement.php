@@ -20,7 +20,7 @@ class m241128_195601_create_advertisement extends Migration
             'is_service' => $this->boolean()->notNull()->defaultValue(0),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE CURRENT_TIMESTAMP'),
-        ]);
+        ], 'ENGINE=InnoDB');
 
         $this->addForeignKey(
             'fk_advertisement_user_info',
