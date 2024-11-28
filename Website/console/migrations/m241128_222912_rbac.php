@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m241024_202254_rbac
+ * Class m241128_222912_rbac
  */
-class m241024_202254_rbac extends Migration
+class m241128_222912_rbac extends Migration
 {
     /**
      * {@inheritdoc}
@@ -112,7 +112,7 @@ class m241024_202254_rbac extends Migration
 
     public function down()
     {
-        echo "m241024_202254_rbac cannot be reverted.\n";
+        echo "m241128_222912_rbac cannot be reverted.\n";
 
         return false;
     }
