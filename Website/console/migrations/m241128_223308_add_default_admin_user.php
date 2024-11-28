@@ -1,11 +1,12 @@
 <?php
 
 use yii\db\Migration;
+use yii\db\Query;
 
 /**
- * Class m241125_221856_seed_admin_user
+ * Class m241128_223308_add_default_admin_user
  */
-class m241125_221856_seed_admin_user extends Migration
+class m241128_223308_add_default_admin_user extends Migration
 {
     /**
      * {@inheritdoc}
@@ -42,7 +43,7 @@ class m241125_221856_seed_admin_user extends Migration
     public function safeDown()
     {
         // Remove the admin user by username
-        $userId = (new \yii\db\Query())
+        $userId = (new Query())
             ->select('id')
             ->from('{{%user}}')
             ->where(['username' => 'admin'])
@@ -56,7 +57,6 @@ class m241125_221856_seed_admin_user extends Migration
         $this->delete('{{%user}}', ['username' => 'admin']);
     }
 
-
     /*
     // Use up()/down() to run migration code without a transaction.
     public function up()
@@ -66,7 +66,7 @@ class m241125_221856_seed_admin_user extends Migration
 
     public function down()
     {
-        echo "m241125_221856_seed_admin_user cannot be reverted.\n";
+        echo "m241128_223308_add_default_admin_user cannot be reverted.\n";
 
         return false;
     }
