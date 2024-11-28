@@ -13,28 +13,43 @@ class m241128_223308_add_default_admin_user extends Migration
      */
     public function safeUp()
     {
-        // Define the admin user data
-        $adminUser = [
-            'username' => 'admin',
-            'auth_key' => Yii::$app->security->generateRandomString(),
-            'password_hash' => Yii::$app->security->generatePasswordHash('adminadmin'),
-            'email' => 'admin@admin.com',
-            'status' => 10,
-            'created_at' => time(),
-            'updated_at' => time(),
-            'verification_token' => Yii::$app->security->generateRandomString() . '_' . time(),
-        ];
+        $userId = (new Query())
+            ->select('id')
+            ->from('{{%user}}')
+            ->where(['username' => 'admin'])
+            ->scalar();
+        
+        if (!$userId) {
 
-        // Insert the admin user into the user table
-        $this->insert('{{%user}}', $adminUser);
+            $adminUser = [
+                'username' => 'admin',
+                'auth_key' => Yii::$app->security->generateRandomString(),
+                'password_hash' => Yii::$app->security->generatePasswordHash('adminadmin'),
+                'email' => 'admin@admin.com',
+                'status' => 10,
+                'created_at' => time(),
+                'updated_at' => time(),
+                'verification_token' => Yii::$app->security->generateRandomString() . '_' . time(),
+            ];
 
-        // Get the last inserted ID
-        $userId = Yii::$app->db->getLastInsertID();
 
-        // Assign the admin role to the user
+            $this->insert('{{%user}}', $adminUser);
+
+
+            $userId = Yii::$app->db->getLastInsertID();
+        }
+
         $auth = Yii::$app->authManager;
         $adminRole = $auth->getRole('admin');
-        $auth->assign($adminRole, $userId); // Use the retrieved user ID
+
+        $existingAssignment = (new Query())
+            ->from('{{%auth_assignment}}')
+            ->where(['user_id' => $userId, 'item_name' => 'admin'])
+            ->exists();
+
+        if (!$existingAssignment) {
+            $auth->assign($adminRole, $userId);
+        }
     }
 
     /**
@@ -42,7 +57,6 @@ class m241128_223308_add_default_admin_user extends Migration
      */
     public function safeDown()
     {
-        // Remove the admin user by username
         $userId = (new Query())
             ->select('id')
             ->from('{{%user}}')
@@ -51,7 +65,7 @@ class m241128_223308_add_default_admin_user extends Migration
 
         if ($userId) {
             $auth = Yii::$app->authManager;
-            $auth->revokeAll($userId); // Revoke all roles for this user
+            $auth->revokeAll($userId);
         }
 
         $this->delete('{{%user}}', ['username' => 'admin']);
