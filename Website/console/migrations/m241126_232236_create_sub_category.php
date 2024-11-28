@@ -16,7 +16,7 @@ class m241126_232236_create_sub_category extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'category_id' => $this->integer()->notNull(),
-        ]);
+        ], 'ENGINE=InnoDB');
 
         $this->addForeignKey(
             'fk_sub_category_category',

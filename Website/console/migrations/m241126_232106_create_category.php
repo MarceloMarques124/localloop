@@ -15,7 +15,7 @@ class m241126_232106_create_category extends Migration
         $this->createTable('category', [
             'id' => $this->primaryKey(),
             'name' => $this->string(50)->notNull(),
-        ]);
+        ], 'ENGINE=InnoDB');
     }
 
     /**
