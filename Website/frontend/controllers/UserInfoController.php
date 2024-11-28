@@ -168,7 +168,7 @@ class UserInfoController extends Controller
                             $errorMessages[] = implode(', ', $error);
                         }
 
-                        \Yii::$app->session->setFlash('error', implode('<br>', $errorMessages));
+                        \Yii::$app->session->setFlash('error',  implode('<br>', $errorMessages));
                     }
                 } else {
                     // Exibe erros de validação

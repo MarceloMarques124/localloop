@@ -10,17 +10,24 @@ use yii\base\Model;
 class EditUserInfo extends Model
 {
     /* user data */
-    public $username;
-    public $email;
-    public $password;
+    // public $username;
+    // public $email;
+    // public $password;
 
-    /* user info data */
-    public $name;
-    public $address;
-    public $postal_code;
+    // /* user info data */
+    // public $name;
+    // public $address;
+    // public $postal_code;
 
-    public $id;
+    // public $id;
 
+    public function scenarios()
+    {
+        return [
+            'create' => ['username', 'email', 'name', 'address', 'postal_code'],
+            'update' => ['username', 'email', 'name', 'address', 'postal_code', 'id'],
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -28,16 +35,18 @@ class EditUserInfo extends Model
     public function rules()
     {
         return [
-            ['username', 'trim'],
+            ['username', 'trim', 'skipOnEmpty' => false],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'filter' => ['<>', 'id', $this->id], 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.', 'on' => 'create'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'filter' => ['not', ['id' => $this->id]], 'message' => 'This username has already been taken.', 'on' => 'update'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
-            ['email', 'trim'],
+            ['email', 'trim', 'skipOnEmpty' => false],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'filter' => ['<>', 'id', $this->id], 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email has already been taken.', 'on' => 'create'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'filter' => ['not', ['id' => $this->id]], 'message' => 'This email has already been taken.', 'on' => 'update'],
 
             ['name', 'trim'],
             ['name', 'required'],
@@ -51,7 +60,6 @@ class EditUserInfo extends Model
             ['postal_code', 'required'],
             ['postal_code', 'string', 'max' => 10],
             ['postal_code', 'match', 'pattern' => '/\b\d{4}\b-\b\d{3}\b/'],
-
         ];
     }
 

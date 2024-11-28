@@ -57,6 +57,18 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
 
+            ['username', 'trim'], // This ensures whitespace is trimmed
+            ['username', 'required'], // Username is required
+            ['username', 'unique', 'message' => 'This username has already been taken.'], // Unique validation
+            ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['email', 'trim', 'skipOnEmpty' => false, 'skipOnError' => false],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'message' => 'This email address has already been taken.'],
+
+
         ];
     }
 
