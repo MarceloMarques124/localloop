@@ -13,18 +13,18 @@ class m241128_214301_create_cart extends Migration
     public function safeUp()
     {
         $this->createTable('cart', [
-            'user_info_id' => $this->integer()->notNull()->unique(),
+            'id' => $this->integer()->notNull()->unique(),
             'state' => $this->integer()->notNull()->defaultValue(0),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE CURRENT_TIMESTAMP'),
         ], 'ENGINE=InnoDB');
 
-        $this->addPrimaryKey('pk_cart_user_info', 'cart', 'user_info_id');
+        $this->addPrimaryKey('pk_cart_user_info', 'cart', 'id');
 
         $this->addForeignKey(
             'fk_cart_user_info',
             'cart',
-            'user_info_id',
+            'id',
             'user_info',
             'id',
             'CASCADE'
