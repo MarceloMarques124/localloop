@@ -23,35 +23,6 @@ class m241015_221142_database_inicial extends Migration
         ]);
         $this->addPrimaryKey('pk_user_info_id', '{{%user_info}}', 'id');
 
-        // Add foreign key for `user_info` referencing `user`
-        $this->addForeignKey(
-            'fk_user_info_user',
-            '{{%user_info}}',
-            'id',
-            '{{%user}}',
-            'id',
-            'CASCADE'
-        );
-
-        // Table `advertisement`
-        $this->createTable('{{%advertisement}}', [
-            'id' => $this->primaryKey()->notNull(),
-            'user_info_id' => $this->integer()->notNull(),
-            'description' => $this->string(250),
-            'is_service' => $this->boolean()->notNull(),
-            'created_date' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-        ]);
-
-        // Foreign key for `advertisement` to `user_info`
-        $this->addForeignKey(
-            'fk_advertisement_user_info_id',
-            '{{%advertisement}}',
-            'user_info_id',
-            '{{%user_info}}',
-            'id',
-            'CASCADE'
-        );
-
         // Table `category`
         $this->createTable('{{%category}}', [
             'id' => $this->primaryKey()->notNull(),
@@ -66,6 +37,96 @@ class m241015_221142_database_inicial extends Migration
             'state' => $this->integer()->notNull(),
             'message' => $this->string(500)->notNull(),
         ]);
+
+        // Table `advertisement`
+        $this->createTable('{{%advertisement}}', [
+            'id' => $this->primaryKey()->notNull(),
+            'user_info_id' => $this->integer()->notNull(),
+            'description' => $this->string(250),
+            'is_service' => $this->boolean()->notNull(),
+            'created_date' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+        ]);
+
+        // Table `trade_proposal_item`
+        $this->createTable('{{%trade_proposal_item}}', [
+            'trade_proposal_id' => $this->integer()->notNull(),
+            'item_id' => $this->integer()->notNull(),
+        ]);
+
+        // Table `item`
+        $this->createTable('{{%item}}', [
+            'id' => $this->primaryKey()->notNull(),
+            'user_info_id' => $this->integer()->notNull(),
+            'name' => $this->string(50)->notNull(),
+            'category_id' => $this->integer()->notNull(),
+        ]);
+
+        // Table `review`
+        $this->createTable('{{%review}}', [
+            'id' => $this->primaryKey()->notNull(),
+            'user_info_id' => $this->integer()->notNull(),
+            'trade_id' => $this->integer()->notNull(),
+            'title' => $this->string(100)->notNull(),
+            'message' => $this->text()->notNull(),
+            'star_count' => $this->integer()->notNull(),
+            'created_date' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+        ]);
+
+        // Table `report`
+        $this->createTable('{{%report}}', [
+            'id' => $this->primaryKey()->notNull(),
+            'author_id' => $this->integer()->notNull(),
+            'user_info_id' => $this->integer(),
+            'trade_id' => $this->integer(),
+            'advertisement_id' => $this->integer(),
+            'reason' => $this->integer()->notNull(),
+            'message' => $this->string(1000),
+        ]);
+
+        // Table `trade_proposal`
+        $this->createTable('{{%trade_proposal}}', [
+            'id' => $this->primaryKey()->notNull(),
+            'trade_id' => $this->integer()->notNull(),
+            'state' => $this->integer()->notNull(),
+            'message' => $this->string(1000),
+            'created_date' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+        ]);
+
+        // Table `cart_item`
+        $this->createTable('{{%cart_item}}', [
+            'cart_id' => $this->integer()->notNull(),
+            'trade_proposal_id' => $this->integer()->notNull(),
+        ]);
+
+        // Table `saved_advertisement`
+        $this->createTable('{{%saved_advertisement}}', [
+            'user_info_id' => $this->integer()->notNull(),
+            'advertisement_id' => $this->integer()->notNull(),
+        ]);
+
+        // Add foreign key for `user_info` referencing `user`
+        $this->addForeignKey(
+            'fk_user_info_user',
+            '{{%user_info}}',
+            'id',
+            '{{%user}}',
+            'id',
+            'CASCADE'
+        );
+
+
+
+        // Foreign key for `advertisement` to `user_info`
+        $this->addForeignKey(
+            'fk_advertisement_user_info_id',
+            '{{%advertisement}}',
+            'user_info_id',
+            '{{%user_info}}',
+            'id',
+            'CASCADE'
+        );
+
+
 
         // Foreign keys for `trade`
         $this->addForeignKey(
@@ -86,11 +147,7 @@ class m241015_221142_database_inicial extends Migration
             'CASCADE'
         );
 
-        // Table `trade_proposal_item`
-        $this->createTable('{{%trade_proposal_item}}', [
-            'trade_proposal_id' => $this->integer()->notNull(),
-            'item_id' => $this->integer()->notNull(),
-        ]);
+
         $this->addPrimaryKey('pk_trade_proposal_item', '{{%trade_proposal_item}}', ['trade_proposal_id', 'item_id']);
 
         // Foreign keys for `trade_proposal_item`
@@ -112,13 +169,7 @@ class m241015_221142_database_inicial extends Migration
             'CASCADE'
         );
 
-        // Table `item`
-        $this->createTable('{{%item}}', [
-            'id' => $this->primaryKey()->notNull(),
-            'user_info_id' => $this->integer()->notNull(),
-            'name' => $this->string(50)->notNull(),
-            'category_id' => $this->integer()->notNull(),
-        ]);
+
 
         // Foreign keys for `item`
         $this->addForeignKey(
@@ -139,16 +190,6 @@ class m241015_221142_database_inicial extends Migration
             'CASCADE'
         );
 
-        // Table `review`
-        $this->createTable('{{%review}}', [
-            'id' => $this->primaryKey()->notNull(),
-            'user_info_id' => $this->integer()->notNull(),
-            'trade_id' => $this->integer()->notNull(),
-            'title' => $this->string(100)->notNull(),
-            'message' => $this->text()->notNull(),
-            'star_count' => $this->integer()->notNull(),
-            'created_date' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-        ]);
 
         // Foreign keys for `review`
         $this->addForeignKey(
@@ -169,16 +210,7 @@ class m241015_221142_database_inicial extends Migration
             'CASCADE'
         );
 
-        // Table `report`
-        $this->createTable('{{%report}}', [
-            'id' => $this->primaryKey()->notNull(),
-            'author_id' => $this->integer()->notNull(),
-            'user_info_id' => $this->integer(),
-            'trade_id' => $this->integer(),
-            'advertisement_id' => $this->integer(),
-            'reason' => $this->integer()->notNull(),
-            'message' => $this->string(1000),
-        ]);
+
 
         // Foreign keys for `report`
         $this->addForeignKey(
@@ -217,14 +249,7 @@ class m241015_221142_database_inicial extends Migration
             'CASCADE'
         );
 
-        // Table `trade_proposal`
-        $this->createTable('{{%trade_proposal}}', [
-            'id' => $this->primaryKey()->notNull(),
-            'trade_id' => $this->integer()->notNull(),
-            'state' => $this->integer()->notNull(),
-            'message' => $this->string(1000),
-            'created_date' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-        ]);
+
 
         // Foreign key for `trade_proposal`
         $this->addForeignKey(
@@ -253,11 +278,7 @@ class m241015_221142_database_inicial extends Migration
             'CASCADE'
         );
 
-        // Table `cart_item`
-        $this->createTable('{{%cart_item}}', [
-            'cart_id' => $this->integer()->notNull(),
-            'trade_proposal_id' => $this->integer()->notNull(),
-        ]);
+
         $this->addPrimaryKey('pk_cart_item', '{{%cart_item}}', ['cart_id', 'trade_proposal_id']);
 
         // Foreign keys for `cart_item`
@@ -279,11 +300,7 @@ class m241015_221142_database_inicial extends Migration
             'CASCADE'
         );
 
-        // Table `saved_advertisement`
-        $this->createTable('{{%saved_advertisement}}', [
-            'user_info_id' => $this->integer()->notNull(),
-            'advertisement_id' => $this->integer()->notNull(),
-        ]);
+
         $this->addPrimaryKey('pk_saved_advertisement', '{{%saved_advertisement}}', ['user_info_id', 'advertisement_id']);
 
         // Foreign keys for `saved_advertisement`
