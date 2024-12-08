@@ -22,4 +22,10 @@
         android:name="com.example.localloop.ui.notifications.NotificationsFragment"
         android:label="@string/NOTIFICATIONS"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_advertisement"
+        android:name="com.example.localloop.ui.advertisement.AdvertisementFragment"
+        android:label="@string/ADVERTISEMENT"
+        tools:layout="@layout/fragment_advertisement" />
 </navigation>
