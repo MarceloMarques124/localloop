@@ -1,11 +1,15 @@
 package com.example.localloop.ui.home;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.localloop.R;
@@ -14,10 +18,12 @@ import com.example.localloop.models.Advertisement;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
-    private final List<Advertisement> data;
+    private final List<Advertisement> advertisements;
+    private final FragmentManager fragmentManager;
 
-    public CardAdapter(List<Advertisement> data) {
-        this.data = data;
+    public CardAdapter(List<Advertisement> advertisements, FragmentManager fragmentManager) {
+        this.advertisements = advertisements;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -29,15 +35,26 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        Advertisement advertisement = data.get(position);
+        Advertisement advertisement = advertisements.get(position);
 
-        holder.title.setText(advertisement.getUserId() + advertisement.getCreatedDate().toString());
+        String text = advertisement.getUserId() + advertisement.getCreatedDate().toString();
+
+        holder.title.setText(text);
         holder.description.setText(advertisement.getDescription());
+
+        holder.itemView.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(v);
+            
+            Bundle args = new Bundle();
+            args.putString("ADVERTISEMENT_ID", String.valueOf(advertisement.getId()));
+
+            navController.navigate(R.id.navigation_advertisement, args);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return advertisements.size();
     }
 
     static class CardViewHolder extends RecyclerView.ViewHolder {
