@@ -78,7 +78,7 @@ class AdvertisementController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $model->user_info_id = $id;
-                $model->created_date = date('Y-m-d H:i:s');
+                $model->created_at = date('Y-m-d H:i:s');
                 if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 }

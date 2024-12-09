@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 
     <div class="row">
         <div class="col-12 col-md-6">
-            <?= $form->field($model, 'description')->textInput([
+            <?= $form->field($model, 'title')->textInput([
                 'class' => 'form-control'
             ]) ?>
         </div>
@@ -29,6 +29,12 @@ use yii\widgets\ActiveForm;
                 ['prompt' => 'Select a option'] // Placeholder inicial
             ) ?>
         </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <?= $form->field($model, 'description')->textArea([
+            'class' => 'form-control'
+        ]) ?>
     </div>
 
     <div class="form-group">
