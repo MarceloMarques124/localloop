@@ -25,8 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title text-truncate">Card title</h5>
+                                        <h5 class="card-title text-truncate"><?= Html::encode($advertisement->title) ?></h5>
                                         <p class="card-text multi-line"> <?= Html::encode($advertisement->description) ?></p>
+                                        <p class="card-text multi-line"> <?= Html::encode($advertisement->updated_at) ?></p>
                                     </div>
                                 </div>
                             </div>
