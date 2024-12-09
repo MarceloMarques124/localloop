@@ -2,11 +2,13 @@
 
 namespace frontend\controllers;
 
-use common\models\Advertisement;
-use frontend\models\Advertisiment;
+use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\Advertisement;
+use yii\data\ActiveDataProvider;
+use frontend\models\Advertisiment;
+use yii\web\NotFoundHttpException;
 
 /**
  * AdvertisementController implements the CRUD actions for Advertisement model.
@@ -39,7 +41,11 @@ class AdvertisementController extends Controller
     public function actionIndex()
     {
         $searchModel = new Advertisiment();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        // $dataProvider = $searchModel->search($this->request->queryParams);
+        $userId = Yii::$app->user->id;
+        $dataProvider = new ActiveDataProvider([
+            'query' => Advertisement::find()->where(['user_info_id' => $userId]), // Filtra pelos anúncios do usuário logado
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -65,13 +71,17 @@ class AdvertisementController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Advertisement();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $model->user_info_id = $id;
+                $model->created_date = date('Y-m-d H:i:s');
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         } else {
             $model->loadDefaultValues();

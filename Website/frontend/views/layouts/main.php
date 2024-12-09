@@ -65,6 +65,15 @@ AppAsset::register($this);
                             ],
                         ],
                         [
+                            'label' => 'My Advertisements',
+                            'encode' => false,
+                            'url' => ['advertisement/index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
                             'label' => 'Logout',
                             'encode' => false,
                             'url' => ['site/logout'], // Defina a URL de logout conforme necessário
@@ -122,13 +131,11 @@ AppAsset::register($this);
                 [
                     'label' => '<i class="fas fa-plus-circle"></i> Criar Anúncio',
                     'encode' => false,
+                    'url' => ['advertisement/create', 'id' => $user->id],
                     'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '#modalCriarAnuncio',
-                        'data-user-id' => $user->id,
+                        'data-method' => 'post',
                         'style' => 'cursor: pointer;',
                     ],
-                    'url' => '#',
                 ],
             ];
 

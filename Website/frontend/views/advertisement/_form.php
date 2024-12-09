@@ -12,13 +12,24 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_info_id')->textInput() ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <?= $form->field($model, 'description')->textInput([
+                'class' => 'form-control'
+            ]) ?>
+        </div>
 
-    <?= $form->field($model, 'is_service')->textInput() ?>
-
-    <?= $form->field($model, 'created_date')->textInput() ?>
+        <div class="col-12 col-md-6">
+            <?= $form->field($model, 'is_service')->dropDownList(
+                [ // Valores do dropdown
+                    1 => 'Service',
+                    0 => 'Item'
+                ],
+                ['prompt' => 'Select a option'] // Placeholder inicial
+            ) ?>
+        </div>
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

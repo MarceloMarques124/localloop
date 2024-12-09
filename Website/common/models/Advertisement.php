@@ -29,7 +29,7 @@ class Advertisement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_info_id', 'is_service'], 'required'],
+            [['is_service'], 'required'],
             [['user_info_id', 'is_service'], 'integer'],
             [['created_date'], 'safe'],
             [['description'], 'string', 'max' => 250],
@@ -45,7 +45,7 @@ class Advertisement extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_info_id' => 'User Info ID',
             'description' => 'Description',
-            'is_service' => 'Is Service',
+            'is_service' => 'Service / Item',
             'created_date' => 'Created Date',
         ];
     }
