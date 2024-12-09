@@ -55,7 +55,7 @@ class Advertisement extends \yii\db\ActiveRecord
             'user_info_id' => 'User Info ID',
             'title' => 'Title',
             'description' => 'Description',
-            'is_service' => 'Is Service',
+            'is_service' => 'Service / Item',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

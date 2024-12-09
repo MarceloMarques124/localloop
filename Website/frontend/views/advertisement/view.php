@@ -31,6 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'title',
             'description',
+            [
+                'attribute' => 'is_service',
+                'value' => function ($model) {
+                    return $model->is_service ? 'Service' : 'Item';
+                },
+            ],
             'created_at',
         ],
     ]) ?>
