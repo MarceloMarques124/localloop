@@ -25,9 +25,9 @@ $this->title = 'Localloop';
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= \yii\helpers\Html::encode($advertisement->title) ?></h5>
-                                        <p class="card-text"><?= \yii\helpers\Html::encode($advertisement->description) ?></p>
-                                        <p class="card-text"><small class="text-body-secondary">Created <?= Yii::$app->formatter->asRelativeTime($advertisement->created_at) ?></small></p>
+                                        <h5 class="card-title text-truncate"><?= \yii\helpers\Html::encode($advertisement->title) ?></h5>
+                                        <p class="card-text multi-line"><?= \yii\helpers\Html::encode($advertisement->description) ?></p>
+                                        <p class="card-text multi-line"><small class="text-body-secondary">Created <?= Yii::$app->formatter->asRelativeTime($advertisement->created_at) ?></small></p>
                                     </div>
                                 </div>
                             </div>
@@ -49,3 +49,28 @@ if (Yii::$app->session->hasFlash('success')) {
     ");
 }
 ?>
+
+<style>
+    /* Define a altura fixa dos cartões */
+    .card-fixed-size {
+        height: 220px;
+        /* Altere conforme necessário */
+        overflow: hidden;
+    }
+
+    /* Trunca o texto com reticências (...) */
+    .text-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .multi-line {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        /* Limite de linhas antes de truncar */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
