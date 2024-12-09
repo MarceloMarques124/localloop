@@ -9,9 +9,17 @@ use Yii;
  *
  * @property int $id
  * @property int $user_info_id
+ * @property string $title
  * @property string|null $description
  * @property int $is_service
- * @property string $created_date
+ * @property string $created_at
+ * @property string $updated_at
+ *
+ * @property Report[] $reports
+ * @property SavedAdvertisement[] $savedAdvertisements
+ * @property Trade[] $trades
+ * @property UserInfo $userInfo
+ * @property UserInfo[] $userInfos
  */
 class Advertisement extends \yii\db\ActiveRecord
 {
@@ -29,10 +37,11 @@ class Advertisement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['is_service'], 'required'],
+            [['user_info_id', 'title'], 'required'],
             [['user_info_id', 'is_service'], 'integer'],
-            [['created_date'], 'safe'],
-            [['description'], 'string', 'max' => 250],
+            [['created_at', 'updated_at'], 'safe'],
+            [['title', 'description'], 'string', 'max' => 255],
+            [['user_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserInfo::class, 'targetAttribute' => ['user_info_id' => 'id']],
         ];
     }
 
@@ -44,9 +53,61 @@ class Advertisement extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_info_id' => 'User Info ID',
+            'title' => 'Title',
             'description' => 'Description',
-            'is_service' => 'Service / Item',
-            'created_date' => 'Created Date',
+            'is_service' => 'Is Service',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * Gets query for [[Reports]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReports()
+    {
+        return $this->hasMany(Report::class, ['advertisement_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[SavedAdvertisements]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSavedAdvertisements()
+    {
+        return $this->hasMany(SavedAdvertisement::class, ['advertisement_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Trades]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTrades()
+    {
+        return $this->hasMany(Trade::class, ['advertisement_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[UserInfo]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserInfo()
+    {
+        return $this->hasOne(UserInfo::class, ['id' => 'user_info_id']);
+    }
+
+    /**
+     * Gets query for [[UserInfos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserInfos()
+    {
+        return $this->hasMany(UserInfo::class, ['id' => 'user_info_id'])->viaTable('saved_advertisement', ['advertisement_id' => 'id']);
     }
 }
