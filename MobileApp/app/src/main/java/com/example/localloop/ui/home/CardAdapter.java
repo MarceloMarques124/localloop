@@ -29,7 +29,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.advertisement_item_card, parent, false);
         return new CardViewHolder(view);
     }
 
@@ -44,12 +44,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         holder.itemView.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(v);
-            
+
             Bundle args = new Bundle();
             args.putString("ADVERTISEMENT_ID", String.valueOf(advertisement.getId()));
 
-            navController.navigate(R.id.navigation_advertisement, args);
+            navController.navigate(R.id.action_navigation_home_to_navigation_advertisement, args);
         });
+
     }
 
     @Override

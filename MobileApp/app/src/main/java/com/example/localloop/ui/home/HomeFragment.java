@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
 
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recyclerView.setAdapter(new CardAdapter(getCardData()));
+        recyclerView.setAdapter(new CardAdapter(getCardData(), getParentFragmentManager()));
 
         return root;
     }
