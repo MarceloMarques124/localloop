@@ -53,15 +53,12 @@ public class AdvertisementFragment extends Fragment {
                 return true;
             }
         });
-
-
+        
         binding.getRoot().setOnTouchListener((v, event) -> {
             boolean result = gestureDetector.onTouchEvent(event);
             return result;
         });
 
-
-        // Handle arguments passed via NavController
         if (getArguments() != null) {
             String advertisementId = getArguments().getString("ADVERTISEMENT_ID");
             binding.textViewAdvertisementId.setText(advertisementId);
