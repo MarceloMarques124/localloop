@@ -17,7 +17,6 @@ import com.example.localloop.R;
 import com.example.localloop.databinding.FragmentAdvertisementBinding;
 
 public class AdvertisementFragment extends Fragment {
-    private static final String TAG = "AdvertisementFragment";
     private static final int SWIPE_THRESHOLD = 100;
     private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
@@ -53,7 +52,7 @@ public class AdvertisementFragment extends Fragment {
                 return true;
             }
         });
-        
+
         binding.getRoot().setOnTouchListener((v, event) -> {
             boolean result = gestureDetector.onTouchEvent(event);
             return result;
