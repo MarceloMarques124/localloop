@@ -10,4 +10,8 @@
     <string name="FAVORITE_ICON">Ícone Favorito</string>
     <string name="SEARCH_HERE">Procura aqui…</string>
     <string name="ADVERTISEMENT">Anúncio</string>
+    <string name="ADVERTISEMENT_NAME">Nome do Anúncio</string>
+    <string name="DESCRIPTION">Descrição</string>
+    <string name="CREATED_BY_USER_AT">Criado por %1$s em %2$s</string>
+    <string name="user_icon">Icon do Utilizador</string>
 </resources>

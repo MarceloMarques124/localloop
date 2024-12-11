@@ -4,11 +4,15 @@
     <string name="PROFILE">Profile</string>
     <string name="NOTIFICATIONS">Notifications</string>
 
-    <string name="AD_IMAGE">Ad Image</string>
-    <string name="AD_TITLE">Ad Title</string>
-    <string name="AD_DESCRIPTION">Ad Description</string>
+    <string name="AD_IMAGE">Advertisement Image</string>
+    <string name="AD_TITLE">Advertisement Title</string>
+    <string name="AD_DESCRIPTION">Advertisement Description</string>
     <string name="FAVORITE_ICON">Favorite Icon</string>
     <string name="MAKE_PROPOSAL">Make Proposal</string>
     <string name="SEARCH_HERE">Search here…</string>
     <string name="ADVERTISEMENT">Advertisement</string>
+    <string name="ADVERTISEMENT_NAME">Advertisement Name</string>
+    <string name="DESCRIPTION">Description</string>
+    <string name="CREATED_BY_USER_AT">Created by %1$s at %2$s</string>
+    <string name="user_icon">User Icon</string>
 </resources>

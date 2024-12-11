@@ -5,9 +5,11 @@ import java.time.LocalDateTime;
 public class Advertisement {
     private int id;
     private int userId;
+    private String title;
     private String description;
     private boolean isService;
     private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 
     public int getId() {
         return id;
@@ -47,5 +49,21 @@ public class Advertisement {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
