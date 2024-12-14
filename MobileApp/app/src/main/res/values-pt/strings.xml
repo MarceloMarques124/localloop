@@ -14,4 +14,5 @@
     <string name="DESCRIPTION">Descrição</string>
     <string name="CREATED_BY_USER_AT">Criado por %1$s em %2$s</string>
     <string name="user_icon">Icon do Utilizador</string>
+    <string name="ACCOUNT_CREATED_IN">Conta criada em %1$s</string>
 </resources>

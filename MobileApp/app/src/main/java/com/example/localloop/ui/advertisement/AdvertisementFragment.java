@@ -37,8 +37,9 @@ public class AdvertisementFragment extends Fragment {
 
         advertisementViewModel.getDescription().observe(getViewLifecycleOwner(), description -> binding.descriptionText.setText(description));
         advertisementViewModel.getTitle().observe(getViewLifecycleOwner(), title -> binding.advertisementName.setText(title));
-        advertisementViewModel.getCreatedDate().observe(getViewLifecycleOwner(), createdDate -> binding.createdDate.setText(createdDate));
+        advertisementViewModel.getAdvertisementCreatedDate().observe(getViewLifecycleOwner(), advertisementCreatedDate -> binding.advertisementCreatedDate.setText(advertisementCreatedDate));
         advertisementViewModel.getRating().observe(getViewLifecycleOwner(), rating -> binding.userRating.setRating(rating));
+        advertisementViewModel.getAccountCreatedAt().observe(getViewLifecycleOwner(), accountCreatedAt -> binding.accountCreatedAt.setText(accountCreatedAt));
 
         return binding.getRoot();
     }
@@ -67,11 +68,6 @@ public class AdvertisementFragment extends Fragment {
                 }
                 return false;
             }
-
-            @Override
-            public boolean onDown(MotionEvent e) {
-                return true;
-            }
         });
 
         binding.getRoot().setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
@@ -83,6 +79,7 @@ public class AdvertisementFragment extends Fragment {
             String advertisementName = "Advertisement " + advertisementId;
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+            DateTimeFormatter dtfDateOnly = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDateTime now = LocalDateTime.now();
 
             advertisementViewModel.setDescription(advertisementDescription);
@@ -90,8 +87,12 @@ public class AdvertisementFragment extends Fragment {
 
             String createdByUser = getString(R.string.CREATED_BY_USER_AT, "Marcelo", dtf.format(now));
 
-            advertisementViewModel.setCreatedDate(createdByUser);
+            advertisementViewModel.setAdvertisementCreatedDate(createdByUser);
             advertisementViewModel.setRating(3f);
+
+            String accountCreatedAt = getString(R.string.ACCOUNT_CREATED_IN, dtfDateOnly.format(now));
+
+            advertisementViewModel.setAccountCreatedAt(accountCreatedAt);
         }
     }
 

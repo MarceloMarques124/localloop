@@ -24,7 +24,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/createdDate"
+            android:id="@+id/advertisement_created_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
@@ -80,7 +80,6 @@
             android:orientation="horizontal"
             android:padding="12dp">
 
-            <!-- User Icon -->
             <ImageView
                 android:id="@+id/userIcon"
                 android:layout_width="60dp"
@@ -89,7 +88,6 @@
                 android:contentDescription="@string/user_icon"
                 android:src="@drawable/place_holder_image" />
 
-            <!-- User Info Section -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -97,17 +95,15 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <!-- Account Created Text -->
                 <TextView
-                    android:id="@+id/accountCreated"
+                    android:id="@+id/accountCreatedAt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Account Created: Jan 1, 2023"
+                    android:text="@string/ACCOUNT_CREATED_IN"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="16sp" />
 
-                <!-- RatingBar -->
                 <RatingBar
                     android:id="@+id/userRating"
                     style="?android:attr/ratingBarStyleSmall"

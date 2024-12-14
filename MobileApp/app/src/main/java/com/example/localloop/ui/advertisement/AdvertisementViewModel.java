@@ -6,55 +6,57 @@ import androidx.lifecycle.ViewModel;
 
 public class AdvertisementViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mDescription;
-    private final MutableLiveData<String> mTitle;
-    private final MutableLiveData<String> mCreatedDate;
-    private final MutableLiveData<Float> mRating;
+    private final MutableLiveData<String> description;
+    private final MutableLiveData<String> title;
+    private final MutableLiveData<String> advertisementCreatedDate;
+    private final MutableLiveData<Float> rating;
+    private final MutableLiveData<String> accountCreatedAt;
 
     public AdvertisementViewModel() {
-        mDescription = new MutableLiveData<>();
-        mDescription.setValue("Default advertisement description");
-
-        mTitle = new MutableLiveData<>();
-        mTitle.setValue("Default advertisement title");
-
-        mCreatedDate = new MutableLiveData<>();
-        mCreatedDate.setValue("Created By User at Date");
-
-        mRating = new MutableLiveData<>();
-        mRating.setValue(4.5f);
+        description = new MutableLiveData<>();
+        title = new MutableLiveData<>();
+        advertisementCreatedDate = new MutableLiveData<>();
+        rating = new MutableLiveData<>();
+        accountCreatedAt = new MutableLiveData<>();
     }
 
     public LiveData<String> getDescription() {
-        return mDescription;
+        return description;
     }
 
     public void setDescription(String description) {
-        mDescription.setValue(description);
+        this.description.setValue(description);
     }
 
     public LiveData<String> getTitle() {
-        return mTitle;
+        return title;
     }
 
     public void setTitle(String title) {
-        mTitle.setValue(title);
+        this.title.setValue(title);
     }
 
-    public LiveData<String> getCreatedDate() {
-        return mCreatedDate;
+    public LiveData<String> getAdvertisementCreatedDate() {
+        return advertisementCreatedDate;
     }
 
-    public void setCreatedDate(String createdDate) {
-        mCreatedDate.setValue(createdDate);
+    public void setAdvertisementCreatedDate(String createdDate) {
+        advertisementCreatedDate.setValue(createdDate);
     }
 
     public LiveData<Float> getRating() {
-        return mRating;
+        return rating;
     }
 
     public void setRating(Float rating) {
-        mRating.setValue(rating);
+        this.rating.setValue(rating);
     }
 
+    public LiveData<String> getAccountCreatedAt() {
+        return accountCreatedAt;
+    }
+
+    public void setAccountCreatedAt(String createdDate) {
+        accountCreatedAt.setValue(createdDate);
+    }
 }
