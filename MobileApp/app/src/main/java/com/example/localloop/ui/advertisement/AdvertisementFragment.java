@@ -25,8 +25,6 @@ import java.util.List;
 public class AdvertisementFragment extends Fragment {
     private static final int SWIPE_THRESHOLD = 100;
     private static final int SWIPE_VELOCITY_THRESHOLD = 100;
-
-    private GestureDetector gestureDetector;
     private FragmentAdvertisementBinding binding;
     private AdvertisementViewModel viewModel;
 
@@ -38,18 +36,19 @@ public class AdvertisementFragment extends Fragment {
 
         LifecycleOwner viewLifecycleOwner = getViewLifecycleOwner();
 
-        viewModel.getDescription().observe(viewLifecycleOwner, description -> binding.descriptionText.setText(description));
-        viewModel.getTitle().observe(viewLifecycleOwner, title -> binding.advertisementName.setText(title));
-        viewModel.getAdvertisementCreatedDate().observe(viewLifecycleOwner, advertisementCreatedDate -> binding.createdDate.setText(advertisementCreatedDate));
-        viewModel.getRating().observe(viewLifecycleOwner, rating -> binding.userRating.setRating(rating));
-        viewModel.getButtonText().observe(viewLifecycleOwner, buttonText -> binding.actionButton.setText(buttonText));
-        viewModel.getAccountCreatedAt().observe(viewLifecycleOwner, accountCreatedAt -> binding.accountCreated.setText(accountCreatedAt));
+        viewModel.getDescription().observe(viewLifecycleOwner, binding.descriptionText::setText);
+        viewModel.getTitle().observe(viewLifecycleOwner, binding.advertisementName::setText);
+        viewModel.getAdvertisementCreatedDate().observe(viewLifecycleOwner, binding.createdDate::setText);
+        viewModel.getRating().observe(viewLifecycleOwner, binding.userRating::setRating);
+        viewModel.getButtonText().observe(viewLifecycleOwner, binding.actionButton::setText);
+        viewModel.getAccountCreatedAt().observe(viewLifecycleOwner, binding.accountCreated::setText);
 
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        GestureDetector gestureDetector;
         super.onViewCreated(view, savedInstanceState);
 
         List<Integer> images = List.of(
