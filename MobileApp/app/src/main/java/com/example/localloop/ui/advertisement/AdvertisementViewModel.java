@@ -11,6 +11,7 @@ public class AdvertisementViewModel extends ViewModel {
     private final MutableLiveData<String> advertisementCreatedDate;
     private final MutableLiveData<Float> rating;
     private final MutableLiveData<String> accountCreatedAt;
+    private final MutableLiveData<String> buttonText;
 
     public AdvertisementViewModel() {
         description = new MutableLiveData<>();
@@ -18,6 +19,7 @@ public class AdvertisementViewModel extends ViewModel {
         advertisementCreatedDate = new MutableLiveData<>();
         rating = new MutableLiveData<>();
         accountCreatedAt = new MutableLiveData<>();
+        buttonText = new MutableLiveData<>();
     }
 
     public LiveData<String> getDescription() {
@@ -58,5 +60,13 @@ public class AdvertisementViewModel extends ViewModel {
 
     public void setAccountCreatedAt(String createdDate) {
         accountCreatedAt.setValue(createdDate);
+    }
+
+    public LiveData<String> getButtonText() {
+        return buttonText;
+    }
+
+    public void setButtonText(String text) {
+        this.buttonText.setValue(text);
     }
 }

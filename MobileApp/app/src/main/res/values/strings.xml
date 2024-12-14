@@ -14,6 +14,7 @@
     <string name="ADVERTISEMENT_NAME">Advertisement Name</string>
     <string name="DESCRIPTION">Description</string>
     <string name="CREATED_BY_USER_AT">Created by %1$s at %2$s</string>
-    <string name="user_icon">User Icon</string>
+    <string name="USER_ICON">User Icon</string>
     <string name="ACCOUNT_CREATED_IN">Account created in %1$s</string>
+    <string name="VIEW_YOUR_PROPOSAL">View your Proposal</string>
 </resources>
