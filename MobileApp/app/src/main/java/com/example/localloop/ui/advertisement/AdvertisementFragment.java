@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -35,11 +36,14 @@ public class AdvertisementFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(AdvertisementViewModel.class);
 
-        viewModel.getDescription().observe(getViewLifecycleOwner(), description -> binding.descriptionText.setText(description));
-        viewModel.getTitle().observe(getViewLifecycleOwner(), title -> binding.advertisementName.setText(title));
-        viewModel.getAdvertisementCreatedDate().observe(getViewLifecycleOwner(), advertisementCreatedDate -> binding.createdDate.setText(advertisementCreatedDate));
-        viewModel.getRating().observe(getViewLifecycleOwner(), rating -> binding.userRating.setRating(rating));
-        viewModel.getButtonText().observe(getViewLifecycleOwner(), buttonText -> binding.actionButton.setText(buttonText));
+        LifecycleOwner viewLifecycleOwner = getViewLifecycleOwner();
+
+        viewModel.getDescription().observe(viewLifecycleOwner, description -> binding.descriptionText.setText(description));
+        viewModel.getTitle().observe(viewLifecycleOwner, title -> binding.advertisementName.setText(title));
+        viewModel.getAdvertisementCreatedDate().observe(viewLifecycleOwner, advertisementCreatedDate -> binding.createdDate.setText(advertisementCreatedDate));
+        viewModel.getRating().observe(viewLifecycleOwner, rating -> binding.userRating.setRating(rating));
+        viewModel.getButtonText().observe(viewLifecycleOwner, buttonText -> binding.actionButton.setText(buttonText));
+        viewModel.getAccountCreatedAt().observe(viewLifecycleOwner, accountCreatedAt -> binding.accountCreated.setText(accountCreatedAt));
 
         return binding.getRoot();
     }
