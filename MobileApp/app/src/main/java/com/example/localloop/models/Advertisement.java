@@ -1,15 +1,11 @@
 package com.example.localloop.models;
 
-import java.time.LocalDateTime;
-
-public class Advertisement {
+public class Advertisement extends BaseModel {
     private int id;
     private int userId;
     private String title;
     private String description;
     private boolean isService;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
 
     public int getId() {
         return id;
@@ -41,22 +37,6 @@ public class Advertisement {
 
     public void setService(boolean service) {
         isService = service;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
     }
 
     public String getTitle() {
