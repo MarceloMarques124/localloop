@@ -27,6 +27,7 @@ public class AdvertisementFragment extends Fragment {
     private static final int SWIPE_VELOCITY_THRESHOLD = 100;
     private FragmentAdvertisementBinding binding;
     private AdvertisementViewModel viewModel;
+    private NavController navController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class AdvertisementFragment extends Fragment {
         CarouselAdapter adapter = new CarouselAdapter(images);
         binding.viewPagerCarousel.setAdapter(adapter);
 
+        navController = Navigation.findNavController(binding.getRoot());
+
         gestureDetector = new GestureDetector(requireContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -65,7 +68,7 @@ public class AdvertisementFragment extends Fragment {
 
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     if (diffX > 0) {
-                        navigateToHomeFragment(binding.getRoot());
+                        navigateToHomeFragment();
                     }
                     return true;
                 }
@@ -81,7 +84,7 @@ public class AdvertisementFragment extends Fragment {
 
         viewModel.setButtonText(getString(R.string.MAKE_PROPOSAL));
 
-        binding.actionButton.setOnClickListener(v -> viewModel.setButtonText(getString(R.string.VIEW_YOUR_PROPOSAL)));
+        binding.actionButton.setOnClickListener(v -> navigateToMakeProposalFragment());
 
         String advertisementId = getArguments().getString("ADVERTISEMENT_ID");
 
@@ -105,8 +108,11 @@ public class AdvertisementFragment extends Fragment {
         viewModel.setAccountCreatedAt(accountCreatedAt);
     }
 
-    private void navigateToHomeFragment(View view) {
-        NavController navController = Navigation.findNavController(view);
+    private void navigateToHomeFragment() {
         navController.navigate(R.id.action_navigation_advertisement_to_navigation_home);
+    }
+
+    private void navigateToMakeProposalFragment() {
+        navController.navigate(R.id.action_navigation_advertisement_to_navigation_make_proposal);
     }
 }
