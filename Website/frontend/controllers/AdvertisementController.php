@@ -66,6 +66,13 @@ class AdvertisementController extends Controller
         ]);
     }
 
+    public function actionPage($id)
+    {
+        return $this->render('page', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
     /**
      * Creates a new Advertisement model.
      * If creation is successful, the browser will be redirected to the 'view' page.

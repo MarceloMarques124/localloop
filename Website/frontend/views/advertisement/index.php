@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     .multi-line {
         display: -webkit-box;
-        -webkit-line-clamp: 6;
+        -webkit-line-clamp: 5;
         /* Limite de linhas antes de truncar */
         -webkit-box-orient: vertical;
         overflow: hidden;
