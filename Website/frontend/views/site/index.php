@@ -17,7 +17,7 @@ $this->title = 'Localloop';
         <div class="row">
             <?php foreach ($advertisements as $advertisement): ?>
                 <div class="col-lg-4">
-                    <a href="<?= \yii\helpers\Url::to(['advertisement/view', 'id' => $advertisement->id]) ?>" class="card-click">
+                    <a href="<?= \yii\helpers\Url::to(['advertisement/page', 'id' => $advertisement->id]) ?>" class="card-click">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
