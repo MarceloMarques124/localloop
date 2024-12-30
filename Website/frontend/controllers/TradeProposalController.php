@@ -2,11 +2,14 @@
 
 namespace frontend\controllers;
 
-use common\models\TradeProposal;
-use frontend\models\TradeProposalSearch;
+use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use common\models\Trade;
 use yii\filters\VerbFilter;
+use common\models\TradeProposal;
+use yii\web\NotFoundHttpException;
+use common\models\TradeProposalItem;
+use frontend\models\TradeProposalSearch;
 
 /**
  * TradeProposalController implements the CRUD actions for TradeProposal model.
@@ -65,21 +68,46 @@ class TradeProposalController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($advertisementId)
     {
         $model = new TradeProposal();
+        $trade = new Trade();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+        $trade->advertisement_id = $advertisementId;
+        $userId = Yii::$app->user->id;
+        $trade->user_info_id = $userId;
+        $trade->created_at = date('Y-m-d H:i:s');
+
+        /* trade states
+        1 - active trade
+        0 - closed trade */
+        $trade->state = 1;
+
+        if ($trade->save()) {
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post())) {
+                    $model->trade_id = $trade->id;
+                    $model->state = 1; //state 1 -> sent trade
+                    $model->created_at = date('Y-m-d H:i:s');
+
+                    if ($model->save()) {
+                        $tradeProposalItem = new TradeProposalItem;
+                        $tradeProposalItem->trade_proposal_id = $model->id;
+                        $tradeProposalItem->item_id = 1;
+                        $tradeProposalItem->created_at = date('Y-m-d H:i:s');
+                        if ($tradeProposalItem->save()) {
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        }
+                    }
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
