@@ -74,6 +74,15 @@ AppAsset::register($this);
                             ],
                         ],
                         [
+                            'label' => 'My Items',
+                            'encode' => false,
+                            'url' => ['item/index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
                             'label' => 'Logout',
                             'encode' => false,
                             'url' => ['site/logout'], // Defina a URL de logout conforme necessário
