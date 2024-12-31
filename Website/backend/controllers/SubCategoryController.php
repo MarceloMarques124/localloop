@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\SubCategory;
 use backend\models\SubCategorySearch;
+use common\models\Category;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -68,6 +69,7 @@ class SubCategoryController extends Controller
     public function actionCreate()
     {
         $model = new SubCategory();
+        $categories = Category::find()->all();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -79,6 +81,7 @@ class SubCategoryController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'categories' => $categories,
         ]);
     }
 
@@ -92,6 +95,8 @@ class SubCategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $categories = Category::find()->all();
+
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -99,6 +104,7 @@ class SubCategoryController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'categories' => $categories,
         ]);
     }
 

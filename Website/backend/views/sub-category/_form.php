@@ -14,11 +14,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?= $form->field($model, 'category_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map($categories, 'id', 'name'), // Mapeia os dados das categorias
+        ['prompt' => 'Select a Category'] // Adiciona uma opção padrão
+    ) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
