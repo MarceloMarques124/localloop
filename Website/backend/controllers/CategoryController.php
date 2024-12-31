@@ -70,6 +70,7 @@ class CategoryController extends Controller
         $model = new Category();
 
         if ($this->request->isPost) {
+            $model->created_at = date('Y-m-d H:i:s');
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
