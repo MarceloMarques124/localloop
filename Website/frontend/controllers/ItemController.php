@@ -6,15 +6,16 @@ use Yii;
 use common\models\Item;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use common\models\SubCategory;
+use frontend\models\ItemSearch;
 use common\models\Advertisement;
 use yii\data\ActiveDataProvider;
-use frontend\models\Advertisiment;
 use yii\web\NotFoundHttpException;
 
 /**
- * AdvertisementController implements the CRUD actions for Advertisement model.
+ * ItemController implements the CRUD actions for Item model.
  */
-class AdvertisementController extends Controller
+class ItemController extends Controller
 {
     /**
      * @inheritDoc
@@ -35,27 +36,23 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * Lists all Advertisement models.
+     * Lists all Item models.
      *
      * @return string
      */
     public function actionIndex($id)
     {
-        $searchModel = new Advertisiment();
-        // $dataProvider = $searchModel->search($this->request->queryParams);
-        //$userId = Yii::$app->user->id;
-        $dataProvider = new ActiveDataProvider([
-            'query' => Advertisement::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
-        ]);
+        $searchModel = new ItemSearch();
+        $userItems = Item::find()->where(['user_info_id' => $id])->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'userItems' => $userItems,
         ]);
     }
 
     /**
-     * Displays a single Advertisement model.
+     * Displays a single Item model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -67,29 +64,21 @@ class AdvertisementController extends Controller
         ]);
     }
 
-    public function actionPage($id)
-    {
-        return $this->render('page', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
     /**
-     * Creates a new Advertisement model.
+     * Creates a new Item model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($id)
+    public function actionCreate()
     {
-        $model = new Advertisement();
+        $model = new Item();
+        $subCategories = SubCategory::find()->all();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->user_info_id = $id;
-                $model->created_at = date('Y-m-d H:i:s');
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+            $userId = Yii::$app->user->id;
+            $model->user_info_id = $userId;
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -97,11 +86,12 @@ class AdvertisementController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'subCategories' => $subCategories,
         ]);
     }
 
     /**
-     * Updates an existing Advertisement model.
+     * Updates an existing Item model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -110,6 +100,7 @@ class AdvertisementController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $subCategories = SubCategory::find()->all();
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -117,11 +108,12 @@ class AdvertisementController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'subCategories' => $subCategories,
         ]);
     }
 
     /**
-     * Deletes an existing Advertisement model.
+     * Deletes an existing Item model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -135,15 +127,15 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * Finds the Advertisement model based on its primary key value.
+     * Finds the Item model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Advertisement the loaded model
+     * @return Item the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Advertisement::findOne(['id' => $id])) !== null) {
+        if (($model = Item::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

@@ -2,19 +2,21 @@
 
 namespace frontend\controllers;
 
+use commo\models\UserInfo;
 use Yii;
 use common\models\Item;
 use yii\web\Controller;
+use common\models\Trade;
 use yii\filters\VerbFilter;
-use common\models\Advertisement;
-use yii\data\ActiveDataProvider;
-use frontend\models\Advertisiment;
+use common\models\TradeProposal;
 use yii\web\NotFoundHttpException;
+use common\models\TradeProposalItem;
+use frontend\models\TradeProposalSearch;
 
 /**
- * AdvertisementController implements the CRUD actions for Advertisement model.
+ * TradeProposalController implements the CRUD actions for TradeProposal model.
  */
-class AdvertisementController extends Controller
+class TradeProposalController extends Controller
 {
     /**
      * @inheritDoc
@@ -35,18 +37,14 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * Lists all Advertisement models.
+     * Lists all TradeProposal models.
      *
      * @return string
      */
-    public function actionIndex($id)
+    public function actionIndex()
     {
-        $searchModel = new Advertisiment();
-        // $dataProvider = $searchModel->search($this->request->queryParams);
-        //$userId = Yii::$app->user->id;
-        $dataProvider = new ActiveDataProvider([
-            'query' => Advertisement::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
-        ]);
+        $searchModel = new TradeProposalSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -55,7 +53,7 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * Displays a single Advertisement model.
+     * Displays a single TradeProposal model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -67,41 +65,58 @@ class AdvertisementController extends Controller
         ]);
     }
 
-    public function actionPage($id)
-    {
-        return $this->render('page', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
     /**
-     * Creates a new Advertisement model.
+     * Creates a new TradeProposal model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($id)
+    public function actionCreate($advertisementId)
     {
-        $model = new Advertisement();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->user_info_id = $id;
-                $model->created_at = date('Y-m-d H:i:s');
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
-            }
-        } else {
-            $model->loadDefaultValues();
+        $userId = Yii::$app->user->id;
+        $userItems = Item::find()->where(['user_info_id' => $userId])->all();
+        // Verificar se há itens do usuário
+        if (empty($userItems)) {
+            Yii::$app->session->setFlash('error', 'Você não possui itens disponíveis para troca.');
+            return $this->redirect(['advertisement/page', 'id' => $advertisementId]);
         }
+        $model = new TradeProposal();
+        $trade = new Trade();
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        $trade->advertisement_id = $advertisementId;
+        $trade->user_info_id = $userId;
+
+        /* trade states
+        1 - active trade
+        0 - closed trade */
+        $trade->state = 1;
+
+        if ($trade->save()) {
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post())) {
+                    $model->trade_id = $trade->id;
+                    $model->state = 1; //state 1 -> sent trade
+                    if ($model->save()) {
+                        $tradeProposalItem = new TradeProposalItem;
+                        $tradeProposalItem->trade_proposal_id = $model->id;
+                        $tradeProposalItem->item_id = $model->item_id;
+                        if ($tradeProposalItem->save()) {
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        }
+                    }
+                }
+            } else {
+                $model->loadDefaultValues();
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+                'userItems' => $userItems,
+            ]);
+        }
     }
 
     /**
-     * Updates an existing Advertisement model.
+     * Updates an existing TradeProposal model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -121,7 +136,7 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * Deletes an existing Advertisement model.
+     * Deletes an existing TradeProposal model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -135,15 +150,15 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * Finds the Advertisement model based on its primary key value.
+     * Finds the TradeProposal model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Advertisement the loaded model
+     * @return TradeProposal the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Advertisement::findOne(['id' => $id])) !== null) {
+        if (($model = TradeProposal::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

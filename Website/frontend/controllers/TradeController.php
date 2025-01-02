@@ -2,11 +2,12 @@
 
 namespace frontend\controllers;
 
-use common\models\Trade;
-use frontend\models\TradeSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use common\models\Trade;
 use yii\filters\VerbFilter;
+use frontend\models\TradeSearch;
+use yii\data\ActiveDataProvider;
+use yii\web\NotFoundHttpException;
 
 /**
  * TradeController implements the CRUD actions for Trade model.
@@ -36,10 +37,12 @@ class TradeController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new TradeSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Trade::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

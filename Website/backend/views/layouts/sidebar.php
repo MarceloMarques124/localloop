@@ -44,7 +44,14 @@
                         ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],
 
                         ['label' => 'Users', 'url' => ['user-info/index']],
-                        ['label' => 'Anuncios', 'url' => ['user-info/index']],
+                        ['label' => 'Advertisements', 'url' => ['user-info/index']],
+                        [
+                            'label' => 'Categories',
+                            'items' => [
+                                ['label' => 'Category', 'iconStyle' => 'far', 'url' => ['category/index']],
+                                ['label' => 'Sub-Category', 'iconStyle' => 'far', 'url' => ['sub-category/index']]
+                            ]
+                        ],
                         [
                             'label' => 'Reports',
                             'items' => [
