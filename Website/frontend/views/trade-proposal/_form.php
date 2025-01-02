@@ -13,7 +13,10 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'message')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'item')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'item_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map($userItems, 'id', 'name'), // Mapeia os dados das categorias
+        ['prompt' => 'Select a Item'] // Adiciona uma opção padrão
+    ) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

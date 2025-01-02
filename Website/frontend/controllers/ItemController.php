@@ -2,11 +2,15 @@
 
 namespace frontend\controllers;
 
+use Yii;
 use common\models\Item;
-use frontend\models\ItemSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\SubCategory;
+use frontend\models\ItemSearch;
+use common\models\Advertisement;
+use yii\data\ActiveDataProvider;
+use yii\web\NotFoundHttpException;
 
 /**
  * ItemController implements the CRUD actions for Item model.
@@ -36,10 +40,12 @@ class ItemController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new ItemSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Item::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -68,8 +74,11 @@ class ItemController extends Controller
     public function actionCreate()
     {
         $model = new Item();
+        $subCategories = SubCategory::find()->all();
 
         if ($this->request->isPost) {
+            $userId = Yii::$app->user->id;
+            $model->user_info_id = $userId;
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -79,6 +88,7 @@ class ItemController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'subCategories' => $subCategories,
         ]);
     }
 
@@ -92,6 +102,7 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $subCategories = SubCategory::find()->all();
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -99,6 +110,7 @@ class ItemController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'subCategories' => $subCategories,
         ]);
     }
 

@@ -47,7 +47,7 @@ class UserInfo extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Username',
             'address' => 'Address',
             'postal_code' => 'Postal Code',
         ];

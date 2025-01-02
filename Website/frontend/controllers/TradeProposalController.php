@@ -2,7 +2,9 @@
 
 namespace frontend\controllers;
 
+use commo\models\UserInfo;
 use Yii;
+use common\models\Item;
 use yii\web\Controller;
 use common\models\Trade;
 use yii\filters\VerbFilter;
@@ -70,13 +72,15 @@ class TradeProposalController extends Controller
      */
     public function actionCreate($advertisementId)
     {
+        $userId = Yii::$app->user->id;
+
         $model = new TradeProposal();
         $trade = new Trade();
 
+        $userItems = Item::find()->where(['user_info_id' => $userId])->all();
+
         $trade->advertisement_id = $advertisementId;
-        $userId = Yii::$app->user->id;
         $trade->user_info_id = $userId;
-        $trade->created_at = date('Y-m-d H:i:s');
 
         /* trade states
         1 - active trade
@@ -88,13 +92,10 @@ class TradeProposalController extends Controller
                 if ($model->load($this->request->post())) {
                     $model->trade_id = $trade->id;
                     $model->state = 1; //state 1 -> sent trade
-                    $model->created_at = date('Y-m-d H:i:s');
-
                     if ($model->save()) {
                         $tradeProposalItem = new TradeProposalItem;
                         $tradeProposalItem->trade_proposal_id = $model->id;
-                        $tradeProposalItem->item_id = 1;
-                        $tradeProposalItem->created_at = date('Y-m-d H:i:s');
+                        $tradeProposalItem->item_id = $model->item_id;
                         if ($tradeProposalItem->save()) {
                             return $this->redirect(['view', 'id' => $model->id]);
                         }
@@ -106,6 +107,7 @@ class TradeProposalController extends Controller
 
             return $this->render('create', [
                 'model' => $model,
+                'userItems' => $userItems,
             ]);
         }
     }

@@ -38,13 +38,13 @@ class AdvertisementController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new Advertisiment();
         // $dataProvider = $searchModel->search($this->request->queryParams);
-        $userId = Yii::$app->user->id;
+        //$userId = Yii::$app->user->id;
         $dataProvider = new ActiveDataProvider([
-            'query' => Advertisement::find()->where(['user_info_id' => $userId]), // Filtra pelos anúncios do usuário logado
+            'query' => Advertisement::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
         ]);
 
         return $this->render('index', [

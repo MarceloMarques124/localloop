@@ -51,9 +51,9 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'user_info_id' => 'User Info ID',
-            'sub_category_id' => 'Sub Category ID',
+            'name' => 'Item name',
+            'user_info_id' => 'User Info',
+            'sub_category_id' => 'Sub Category',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

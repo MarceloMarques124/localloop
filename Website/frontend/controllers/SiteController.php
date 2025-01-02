@@ -76,11 +76,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // Recupera os últimos 9 anúncios ordenados pelo mais recente
-        $advertisements = Advertisement::find()
+        $query = Advertisement::find()
             ->orderBy(['created_at' => SORT_DESC])
-            ->limit(9)
-            ->all();
+            ->limit(9);
+
+        if (!Yii::$app->user->isGuest) {
+            // Usuário está logado, remover anúncios do usuário logado
+            $userId = Yii::$app->user->id;
+            $query->where(['!=', 'user_info_id', $userId]);
+        }
+
+        // Executar a query e obter os resultados
+        $advertisements = $query->all();
 
         return $this->render('index', [
             'advertisements' => $advertisements,
