@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-md-8">
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate"><?= \yii\helpers\Html::encode($userItem->name) ?></h5>
-                                    <h5 class="card-title text-truncate"><?= \yii\helpers\Html::encode($userItem->subCategory->name) ?></h5>
+                                    <h5 class="card-title multi-line"><?= \yii\helpers\Html::encode($userItem->subCategory->name) ?></h5>
                                     <p class="card-text multi-line"><small class="text-body-secondary">Created <?= Yii::$app->formatter->asRelativeTime($userItem->created_at) ?></small></p>
                                 </div>
                             </div>
