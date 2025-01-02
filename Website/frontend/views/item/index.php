@@ -14,6 +14,9 @@ $this->title = 'Items';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="body-content">
+    <p>
+        <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
     <div class="row">
         <?php foreach ($userItems as $userItem): ?>
             <div class="col-lg-4">
