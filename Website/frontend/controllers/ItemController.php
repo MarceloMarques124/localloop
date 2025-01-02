@@ -43,13 +43,11 @@ class ItemController extends Controller
     public function actionIndex($id)
     {
         $searchModel = new ItemSearch();
-        $dataProvider = new ActiveDataProvider([
-            'query' => Item::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
-        ]);
+        $userItems = Item::find()->where(['user_info_id' => $id])->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'userItems' => $userItems,
         ]);
     }
 

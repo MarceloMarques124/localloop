@@ -73,11 +73,14 @@ class TradeProposalController extends Controller
     public function actionCreate($advertisementId)
     {
         $userId = Yii::$app->user->id;
-
+        $userItems = Item::find()->where(['user_info_id' => $userId])->all();
+        // Verificar se há itens do usuário
+        if (empty($userItems)) {
+            Yii::$app->session->setFlash('error', 'Você não possui itens disponíveis para troca.');
+            return $this->redirect(['advertisement/page', 'id' => $advertisementId]);
+        }
         $model = new TradeProposal();
         $trade = new Trade();
-
-        $userItems = Item::find()->where(['user_info_id' => $userId])->all();
 
         $trade->advertisement_id = $advertisementId;
         $trade->user_info_id = $userId;

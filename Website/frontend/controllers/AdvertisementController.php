@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\Item;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use common\models\Advertisement;

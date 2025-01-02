@@ -13,36 +13,53 @@ use yii\grid\GridView;
 $this->title = 'Items';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="item-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
-            'user_info_id',
-            'sub_category_id',
-            'created_at',
-            //'updated_at',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Item $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
-
-
+<div class="body-content">
+    <div class="row">
+        <?php foreach ($userItems as $userItem): ?>
+            <div class="col-lg-4">
+                <a href="<?= \yii\helpers\Url::to(['item/view', 'id' => $userItem->id]) ?>" class="card-click">
+                    <div class="card mb-3 card-fixed-size" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="<?php /* \yii\helpers\Html::encode($advertisement->image_url) */ ?>" class="img-fluid rounded-start" alt="<?= \yii\helpers\Html::encode($userItem->name) ?>">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate"><?= \yii\helpers\Html::encode($userItem->name) ?></h5>
+                                    <h5 class="card-title text-truncate"><?= \yii\helpers\Html::encode($userItem->subCategory->name) ?></h5>
+                                    <p class="card-text multi-line"><small class="text-body-secondary">Created <?= Yii::$app->formatter->asRelativeTime($userItem->created_at) ?></small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>
+
+<style>
+    /* Define a altura fixa dos cartões */
+    .card-fixed-size {
+        height: 220px;
+        /* Altere conforme necessário */
+        overflow: hidden;
+    }
+
+    /* Trunca o texto com reticências (...) */
+    .text-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .multi-line {
+        min-height: 100px;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        /* Limite de linhas antes de truncar */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
