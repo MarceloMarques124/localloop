@@ -2,29 +2,28 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this */
 /** @var yii\widgets\ActiveForm $form */
 
 ?>
 
-
 <div class="user-info-form">
 
-    <?php $form = ActiveForm::begin();
-    ?>
+    <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
         <div class="col-12 col-md-6">
             <?= $form->field($model, 'username')->textInput([
-                'readonly' => true,
-                'class' => 'form-control readOnly'
+                'readonly' => Yii::$app->controller->action->id == 'update', // Só readonly se for update
+                'class' => 'form-control ' . (Yii::$app->controller->action->id == 'update' ? 'readOnly' : '')
             ]) ?>
         </div>
         <div class="col-12 col-md-6">
             <?= $form->field($model, 'name')->textInput([
-                'readonly' => true,
-                'class' => 'form-control readOnly'
+                'readonly' => Yii::$app->controller->action->id == 'update', // Só readonly se for update
+                'class' => 'form-control ' . (Yii::$app->controller->action->id == 'update' ? 'readOnly' : '')
             ]) ?>
         </div>
     </div>
@@ -32,8 +31,8 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-12">
             <?= $form->field($model, 'email')->input('email', [
-                'readonly' => true,
-                'class' => 'form-control readOnly'
+                'readonly' => Yii::$app->controller->action->id == 'update', // Só readonly se for update
+                'class' => 'form-control ' . (Yii::$app->controller->action->id == 'update' ? 'readOnly' : '')
             ]) ?>
         </div>
     </div>
@@ -41,26 +40,39 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-12 col-md-6">
             <?= $form->field($model, 'address')->textInput([
-                'readonly' => true,
-                'class' => 'form-control readOnly'
+                'readonly' => Yii::$app->controller->action->id == 'update', // Só readonly se for update
+                'class' => 'form-control ' . (Yii::$app->controller->action->id == 'update' ? 'readOnly' : '')
             ]) ?>
-
         </div>
         <div class="col-12 col-md-6">
             <?= $form->field($model, 'postal_code')->textInput([
-                'readonly' => true,
-                'class' => 'form-control readOnly'
+                'readonly' => Yii::$app->controller->action->id == 'update', // Só readonly se for update
+                'class' => 'form-control ' . (Yii::$app->controller->action->id == 'update' ? 'readOnly' : '')
             ]) ?>
         </div>
-
     </div>
 
+    <?php if (Yii::$app->controller->action->id == 'create'): ?>
+        <div class="row">
+            <div class="col-12 col-md-3">
+                <?= $form->field($model, 'role')->dropDownList(
+                    ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name'), // Lista de roles
+                    ['prompt' => 'Selecione a Role', 'class' => 'form-control']
+                ) ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="form-group">
-        <?= Html::button('Edit', ['class' => 'btn btn-secondary', 'id' => 'btnEdit']) ?>
+        <?php if (Yii::$app->controller->action->id == 'update') { ?>
+            <?= Html::button('Edit', ['class' => 'btn btn-secondary', 'id' => 'btnEdit']) ?>
+        <?php } ?>
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end();
+    <?php ActiveForm::end(); ?>
+
+    <?php
     // Registrar o código JavaScript
     $js = <<<JS
         $('#btnEdit').click(function() {
@@ -74,7 +86,7 @@ use yii\widgets\ActiveForm;
             var userId = $('#modalUserInfo').data('idUser'); // Recupera o ID do usuário do modal
             $('#userId').val(userId); // Preenche o campo oculto com o userId
         });
-        JS;
+    JS;
     $this->registerJs($js);
     ?>
 

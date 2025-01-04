@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $model->flagged_for_ban == 1 ? 'Unban' : 'Ban',
             ['user-info/toggle-ban-status', 'id' => $model->id],
             [
-                'class' => 'btn btn-' . ($model->flagged_for_ban == 1 ? 'danger' : 'success'),
+                'class' => 'btn btn-' . ($model->flagged_for_ban == 1 ? 'success' : 'danger'),
                 'data' => [
                     'confirm' => 'Are you sure you want to ' . ($model->flagged_for_ban == 1 ? 'unban' : 'ban') . ' this user?',
                     'method' => 'post',
@@ -62,7 +62,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'address',
             'postal_code',
-            'flagged_for_ban',
+            [
+                'attribute' => 'flagged_for_ban',
+                'value' => function ($model) {
+                    return $model->flagged_for_ban == 1 ? 'Yes' : 'No'; // Retorna "Yes" ou "No"
+                },
+            ],
         ],
     ]) ?>
 

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use Yii;
 use common\models\User;
 use yii\web\Controller;
 use common\models\UserInfo;
@@ -103,6 +104,10 @@ class UserInfoController extends Controller
                     $userInfo->postal_code = $model->postal_code;
 
                     if ($userInfo->save()) {
+                        $auth = Yii::$app->authManager;
+                        $reviwerRole = $auth->getRole('reviwer');
+                        $auth->assign($reviwerRole, $userInfo->id);
+
                         \Yii::$app->session->setFlash('success', 'Informações atualizadas com sucesso!');
                         return $this->render('view', [
                             'model' => $userInfo,
