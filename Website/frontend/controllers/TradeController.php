@@ -41,7 +41,7 @@ class TradeController extends Controller
     {
         $searchModel = new TradeSearch();
         $dataProvider = new ActiveDataProvider([
-            'query' => Trade::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
+            'query' => Trade::find()->where(['user_info_id' => $id]),
         ]);
 
         return $this->render('index', [
