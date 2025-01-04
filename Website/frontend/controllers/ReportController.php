@@ -2,11 +2,12 @@
 
 namespace frontend\controllers;
 
-use common\models\Report;
-use frontend\models\ReportSearch;
+use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use common\models\Report;
 use yii\filters\VerbFilter;
+use frontend\models\ReportSearch;
+use yii\web\NotFoundHttpException;
 
 /**
  * ReportController implements the CRUD actions for Report model.
@@ -65,21 +66,14 @@ class ReportController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($advertisementId)
     {
         $model = new Report();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        $model->author_id = $userId = Yii::$app->user->id;
+        $model->advertisement_id = $advertisementId;
+        if ($model->save())
+            return $this->redirect(['view', 'id' => $model->id]);
     }
 
     /**
