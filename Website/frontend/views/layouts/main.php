@@ -140,7 +140,7 @@ AppAsset::register($this);
                         [
                             'label' => 'Trades Received',
                             'encode' => false,
-                            'url' => ['trade/update', 'id' => $user->id],
+                            'url' => ['trade/received', 'id' => $user->id],
                             'linkOptions' => [
                                 'data-method' => 'post',
                                 'style' => 'cursor: pointer;',
