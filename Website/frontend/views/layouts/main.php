@@ -65,7 +65,7 @@ AppAsset::register($this);
                             ],
                         ],
                         [
-                            'label' => 'My Advertisements',
+                            'label' => 'Advertisements',
                             'encode' => false,
                             'url' => ['advertisement/index', 'id' => $user->id],
                             'linkOptions' => [
@@ -74,9 +74,18 @@ AppAsset::register($this);
                             ],
                         ],
                         [
-                            'label' => 'My Items',
+                            'label' => 'Items',
                             'encode' => false,
                             'url' => ['item/index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
+                            'label' => 'Reports',
+                            'encode' => false,
+                            'url' => ['report/index', 'id' => $user->id],
                             'linkOptions' => [
                                 'data-method' => 'post',
                                 'style' => 'cursor: pointer;',
