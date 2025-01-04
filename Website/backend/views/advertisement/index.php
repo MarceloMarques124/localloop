@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => ActionColumn::className(),
-                'contentOptions' => ['style' => 'width:8%; text-align:center;'], // Define a largura da coluna
+                'contentOptions' => ['style' => 'width:8%; text-align:center;'],
                 'urlCreator' => function ($action, Advertisement $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 },
