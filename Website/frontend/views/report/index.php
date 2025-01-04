@@ -17,10 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Report', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
     ?>
 
@@ -35,10 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Author name',
             ],
             'userInfo.name',
-            'trade_id',
-            'advertisement_id',
-            //'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'advertisement.title',
+                'label' => 'Advertisement title',
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Report $model, $key, $index, $column) {
