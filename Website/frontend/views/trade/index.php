@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view} {delete}',
+                'template' => '{view}',
                 'contentOptions' => ['style' => 'text-align:center;'],
                 'urlCreator' => function ($action, Trade $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
