@@ -127,11 +127,26 @@ AppAsset::register($this);
                 [
                     'label' => '<i class="fas fa-briefcase"></i>',
                     'encode' => false,
-                    'url' => ['trade/index', 'id' => $user->id],
-                    'linkOptions' => [
-                        'data-method' => 'post',
-                        'style' => 'cursor: pointer;',
-                    ],
+                    'items' => [
+                        [
+                            'label' => 'Trades done',
+                            'encode' => false,
+                            'url' => ['trade/index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
+                            'label' => 'Trades Received',
+                            'encode' => false,
+                            'url' => ['trade/update', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                    ]
                 ],
                 [
                     'label' => '<i class="fas fa-shopping-cart"></i>',
