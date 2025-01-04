@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use frontend\models\EditUserInfo;
+use backend\models\EditUserInfo;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -17,6 +17,7 @@ use yii\web\NotFoundHttpException;
  */
 class UserInfo extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
