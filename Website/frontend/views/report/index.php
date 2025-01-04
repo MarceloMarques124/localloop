@@ -37,6 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view}',
+                'contentOptions' => ['style' => 'text-align:center;'],
                 'urlCreator' => function ($action, Report $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
