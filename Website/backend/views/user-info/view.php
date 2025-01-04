@@ -62,7 +62,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'address',
             'postal_code',
-            'flagged_for_ban',
+            [
+                'attribute' => 'flagged_for_ban',
+                'value' => function ($model) {
+                    return $model->flagged_for_ban == 1 ? 'Yes' : 'No'; // Retorna "Yes" ou "No"
+                },
+            ],
         ],
     ]) ?>
 
