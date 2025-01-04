@@ -17,11 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Trade', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -29,17 +26,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'advertisement_id',
-            'user_info_id',
-            'state',
-            'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'advertisement.title',
+                'label' => 'Advertisement title',
+            ],
+            'userInfo.name',
+            [
+                'attribute' => 'state', // Nome do atributo no modelo
+                'value' => function ($model) {
+                    return $model->state == 1 ? 'Active' : 'Close';
+                },
+            ],
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view} {delete}',
+                'contentOptions' => ['style' => 'text-align:center;'],
                 'urlCreator' => function ($action, Trade $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>
