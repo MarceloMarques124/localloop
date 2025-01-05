@@ -146,6 +146,16 @@ AppAsset::register($this);
                                 'style' => 'cursor: pointer;',
                             ],
                         ],
+                        [
+                            'label' => 'Proposals', // Add the new item
+                            'encode' => false,
+                            'url' => ['trade/proposals', 'userId' => $user->id], // Point to the proposals page
+                            'linkOptions' => [
+                                'data-method' => 'post', // Ensures the request uses POST if required
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+
                     ]
                 ],
                 [

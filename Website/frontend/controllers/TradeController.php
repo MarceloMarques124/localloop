@@ -8,6 +8,9 @@ use yii\filters\VerbFilter;
 use frontend\models\TradeSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
+use common\models\Advertisement;
+use common\models\TradeProposal;
+
 
 /**
  * TradeController implements the CRUD actions for Trade model.
@@ -133,5 +136,33 @@ class TradeController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionProposals($userId)
+    {
+        // 1. Fetch Sent Proposals (Trades initiated by the user)
+        $userTrades = Trade::find()->where(['user_info_id' => $userId])->all();
+        $userTradeIds = array_column($userTrades, 'id');
+        $sentProposals = TradeProposal::find()
+            ->where(['trade_id' => $userTradeIds])
+            ->with(['trade', 'tradeProposalItems.item'])
+            ->all();
+
+        // 2. Fetch Received Proposals (Proposals to user's advertisements)
+        $userAds = Advertisement::find()->where(['user_info_id' => $userId])->all();
+        $adTradeIds = [];
+        foreach ($userAds as $ad) {
+            $adTradeIds = array_merge($adTradeIds, array_column($ad->trades, 'id'));
+        }
+        $receivedProposals = TradeProposal::find()
+            ->where(['trade_id' => $adTradeIds])
+            ->with(['trade.advertisement', 'tradeProposalItems.item'])
+            ->all();
+
+        // 3. Render View
+        return $this->render('proposals', [
+            'sentProposals' => $sentProposals,
+            'receivedProposals' => $receivedProposals,
+        ]);
     }
 }
