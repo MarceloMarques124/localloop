@@ -147,11 +147,11 @@ AppAsset::register($this);
                             ],
                         ],
                         [
-                            'label' => 'Proposals', // Add the new item
+                            'label' => 'Proposals',
                             'encode' => false,
-                            'url' => ['trade/proposals', 'userId' => $user->id], // Point to the proposals page
+                            'url' => ['trade/proposals', 'userId' => $user->id],
                             'linkOptions' => [
-                                'data-method' => 'post', // Ensures the request uses POST if required
+                                'data-method' => 'post',
                                 'style' => 'cursor: pointer;',
                             ],
                         ],

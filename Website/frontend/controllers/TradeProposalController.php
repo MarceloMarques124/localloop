@@ -12,6 +12,11 @@ use common\models\TradeProposal;
 use yii\web\NotFoundHttpException;
 use common\models\TradeProposalItem;
 use frontend\models\TradeProposalSearch;
+use yii\web\ForbiddenHttpException;
+use yii\web\BadRequestHttpException;
+
+
+
 
 /**
  * TradeProposalController implements the CRUD actions for TradeProposal model.
@@ -163,5 +168,33 @@ class TradeProposalController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionUpdateState($id, $state)
+    {
+        $model = TradeProposal::findOne($id);
+
+        if (!$model) {
+            throw new NotFoundHttpException('Trade proposal not found.');
+        }
+
+        // Ensure the logged-in user is authorized
+        if ($model->trade->advertisement->user_info_id !== Yii::$app->user->id) {
+            throw new ForbiddenHttpException('You are not authorized to update this proposal.');
+        }
+
+        // Update the state
+        if (in_array($state, [1, 2])) { // 1 = Accept, 2 = Reject
+            $model->state = $state;
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', $state == 1 ? 'Proposal accepted!' : 'Proposal rejected!');
+            } else {
+                Yii::$app->session->setFlash('error', 'Failed to update the proposal.');
+            }
+        } else {
+            throw new BadRequestHttpException('Invalid state.');
+        }
+
+        return $this->redirect(['trade/view', 'id' => $model->trade_id]); // Redirect back to trade details
     }
 }
