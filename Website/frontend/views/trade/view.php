@@ -10,6 +10,7 @@ $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Trades', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+
 ?>
 <div class="trade-view">
 
@@ -24,9 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'userInfo.name',
             [
-                'attribute' => 'state', // Nome do atributo no modelo
+                'attribute' => 'state',
                 'value' => function ($model) {
-                    return $model->state == 1 ? 'Active' : 'Close';
+                    return $model->state == 1 ? 'Active' : 'Closed';
                 },
             ],
             'created_at',
@@ -38,10 +39,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Leave a Review', ['review/create', 'trade_id' => $model->id], ['class' => 'btn btn-primary']) ?>
     <?php endif; ?>
 
+    <!-- Report button -->
+    <?php if (!Yii::$app->user->isGuest): ?>
+
+        <?= Html::a('Report Trade', ['report/create', 'entityType' => 'trade', 'entityId' => $model->id], ['class' => 'btn btn-danger']) ?>
+
+    <?php endif; ?>
+
     <h3>Reviews</h3>
     <ul>
         <?php foreach ($model->reviews as $review): ?>
             <li><strong><?= Html::encode($review->userInfo->name) ?>:</strong> <?= Html::encode($review->message) ?> (<?= $review->stars ?> stars)</li>
         <?php endforeach; ?>
     </ul>
+
 </div>

@@ -66,14 +66,32 @@ class ReportController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($advertisementId)
+    public function actionCreate($entityType, $entityId)
     {
         $model = new Report();
 
-        $model->author_id = $userId = Yii::$app->user->id;
-        $model->advertisement_id = $advertisementId;
-        if ($model->save())
+        $model->author_id = Yii::$app->user->id;
+
+        switch ($entityType) {
+            case 'advertisement':
+                $model->advertisement_id = $entityId;
+                break;
+            case 'user':
+                $model->user_info_id = $entityId;
+                break;
+            case 'trade':
+                $model->trade_id = $entityId;
+                break;
+            default:
+                throw new \yii\web\BadRequestHttpException('Invalid report entity type.');
+        }
+
+        if ($model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        // If saving fails, render the 'create' view with errors
+        return $this->render('create', ['model' => $model]);
     }
 
     /**

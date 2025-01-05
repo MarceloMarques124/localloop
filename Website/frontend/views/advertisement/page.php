@@ -1,11 +1,17 @@
 <?php
+
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<a href="<?= \yii\helpers\Url::to(['trade-proposal/create', 'advertisementId' => $model->id]) ?>" class="btn btn-primary">Trade</a>
+<div class="advertisement-actions">
+    <!-- Trade link -->
+    <?= Html::a('Trade', ['trade-proposal/create', 'advertisementId' => $model->id], ['class' => 'btn btn-primary']) ?>
 
-<a href="<?= \yii\helpers\Url::to(['report/create', 'advertisementId' => $model->id]) ?>" class="btn btn-primary">Report</a>
+    <!-- Save to favorites link -->
+    <?= Html::a('❤️ Favorite', ['saved-advertisement/create', 'advertisement_id' => $model->id], ['class' => 'btn btn-outline-danger']) ?>
 
-<a href="<?= \yii\helpers\Url::to(['saved-advertisement/create', 'advertisement_id' => $model->id]) ?>"
-    class="btn btn-outline-danger">
-    ❤️ Favorite
-</a>
+    <!-- Report Advertisement button -->
+    <?= Html::a('Report Advertisement', ['report/create', 'entityType' => 'advertisement', 'entityId' => $model->id], ['class' => 'btn btn-danger']) ?>
+</div>
