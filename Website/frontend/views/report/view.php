@@ -22,8 +22,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'author.name',
                 'label' => 'Author name',
             ],
-            'userInfo.name',
-            'advertisement.title',
+            [
+                'attribute' => 'userInfo.name',
+                'label' => 'User reported',
+            ],
+            [
+                'attribute' => 'trade.advertisement.title',
+                'label' => 'Trade reported',
+            ],
+            [
+                'attribute' => 'advertisement.title',
+                'label' => 'Advertisement reported',
+            ],
             'created_at',
             'updated_at',
         ],
