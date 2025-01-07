@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Item;
 use yii\web\Controller;
+use common\models\UserInfo;
 use yii\filters\VerbFilter;
 use common\models\Advertisement;
 use yii\data\ActiveDataProvider;
@@ -69,8 +70,11 @@ class AdvertisementController extends Controller
 
     public function actionPage($id)
     {
+        $advertisement = Advertisement::find()->where(['user_info_id' => $id])->one();
+        $userInfo = UserInfo::find()->where(['id' => $advertisement->userInfo->id])->one();
         return $this->render('page', [
-            'model' => $this->findModel($id),
+            'advertisement' => $advertisement,
+            'userInfo' => $userInfo
         ]);
     }
 
