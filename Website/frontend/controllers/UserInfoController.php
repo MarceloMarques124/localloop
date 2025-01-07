@@ -7,6 +7,7 @@ use yii\web\Controller;
 use common\models\UserInfo;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\models\Advertisement;
 use yii\data\ActiveDataProvider;
 use frontend\models\EditUserInfo;
 use yii\web\NotFoundHttpException;
@@ -32,6 +33,10 @@ class UserInfoController extends Controller
                             'actions' => ['update'],
                             'allow' => true,
                             'roles' => ['editMyOwnInformation'],
+                        ],
+                        [
+                            'actions' => ['profile'],
+                            'allow' => true,
                         ],
                     ],
                 ],
@@ -85,6 +90,16 @@ class UserInfoController extends Controller
         return $this->render('view', [
             'model' => $model,
             'user' => $user
+        ]);
+    }
+
+    public function actionProfile($userInfoId)
+    {
+        $userAdvertisements = Advertisement::find()->where(['user_info_id' => $userInfoId])->all();
+        $userInfo = UserInfo::find()->where(['id' => $userInfoId])->one();
+        return $this->render('profile', [
+            'userAdvertisements' => $userAdvertisements,
+            'userInfo' => $userInfo
         ]);
     }
 
@@ -189,8 +204,6 @@ class UserInfoController extends Controller
         ]);
     }
 
-
-
     /**
      * Deletes an existing UserInfo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -204,6 +217,7 @@ class UserInfoController extends Controller
 
         return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the UserInfo model based on its primary key value.
