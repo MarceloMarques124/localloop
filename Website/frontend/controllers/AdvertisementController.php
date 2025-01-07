@@ -70,7 +70,7 @@ class AdvertisementController extends Controller
 
     public function actionPage($id)
     {
-        $advertisement = Advertisement::find()->where(['user_info_id' => $id])->one();
+        $advertisement = Advertisement::find()->where(['id' => $id])->one();
         $userInfo = UserInfo::find()->where(['id' => $advertisement->userInfo->id])->one();
         return $this->render('page', [
             'advertisement' => $advertisement,

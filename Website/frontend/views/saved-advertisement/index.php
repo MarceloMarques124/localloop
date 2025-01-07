@@ -1,46 +1,36 @@
 <?php
 
-use common\models\SavedAdvertisement;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
-use yii\grid\GridView;
 
-/** @var yii\web\View $this */
-/** @var frontend\models\SavedAdvertisementSearch $searchModel */
-/** @var yii\data\ActiveDataProvider $dataProvider */
-
-$this->title = 'Saved Advertisements';
+$this->title = 'Favorites List';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="saved-advertisement-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Saved Advertisement', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'user_info_id',
-            'advertisement_id',
-            'created_at',
-            'updated_at',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, SavedAdvertisement $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'user_info_id' => $model->user_info_id, 'advertisement_id' => $model->advertisement_id]);
-                 }
-            ],
-        ],
-    ]); ?>
-
-
+<!-- Anúncios do Usuário -->
+<div class="user-advertisements">
+    <div class="row">
+        <?php foreach ($userAdvertisements as $advertisement): ?>
+            <div class="col-lg-4 mb-4">
+                <a href="<?= \yii\helpers\Url::to(['advertisement/page', 'id' => $advertisement->id]) ?>" class="card-click">
+                    <div class="card h-100">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate"><?= Html::encode($advertisement->title) ?></h5>
+                                    <p class="card-text text-truncate"><?= Html::encode($advertisement->description) ?></p>
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            Criado <?= Yii::$app->formatter->asRelativeTime($advertisement->created_at) ?>
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>

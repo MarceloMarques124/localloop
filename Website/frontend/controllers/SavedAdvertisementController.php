@@ -2,11 +2,12 @@
 
 namespace frontend\controllers;
 
+use yii\web\Controller;
+use yii\filters\VerbFilter;
+use common\models\Advertisement;
+use yii\web\NotFoundHttpException;
 use common\models\SavedAdvertisement;
 use frontend\models\SavedAdvertisementSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * SavedAdvertisementController implements the CRUD actions for SavedAdvertisement model.
@@ -36,14 +37,19 @@ class SavedAdvertisementController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new SavedAdvertisementSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $advertisementsIds = SavedAdvertisement::find()
+            ->select('advertisement_id')
+            ->where(['user_info_id' => $id])
+            ->column();
+
+        $userAdvertisements = Advertisement::find()->where(['id' => $advertisementsIds])->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'userAdvertisements' => $userAdvertisements,
         ]);
     }
 

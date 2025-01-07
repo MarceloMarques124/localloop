@@ -105,13 +105,11 @@ AppAsset::register($this);
                 [
                     'label' => '<i class="fas fa-heart"></i>',
                     'encode' => false,
+                    'url' => ['saved-advertisement/index', 'id' => $user->id],
                     'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '',
-                        'data-user-id' => $user->id,
+                        'data-method' => 'post',
                         'style' => 'cursor: pointer;',
                     ],
-                    'url' => '#',
                 ],
                 [
                     'label' => '<i class="fas fa-bell"></i>',

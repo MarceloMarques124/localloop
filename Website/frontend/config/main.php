@@ -50,7 +50,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/user', 'extraPatterns' => [], 'tokens' => []],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/user', 'tokens' => ['{id}' => '<id:\\d+>']],
             ],
         ],
     ],
