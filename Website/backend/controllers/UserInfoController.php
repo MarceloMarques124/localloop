@@ -7,6 +7,7 @@ use common\models\User;
 use yii\web\Controller;
 use common\models\UserInfo;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use frontend\models\EditUserInfo;
 use yii\web\NotFoundHttpException;
@@ -24,6 +25,16 @@ class UserInfoController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['userManagement'],
+                        ],
+                    ],
+                ],
+
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
