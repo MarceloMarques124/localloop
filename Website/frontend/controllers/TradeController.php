@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use Yii;
 use yii\web\Controller;
 use common\models\Trade;
 use yii\filters\VerbFilter;
@@ -84,6 +85,9 @@ class TradeController extends Controller
      */
     public function actionView($id)
     {
+        $tradeDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => Trade::find()->where(['id' => $id]),
+        ]);
 
         $tradeProposalDataProvider = new \yii\data\ActiveDataProvider([
             'query' => TradeProposal::find()->where(['trade_id' => $id]),
@@ -97,6 +101,7 @@ class TradeController extends Controller
 
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'tradeDataProvider' => $tradeDataProvider,
             'tradeProposalDataProvider' => $tradeProposalDataProvider,
             'tradeProposalItemDataProvider' => $tradeProposalItemDataProvider,
         ]);
