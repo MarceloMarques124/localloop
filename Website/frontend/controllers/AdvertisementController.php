@@ -7,6 +7,7 @@ use common\models\Item;
 use yii\web\Controller;
 use common\models\UserInfo;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use common\models\Advertisement;
 use yii\data\ActiveDataProvider;
 use frontend\models\Advertisiment;
@@ -26,6 +27,41 @@ class AdvertisementController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['create'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['page'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['view'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['update'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['delete'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -138,7 +174,7 @@ class AdvertisementController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['site/index']);
     }
 
     /**

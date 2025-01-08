@@ -9,7 +9,6 @@ use yii\web\Controller;
 use common\models\Trade;
 use common\models\CartItem;
 use yii\filters\VerbFilter;
-use frontend\models\CartSearch;
 use common\models\Advertisement;
 use common\models\TradeProposal;
 use yii\web\NotFoundHttpException;

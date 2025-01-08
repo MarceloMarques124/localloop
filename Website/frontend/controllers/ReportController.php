@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use common\models\Report;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use frontend\models\ReportSearch;
 use yii\web\NotFoundHttpException;
@@ -23,6 +24,16 @@ class ReportController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['create'],
+                            'allow' => true,
+                            'roles' => ['report'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -94,7 +105,8 @@ class ReportController extends Controller
         }
 
         if ($model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', 'Report sent successfully!');
+            return $this->redirect(['site/index']);
         }
 
         // If saving fails, render the 'create' view with errors
