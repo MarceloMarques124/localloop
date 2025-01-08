@@ -4,17 +4,17 @@ namespace frontend\tests\unit;
 
 use common\models\Advertisement;
 use common\models\UserInfo;
-use yii\db\Exception;
+use Codeception\Test\Unit;
 
-class AdvertisementTest extends \Codeception\Test\Unit
+class AdvertisementTest extends Unit
 {
     protected $tester;
     protected $userInfo;
 
-    // Setup UserInfo data before running tests
+    // Setup UserInfo and seed the database
     protected function _before()
     {
-        $this->userInfo = UserInfo::find()->one(); // Fetch an existing user_info or create one
+        $this->userInfo = UserInfo::find()->one();
         if (!$this->userInfo) {
             $this->userInfo = new UserInfo([
                 'name' => 'Test User',
@@ -22,91 +22,96 @@ class AdvertisementTest extends \Codeception\Test\Unit
                 'postal_code' => '12345678',
                 'flagged_for_ban' => 0,
             ]);
-            $this->userInfo->save();
+            $this->userInfo->save(false);
+        }
+
+        // Ensure there is at least one advertisement for testing
+        if (!Advertisement::findOne(1)) {
+            $this->createAdvertisement(1);
         }
     }
 
-    // Test create functionality
+    private function createAdvertisement($id)
+    {
+        $ad = Advertisement::findOne($id);
+        if (!$ad) {
+            $ad = new Advertisement([
+                'id' => $id,
+                'user_info_id' => $this->userInfo->id,
+                'title' => "ad{$id}",
+                'description' => 'Test description',
+                'is_service' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+            if (!$ad->save()) {
+                echo "Failed to create Advertisement:\n";
+                print_r($ad->errors);
+            }
+        }
+    }
+
     // Test create functionality
     public function testCreateAdvertisement()
     {
-        // Ensure user info is available
-        $userInfo = $this->userInfo;
+        $advertisement = new Advertisement([
+            'user_info_id' => $this->userInfo->id,
+            'title' => 'New Advertisement',
+            'description' => 'A description',
+            'is_service' => 0,
+        ]);
 
-        // Create a new Advertisement
-        $advertisement = new Advertisement();
-        $advertisement->title = 'New Advertisement';
-        $advertisement->description = 'Advertisement description';
-        $advertisement->user_info_id = $userInfo->id;  // Add user_info_id to resolve the issue
+        $this->assertTrue($advertisement->save(), "Failed to create advertisement.");
 
-        // Save the advertisement
-        $saveResult = $advertisement->save();
-        if (!$saveResult) {
-            // Print validation errors if the save fails
-            $this->fail("Failed to save Advertisement: " . implode(', ', array_map(function ($error) {
-                return implode(', ', $error); // Handle array of errors inside fields
-            }, $advertisement->errors)));
-        }
-
-        // Retrieve the advertisement from the database to ensure it was saved
-        $savedAdvertisement = Advertisement::findOne(['title' => 'New Advertisement']);
-        $this->assertInstanceOf(Advertisement::class, $savedAdvertisement);
-        $this->assertEquals('New Advertisement', $savedAdvertisement->title);
+        // Verify it exists in the database
+        $savedAd = Advertisement::findOne(['title' => 'New Advertisement']);
+        $this->assertNotNull($savedAd);
+        $this->assertEquals('New Advertisement', $savedAd->title);
     }
-
-
-
 
     // Test read functionality
     public function testFindAdvertisement()
     {
-        // Given an Advertisement with ID = 1 is in the database
         $advertisement = Advertisement::findOne(1);
+        if (!$advertisement) {
+            $this->fail("Advertisement with ID 1 does not exist.");
+        }
 
-        // Ensure the advertisement is found
         $this->assertInstanceOf(Advertisement::class, $advertisement);
-
-        // Check the title or other attributes to validate the specific advertisement
-        $this->assertEquals('ad1', $advertisement->title);  // Modify with correct title value
+        $this->assertEquals('ad1', $advertisement->title);
     }
 
     // Test update functionality
     public function testUpdateAdvertisement()
     {
-        // Assuming there is an advertisement with ID = 1
         $advertisement = Advertisement::findOne(1);
+        if (!$advertisement) {
+            $this->fail("Advertisement with ID 1 does not exist.");
+        }
 
-        // Update its properties
         $advertisement->title = 'Updated Title';
         $advertisement->description = 'Updated description';
+        $this->assertTrue($advertisement->save(), "Failed to update advertisement.");
 
-        // Save the changes
-        $this->assertTrue($advertisement->save());
-
-        // Retrieve the updated advertisement
-        $updatedAdvertisement = Advertisement::findOne(1);
-        $this->assertInstanceOf(Advertisement::class, $updatedAdvertisement);
-        $this->assertEquals('Updated Title', $updatedAdvertisement->title);
+        $updatedAd = Advertisement::findOne(1);
+        $this->assertNotNull($updatedAd);
+        $this->assertEquals('Updated Title', $updatedAd->title);
     }
 
     // Test delete functionality
     public function testDeleteAdvertisement()
     {
-        // Check if an advertisement with ID = 1 exists
         $advertisement = Advertisement::findOne(1);
         if (!$advertisement) {
-            // Create a new advertisement if none exists
-            $advertisement = new Advertisement();
-            $advertisement->title = 'Temp Advertisement';
-            $advertisement->description = 'Temp description';
-            $advertisement->save();
+            // Create a temporary advertisement if it doesn't exist
+            $this->createAdvertisement(1);
+            $advertisement = Advertisement::findOne(1);
         }
 
-        // Delete the advertisement
-        $this->assertTrue($advertisement->delete() > 0);  // Correct deletion assertion
+        $this->assertNotNull($advertisement, "Failed to prepare advertisement for deletion.");
+        $this->assertTrue($advertisement->delete() > 0, "Failed to delete advertisement.");
 
-        // Verify the advertisement is deleted
-        $deletedAdvertisement = Advertisement::findOne(1);
-        $this->assertNull($deletedAdvertisement);
+        $deletedAd = Advertisement::findOne(1);
+        $this->assertNull($deletedAd, "Advertisement was not deleted successfully.");
     }
 }
