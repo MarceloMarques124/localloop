@@ -31,6 +31,7 @@ use hail812\adminlte\widgets\Menu;
                         ['label' => 'Yii2 PROVIDED', 'header' => true],
                         ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
 
+                        ['label' => 'Dashboard', 'url' => ['/']],
                         ['label' => 'Users', 'url' => ['user-info/index']],
                         ['label' => 'Advertisements', 'url' => ['advertisement/index']],
                         [

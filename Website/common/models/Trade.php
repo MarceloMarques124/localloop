@@ -2,7 +2,8 @@
 
 namespace common\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "trade".
@@ -20,7 +21,7 @@ use Yii;
  * @property TradeProposal[] $tradeProposals
  * @property UserInfo $userInfo
  */
-class Trade extends \yii\db\ActiveRecord
+class Trade extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -28,6 +29,11 @@ class Trade extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'trade';
+    }
+
+    public static function getTotalTrades()
+    {
+        return self::find()->count();
     }
 
     /**
@@ -62,7 +68,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Advertisement]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAdvertisement()
     {
@@ -72,7 +78,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Reports]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getReports()
     {
@@ -82,7 +88,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Reviews]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getReviews()
     {
@@ -92,7 +98,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[TradeProposals]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getTradeProposals()
     {
@@ -102,7 +108,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UserInfo]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUserInfo()
     {

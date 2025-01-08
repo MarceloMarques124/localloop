@@ -38,46 +38,9 @@ class User extends ActiveRecord implements IdentityInterface
         return '{{%user}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
+    public static function getTotalUsers()
     {
-        return [
-            TimestampBehavior::class,
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
-
-            ['username', 'trim'], // This ensures whitespace is trimmed
-            ['username', 'required'], // Username is required
-            ['username', 'unique', 'message' => 'This username has already been taken.'], // Unique validation
-            ['username', 'string', 'min' => 2, 'max' => 255],
-
-            ['email', 'trim', 'skipOnEmpty' => false, 'skipOnError' => false],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'message' => 'This email address has already been taken.'],
-
-
-        ];
-    }
-
-    public function attributeLabels()
-    {
-        return [
-            'username' => 'Username',
-            'email' => 'Email',
-        ];
+        return self::find()->count();
     }
 
     /**
@@ -126,6 +89,23 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Finds out if password reset token is valid
+     *
+     * @param string $token password reset token
+     * @return bool
+     */
+    public static function isPasswordResetTokenValid($token)
+    {
+        if (empty($token)) {
+            return false;
+        }
+
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
+        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        return $timestamp + $expire >= time();
+    }
+
+    /**
      * Finds user by verification email token
      *
      * @param string $token verify email token
@@ -140,20 +120,45 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds out if password reset token is valid
-     *
-     * @param string $token password reset token
-     * @return bool
+     * {@inheritdoc}
      */
-    public static function isPasswordResetTokenValid($token)
+    public function behaviors()
     {
-        if (empty($token)) {
-            return false;
-        }
+        return [
+            TimestampBehavior::class,
+        ];
+    }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
-        return $timestamp + $expire >= time();
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+
+            ['username', 'trim'], // This ensures whitespace is trimmed
+            ['username', 'required'], // Username is required
+            ['username', 'unique', 'message' => 'This username has already been taken.'], // Unique validation
+            ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['email', 'trim', 'skipOnEmpty' => false, 'skipOnError' => false],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'message' => 'This email address has already been taken.'],
+
+
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Username',
+            'email' => 'Email',
+        ];
     }
 
     /**
@@ -167,17 +172,17 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function getAuthKey()
+    public function validateAuthKey($authKey)
     {
-        return $this->auth_key;
+        return $this->getAuthKey() === $authKey;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function validateAuthKey($authKey)
+    public function getAuthKey()
     {
-        return $this->getAuthKey() === $authKey;
+        return $this->auth_key;
     }
 
     /**
