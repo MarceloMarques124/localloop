@@ -99,7 +99,7 @@ class TradeProposalController extends Controller
             if ($this->request->isPost) {
                 if ($model->load($this->request->post())) {
                     $model->trade_id = $trade->id;
-                    $model->state = 1; //state 1 -> sent trade
+                    $model->state = 0; //state 1 -> sent trade
                     if ($model->save()) {
                         $tradeProposalItem = new TradeProposalItem;
                         $tradeProposalItem->trade_proposal_id = $model->id;
