@@ -138,7 +138,7 @@ AppAsset::register($this);
                         [
                             'label' => 'Trades Received',
                             'encode' => false,
-                            'url' => ['trade/received', 'id' => $user->id],
+                            'url' => ['trade/received-index', 'id' => $user->id],
                             'linkOptions' => [
                                 'data-method' => 'post',
                                 'style' => 'cursor: pointer;',

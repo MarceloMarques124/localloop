@@ -54,6 +54,28 @@ class TradeController extends Controller
         ]);
     }
 
+    public function actionReceivedIndex($id)
+    {
+        $myAdvertisementsIds = Advertisement::find()
+            ->select('id')
+            ->where(['user_info_id' => $id])
+            ->column();
+
+        $tradesReceived = Trade::find()
+            ->where(['advertisement_id' => $myAdvertisementsIds])
+            ->all();
+
+        $searchModel = new TradeSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Trade::find()->where(['advertisement_id' => $myAdvertisementsIds]),
+        ]);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Trade model.
      * @param int $id ID
@@ -78,6 +100,20 @@ class TradeController extends Controller
             'tradeProposalDataProvider' => $tradeProposalDataProvider,
             'tradeProposalItemDataProvider' => $tradeProposalItemDataProvider,
         ]);
+    }
+
+    public function actionReceivedView($id)
+    {
+        $myAdvertisementsIds = Advertisement::find()
+            ->select('id')
+            ->where(['user_info_id' => $id])
+            ->column();
+
+        $tradesReceived = Trade::find()
+            ->where(['advertisement_id' => $myAdvertisementsIds])
+            ->all();
+        dd($tradesReceived);
+        return $this->render('received', []);
     }
 
     /**
