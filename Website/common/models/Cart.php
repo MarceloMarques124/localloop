@@ -12,9 +12,9 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property Advertisement[] $advertisements
  * @property CartItem[] $cartItems
  * @property UserInfo $id0
- * @property TradeProposal[] $tradeProposals
  */
 class Cart extends \yii\db\ActiveRecord
 {
@@ -54,6 +54,16 @@ class Cart extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Advertisements]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdvertisements()
+    {
+        return $this->hasMany(Advertisement::class, ['id' => 'advertisement_id'])->viaTable('cart_item', ['cart_id' => 'id']);
+    }
+
+    /**
      * Gets query for [[CartItems]].
      *
      * @return \yii\db\ActiveQuery
@@ -71,15 +81,5 @@ class Cart extends \yii\db\ActiveRecord
     public function getId0()
     {
         return $this->hasOne(UserInfo::class, ['id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[TradeProposals]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTradeProposals()
-    {
-        return $this->hasMany(TradeProposal::class, ['id' => 'trade_proposal_id'])->viaTable('cart_item', ['cart_id' => 'id']);
     }
 }

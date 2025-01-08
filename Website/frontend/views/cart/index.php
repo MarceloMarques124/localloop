@@ -1,46 +1,68 @@
 <?php
 
-use common\models\Cart;
-use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\CartSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Carts';
+$this->title = 'Cart';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cart-index">
+<div class="advertisement-page container-fluid">
+    <div class="container my-4 p-4 bg-white shadow rounded">
+        <!-- Título principal -->
+        <div class="text-center mb-4 border-bottom pb-2">
+            <h1 class="h3"><?= Html::encode($this->title) ?></h1>
+        </div>
+        <!-- Seções de Informação -->
+        <div class="row g-4">
+            <!-- Informação do Anúncio -->
+            <div class="col-md-12">
+                <?php foreach ($advertisements as $advertisement): ?>
+                    <div class="p-3 bg-light rounded shadow-sm">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+                        <h2 class="h5">Advertisement details</h2>
 
-    <p>
-        <?= Html::a('Create Cart', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+                        <p><span class="fw-bold">Title:</span> <?= Html::encode($advertisement->title) ?></p>
+                        <p><span class="fw-bold">Description:</span> <?= Html::encode($advertisement->description) ?></p>
+                        <p><span class="fw-bold">Service/Item:</span> <?= $advertisement->is_service == 1 ? 'Service' : 'Item' ?></p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                    </div>
+                <?php endforeach; ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+                <?php if ($advertisements): ?>
+                    <!-- Dropdown e Botão Finalizar -->
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <?php $form = ActiveForm::begin([
+                                'action' => Url::to(['cart/checkout']), // Ajuste a rota conforme necessário
+                                'method' => 'post',
+                            ]); ?>
 
-            'id',
-            'state',
-            'created_at',
-            'updated_at',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Cart $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
+                            <div class="form-group">
+                                <label for="selected-item" class="fw-bold">Select an item:</label>
+                                <select name="selected_item" id="selected-item" class="form-control">
+                                    <!-- Opção inicial padrão -->
+                                    <option value="" disabled selected>Selecione um item</option>
+                                    <?php foreach ($userItems as $item): ?>
+                                        <option value="<?= $item->id ?>"><?= Html::encode($item->name) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-primary">Finalize Cart</button>
+                            </div>
 
+                            <?php ActiveForm::end(); ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+    </div>
 </div>

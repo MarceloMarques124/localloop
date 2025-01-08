@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php } ?>
             <?= Html::a('Report advertisement', ['report/create', 'entityType' => 'advertisement', 'entityId' => $advertisement->id], ['class' => 'btn btn-danger mx-2']) ?>
             <?= Html::a('Advertiser profile', ['user-info/profile', 'userInfoId' => $userInfo->id], ['class' => 'btn btn-secondary mx-2']) ?>
-            <?= Html::a('Add to cart', ['cart/create', 'userInfoId' => $userInfo->id], ['class' => 'btn btn-info mx-2']) ?>
+            <?= Html::a('Add to cart', ['cart/create', 'advertisementId' => $advertisement->id], ['class' => 'btn btn-info mx-2']) ?>
         </div>
     </div>
 </div>

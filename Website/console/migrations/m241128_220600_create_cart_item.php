@@ -14,7 +14,7 @@ class m241128_220600_create_cart_item extends Migration
     {
         $this->createTable('cart_item', [
             'cart_id' => $this->integer()->notNull(),
-            'trade_proposal_id' => $this->integer()->notNull(),
+            'advertisement_id' => $this->integer()->notNull(),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE CURRENT_TIMESTAMP'),
         ], 'ENGINE=InnoDB');
@@ -22,7 +22,7 @@ class m241128_220600_create_cart_item extends Migration
         $this->addPrimaryKey(
             'pk_cart_item',
             'cart_item',
-            ['cart_id', 'trade_proposal_id']
+            ['cart_id', 'advertisement_id']
         );
 
         $this->addForeignKey(
@@ -35,10 +35,10 @@ class m241128_220600_create_cart_item extends Migration
         );
 
         $this->addForeignKey(
-            'fk_cart_item_trade_proposal',
+            'fk_cart_item_advertisement',
             'cart_item',
-            'trade_proposal_id',
-            'trade_proposal',
+            'advertisement_id',
+            'advertisement',
             'id',
             'CASCADE'
         );

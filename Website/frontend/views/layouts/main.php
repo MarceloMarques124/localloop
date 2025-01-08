@@ -159,13 +159,11 @@ AppAsset::register($this);
                 [
                     'label' => '<i class="fas fa-shopping-cart"></i>',
                     'encode' => false,
+                    'url' => ['cart/index', 'id' => $user->id],
                     'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '',
-                        'data-user-id' => $user->id,
+                        'data-method' => 'post',
                         'style' => 'cursor: pointer;',
                     ],
-                    'url' => '#',
                 ],
                 [
                     'label' => '<i class="fas fa-plus-circle"></i> Criar Anúncio',
