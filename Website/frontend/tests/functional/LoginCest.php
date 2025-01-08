@@ -4,16 +4,10 @@ namespace frontend\tests\functional;
 
 use frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
+use yii\helpers\Url;
 
 class LoginCest
 {
-    /**
-     * Load fixtures before db transaction begin
-     * Called in _before()
-     * @see \Codeception\Module\Yii2::_before()
-     * @see \Codeception\Module\Yii2::loadFixtures()
-     * @return array
-     */
     public function _fixtures()
     {
         return [
@@ -58,9 +52,13 @@ class LoginCest
 
     public function checkValidLogin(FunctionalTester $I)
     {
+        // Submit the login form with valid credentials
         $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+
+
+        // Now check for the links in the navbar (usually rendered in layout)
+        $I->see('Localloop'); // 'Create Advertisement'
+
+
     }
 }

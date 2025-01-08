@@ -11,10 +11,7 @@ use common\fixtures\UserFixture;
 class LoginCest
 {
     /**
-     * Load fixtures before db transaction begin
-     * Called in _before()
-     * @see \Codeception\Module\Yii2::_before()
-     * @see \Codeception\Module\Yii2::loadFixtures()
+     * Load fixtures before db transaction begins.
      * @return array
      */
     public function _fixtures()
@@ -26,18 +23,26 @@ class LoginCest
             ]
         ];
     }
-    
+
     /**
      * @param FunctionalTester $I
      */
     public function loginUser(FunctionalTester $I)
     {
+        // Visit the login page
         $I->amOnRoute('/site/login');
-        $I->fillField('Username', 'erau');
-        $I->fillField('Password', 'password_0');
-        $I->click('login-button');
 
-        $I->see('Logout (erau)', 'form button[type=submit]');
+        // Fill in the 'Username' and 'Password' fields
+        $I->fillField('input[name="LoginForm[username]"]', 'erau');
+        $I->fillField('input[name="LoginForm[password]"]', 'password_0');
+
+        // Click the 'Sign In' button (find the button by its text content)
+        $I->click('Sign In');
+
+        // Assert that the user is redirected to a page showing 'Reports' button
+        $I->see('Reports');
+
+        // Assert that the links for login and signup are no longer visible
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
     }
