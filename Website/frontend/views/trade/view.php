@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Advertisement title',
             ],
             'created_at',
-            'user_info_id',
 
         ],
     ]) ?>
