@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <h1 class="h3"><?= Html::encode($this->title) ?></h1>
         </div>
         <!-- Seções de Informação -->
-        <div class="row g-4">
+        <div class="row g-4"
             <!-- Informação do Anúncio -->
             <div class="col-md-12">
                 <?php foreach ($advertisements as $advertisement): ?>
@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <p><span class="fw-bold">Title:</span> <?= Html::encode($advertisement->title) ?></p>
                         <p><span class="fw-bold">Description:</span> <?= Html::encode($advertisement->description) ?></p>
                         <p><span class="fw-bold">Service/Item:</span> <?= $advertisement->is_service == 1 ? 'Service' : 'Item' ?></p>
+
 
                     </div>
                 <?php endforeach; ?>
@@ -46,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <label for="selected-item" class="fw-bold">Select an item:</label>
                                 <select name="selected_item" id="selected-item" class="form-control">
                                     <!-- Opção inicial padrão -->
-                                    <option value="" disabled selected>Selecione um item</option>
+                                    <option value="" disabled selected>Select one item!</option>
                                     <?php foreach ($userItems as $item): ?>
                                         <option value="<?= $item->id ?>"><?= Html::encode($item->name) ?></option>
                                     <?php endforeach; ?>
