@@ -45,7 +45,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- Ações -->
         <div class="mt-4 text-center">
             <?= Html::a('Trade item', ['trade-proposal/create', 'advertisementId' => $advertisement->id], ['class' => 'btn btn-primary mx-2']) ?>
-            <?= Html::a('❤️ Favorites', ['saved-advertisement/create', 'advertisement_id' => $advertisement->id], ['class' => 'btn btn-outline-danger mx-2']) ?>
+            <?php if (!$savedAdvertisement) { ?>
+                <?= Html::a('❤️ Add to Favorites', ['saved-advertisement/create', 'advertisement_id' => $advertisement->id], ['class' => 'btn btn-outline-danger mx-2']) ?>
+            <?php } else { ?>
+                <?= Html::a('❤️ Remove from Favorites', ['saved-advertisement/create', 'advertisement_id' => $advertisement->id], ['class' => 'btn btn-outline-danger mx-2']) ?>
+            <?php } ?>
             <?= Html::a('Report advertisement', ['report/create', 'entityType' => 'advertisement', 'entityId' => $advertisement->id], ['class' => 'btn btn-danger mx-2']) ?>
             <?= Html::a('Advertiser profile', ['user-info/profile', 'userInfoId' => $userInfo->id], ['class' => 'btn btn-secondary mx-2']) ?>
         </div>

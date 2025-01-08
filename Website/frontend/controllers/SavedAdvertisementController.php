@@ -80,20 +80,20 @@ class SavedAdvertisementController extends Controller
         $model->user_info_id = \Yii::$app->user->id;
         $model->advertisement_id = $advertisement_id;
 
+        $isFavorite = SavedAdvertisement::findOne(['user_info_id' => $model->user_info_id, 'advertisement_id' => $model->advertisement_id]);
         // Check for existing favorite
-        if (SavedAdvertisement::findOne(['user_info_id' => $model->user_info_id, 'advertisement_id' => $model->advertisement_id])) {
-            \Yii::$app->session->setFlash('warning', 'This advertisement is already in your favorites.');
-            return $this->redirect(['site/index']);
-        }
-
-        // Save the model
-        $model->created_at = date('Y-m-d H:i:s');
-        $model->updated_at = date('Y-m-d H:i:s');
-
-        if ($model->save()) {
-            \Yii::$app->session->setFlash('success', 'Added to favorites!');
+        if ($isFavorite) {
+            $isFavorite->delete();
+            \Yii::$app->session->setFlash('success', 'Removed from favorites!');
         } else {
-            \Yii::$app->session->setFlash('error', 'Could not save favorite. Please try again.');
+            // Save the model
+            $model->created_at = date('Y-m-d H:i:s');
+            $model->updated_at = date('Y-m-d H:i:s');
+            if ($model->save()) {
+                \Yii::$app->session->setFlash('success', 'Added to favorites!');
+            } else {
+                \Yii::$app->session->setFlash('error', 'Could not save favorite. Please try again.');
+            }
         }
 
         return $this->redirect(['site/index']); // Adjust redirection as needed
