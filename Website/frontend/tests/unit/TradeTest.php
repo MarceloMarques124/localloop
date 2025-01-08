@@ -14,10 +14,8 @@ class TradeTest extends \Codeception\Test\Unit
     protected $userInfo;
     protected $advertisement;
 
-    // Setup UserInfo and Advertisement data before running tests
     protected function _before()
     {
-        // Ensure a user exists, and create one if not
         $this->userInfo = UserInfo::find()->one();
         if (!$this->userInfo) {
             $this->userInfo = new UserInfo([
@@ -29,7 +27,6 @@ class TradeTest extends \Codeception\Test\Unit
             $this->userInfo->save();
         }
 
-        // Ensure an advertisement exists, and create one if not
         $this->advertisement = Advertisement::find()->one();
         if (!$this->advertisement) {
             $this->advertisement = new Advertisement([
@@ -41,29 +38,23 @@ class TradeTest extends \Codeception\Test\Unit
         }
     }
 
-    // Test create functionality
     public function testCreateTrade()
     {
-        // Ensure user info and advertisement are available
         $userInfo = $this->userInfo;
         $advertisement = $this->advertisement;
 
-        // Create a new Trade
         $trade = new Trade();
         $trade->advertisement_id = $advertisement->id;
         $trade->user_info_id = $userInfo->id;
-        $trade->state = 1;  // Example state value
+        $trade->state = 1;
 
-        // Save the trade
         $saveResult = $trade->save();
         if (!$saveResult) {
-            // Print validation errors if the save fails
             $this->fail("Failed to save Trade: " . implode(', ', array_map(function ($error) {
-                return implode(', ', $error); // Handle array of errors inside fields
+                return implode(', ', $error);
             }, $trade->errors)));
         }
 
-        // Retrieve the trade from the database to ensure it was saved
         $savedTrade = Trade::findOne(['advertisement_id' => $advertisement->id, 'user_info_id' => $userInfo->id]);
         $this->assertInstanceOf(Trade::class, $savedTrade);
         $this->assertEquals($advertisement->id, $savedTrade->advertisement_id);

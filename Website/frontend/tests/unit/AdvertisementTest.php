@@ -11,7 +11,6 @@ class AdvertisementTest extends Unit
     protected $tester;
     protected $userInfo;
 
-    // Setup UserInfo and seed the database
     protected function _before()
     {
         $this->userInfo = UserInfo::find()->one();
@@ -25,7 +24,6 @@ class AdvertisementTest extends Unit
             $this->userInfo->save(false);
         }
 
-        // Ensure there is at least one advertisement for testing
         if (!Advertisement::findOne(1)) {
             $this->createAdvertisement(1);
         }
@@ -51,7 +49,6 @@ class AdvertisementTest extends Unit
         }
     }
 
-    // Test create functionality
     public function testCreateAdvertisement()
     {
         $advertisement = new Advertisement([
@@ -63,13 +60,11 @@ class AdvertisementTest extends Unit
 
         $this->assertTrue($advertisement->save(), "Failed to create advertisement.");
 
-        // Verify it exists in the database
         $savedAd = Advertisement::findOne(['title' => 'New Advertisement']);
         $this->assertNotNull($savedAd);
         $this->assertEquals('New Advertisement', $savedAd->title);
     }
 
-    // Test read functionality
     public function testFindAdvertisement()
     {
         $advertisement = Advertisement::findOne(1);
@@ -81,7 +76,6 @@ class AdvertisementTest extends Unit
         $this->assertEquals('ad1', $advertisement->title);
     }
 
-    // Test update functionality
     public function testUpdateAdvertisement()
     {
         $advertisement = Advertisement::findOne(1);
@@ -98,12 +92,10 @@ class AdvertisementTest extends Unit
         $this->assertEquals('Updated Title', $updatedAd->title);
     }
 
-    // Test delete functionality
     public function testDeleteAdvertisement()
     {
         $advertisement = Advertisement::findOne(1);
         if (!$advertisement) {
-            // Create a temporary advertisement if it doesn't exist
             $this->createAdvertisement(1);
             $advertisement = Advertisement::findOne(1);
         }

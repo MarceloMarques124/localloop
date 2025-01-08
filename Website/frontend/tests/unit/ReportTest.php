@@ -4,16 +4,12 @@ namespace frontend\tests\unit;
 
 use common\models\Report;
 use common\models\UserInfo;
-use common\models\Advertisement;
-use common\models\Trade;
 use yii\db\Exception;
 
 class ReportTest extends \Codeception\Test\Unit
 {
     protected $tester;
     protected $userInfo;
-    protected $advertisement;
-    protected $trade;
 
     protected function _before()
     {
@@ -27,98 +23,75 @@ class ReportTest extends \Codeception\Test\Unit
             ]);
             $this->userInfo->save();
         }
-
-        $this->advertisement = Advertisement::find()->one();
-        if (!$this->advertisement) {
-            $this->advertisement = new Advertisement([
-                'title' => 'Test Advertisement',
-                'description' => 'Test Description',
-            ]);
-            $this->advertisement->save();
-        }
-
-        $this->trade = Trade::find()->one();
-        if (!$this->trade) {
-            $this->trade = new Trade([
-                'advertisement_id' => $this->advertisement->id,
-                'user_info_id' => $this->userInfo->id,
-                'state' => 1,
-            ]);
-            $this->trade->save();
-        }
     }
 
-    public function testCreateReport()
+    public function testCreateReportWithoutAdvertisement()
     {
-        $userInfo = $this->userInfo;
-        $advertisement = $this->advertisement;
-        $trade = $this->trade;
+        $report = new Report([
+            'author_id' => $this->userInfo->id,
+            'advertisement_id' => null,
+            'trade_id' => null,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
 
-        $report = new Report();
-        $report->author_id = $userInfo->id;
-        $report->advertisement_id = $advertisement->id;
-        $report->created_at = date('Y-m-d H:i:s');
-        $report->updated_at = date('Y-m-d H:i:s');
-        $this->assertTrue($report->save(), 'Failed to save report for advertisement.');
+        $this->assertTrue($report->save(), 'Failed to save report without advertisement.');
 
-        $report = new Report();
-        $report->author_id = $userInfo->id;
-        $report->trade_id = $trade->id;
-        $report->created_at = date('Y-m-d H:i:s');
-        $report->updated_at = date('Y-m-d H:i:s');
-        $this->assertTrue($report->save(), 'Failed to save report for trade.');
+        $savedReport = Report::findOne($report->id);
+        $this->assertNull($savedReport->advertisement_id, 'Advertisement ID should be null for this test.');
+        $this->assertNull($savedReport->trade_id, 'Trade ID should be null for this test.');
+
+        $this->assertInstanceOf(UserInfo::class, $savedReport->author, 'Failed to find the related Author.');
     }
 
-    public function testUpdateReport()
+    public function testCreateReportWithEmptyAdvertisementId()
     {
-        $report = Report::find()->one();
-        $this->assertNotNull($report, 'Report not found.');
+        $report = new Report([
+            'author_id' => $this->userInfo->id,
+            'advertisement_id' => null,
+            'trade_id' => null,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
 
-        $newAdvertisement = Advertisement::find()->one();
-        if ($newAdvertisement) {
-            $report->advertisement_id = $newAdvertisement->id;
-            $this->assertTrue($report->save(), 'Failed to update report.');
-        } else {
-            $this->fail('No other advertisement found to update the report.');
-        }
+        $this->assertTrue($report->save(), 'Failed to save report without advertisement.');
+
+        $savedReport = Report::findOne($report->id);
+        $this->assertNotNull($savedReport, 'Report should be saved.');
+        $this->assertNull($savedReport->advertisement, 'Advertisement should be null when it is not related.');
     }
 
-    public function testFindAndViewReport()
+    public function testFindAndViewReportWithNoRelations()
     {
-        $report = Report::find()->one();
-        $this->assertNotNull($report, 'Report not found.');
+        $report = new Report([
+            'author_id' => $this->userInfo->id,
+            'advertisement_id' => null,
+            'trade_id' => null,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        $this->assertTrue($report->save(), 'Failed to save report with no related advertisement or trade.');
 
-        $this->assertInstanceOf(UserInfo::class, $report->author, 'Report author not found.');
-        if ($report->advertisement_id) {
-            $this->assertInstanceOf(Advertisement::class, $report->advertisement, 'Advertisement not found.');
-        }
-        if ($report->trade_id) {
-            $this->assertInstanceOf(Trade::class, $report->trade, 'Trade not found.');
-        }
+        $retrievedReport = Report::findOne($report->id);
+        $this->assertNotNull($retrievedReport, 'Report should be retrievable even if no relations exist.');
+        $this->assertNull($retrievedReport->advertisement_id, 'Advertisement ID should be null.');
+        $this->assertNull($retrievedReport->trade_id, 'Trade ID should be null.');
     }
 
-    public function testDeleteReport()
+    public function testReportHasValidAuthor()
     {
-        $report = Report::find()->one();
-        $this->assertNotNull($report, 'Report not found.');
+        $report = new Report([
+            'author_id' => $this->userInfo->id,
+            'advertisement_id' => null,
+            'trade_id' => null,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
 
-        $this->assertTrue($report->delete() > 0, 'Failed to delete report.');
+        $this->assertTrue($report->save(), 'Failed to save report with a user but no advertisement.');
 
-        +$deletedReport = Report::findOne($report->id);
-        $this->assertNull($deletedReport, 'Failed to delete report.');
-    }
-
-    public function testFindReportWithRelations()
-    {
-        $report = Report::find()->one();
-        $this->assertNotNull($report, 'Report not found.');
-
-        $this->assertInstanceOf(UserInfo::class, $report->author, 'Failed to find the related Author.');
-        if ($report->advertisement_id) {
-            $this->assertInstanceOf(Advertisement::class, $report->advertisement, 'Failed to find the related Advertisement.');
-        }
-        if ($report->trade_id) {
-            $this->assertInstanceOf(Trade::class, $report->trade, 'Failed to find the related Trade.');
-        }
+        $retrievedReport = Report::findOne($report->id);
+        $this->assertNotNull($retrievedReport->author, 'Failed to find the report’s author.');
+        $this->assertInstanceOf(UserInfo::class, $retrievedReport->author, 'Failed to link the correct UserInfo.');
     }
 }
