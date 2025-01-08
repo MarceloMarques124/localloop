@@ -5,11 +5,12 @@ namespace frontend\controllers;
 use yii\web\Controller;
 use common\models\Trade;
 use yii\filters\VerbFilter;
+use common\models\Advertisement;
+use common\models\TradeProposal;
 use frontend\models\TradeSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
-use common\models\Advertisement;
-use common\models\TradeProposal;
+use common\models\TradeProposalItem;
 
 
 /**
@@ -61,8 +62,21 @@ class TradeController extends Controller
      */
     public function actionView($id)
     {
+
+        $tradeProposalDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => TradeProposal::find()->where(['trade_id' => $id]),
+        ]);
+
+        $tradeProposal = TradeProposal::find()->where(['trade_id' => $id])->one();
+
+        $tradeProposalItemDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => TradeProposalItem::find()->where(['trade_proposal_id' => $tradeProposal->id]),
+        ]);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'tradeProposalDataProvider' => $tradeProposalDataProvider,
+            'tradeProposalItemDataProvider' => $tradeProposalItemDataProvider,
         ]);
     }
 
