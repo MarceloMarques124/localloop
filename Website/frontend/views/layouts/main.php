@@ -34,7 +34,9 @@ AppAsset::register($this);
 
         <?php
         NavBar::begin([
-            'brandLabel' => Yii::$app->name,
+            'brandLabel' => Html::tag('span', Yii::$app->name, [
+                'style' => 'font-family: "Pacifico", cursive; font-size: 1.5rem; color: #fff;',
+            ]),
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
@@ -102,17 +104,17 @@ AppAsset::register($this);
                         'style' => 'cursor: pointer;',
                     ],
                 ],
-                [
-                    'label' => '<i class="fas fa-bell"></i>',
-                    'encode' => false,
-                    'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '',
-                        'data-user-id' => $user->id,
-                        'style' => 'cursor: pointer;',
-                    ],
-                    'url' => '#',
-                ],
+                // [
+                //     'label' => '<i class="fas fa-bell"></i>',
+                //     'encode' => false,
+                //     'linkOptions' => [
+                //         'data-bs-toggle' => 'modal',
+                //         'data-bs-target' => '',
+                //         'data-user-id' => $user->id,
+                //         'style' => 'cursor: pointer;',
+                //     ],
+                //     'url' => '#',
+                // ],
                 [
                     'label' => '<i class="fas fa-briefcase"></i>',
                     'encode' => false,
@@ -147,7 +149,7 @@ AppAsset::register($this);
                     ],
                 ],
                 [
-                    'label' => '<i class="fas fa-plus-circle"></i> Criar Anúncio',
+                    'label' => '<i class="fas fa-plus-circle"></i> Create Advertisement',
                     'encode' => false,
                     'url' => ['advertisement/create', 'id' => $user->id],
                     'linkOptions' => [

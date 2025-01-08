@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use common\models\CartItem;
 
 $this->title = 'Adevertisement Details';
 $this->params['breadcrumbs'][] = $this->title;
@@ -44,15 +45,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <!-- Ações -->
         <div class="mt-4 text-center">
-            <?= Html::a('Trade item', ['trade-proposal/create', 'advertisementId' => $advertisement->id], ['class' => 'btn btn-primary mx-2']) ?>
-            <?php if (!$savedAdvertisement) { ?>
-                <?= Html::a('❤️ Add to Favorites', ['saved-advertisement/create', 'advertisement_id' => $advertisement->id], ['class' => 'btn btn-outline-danger mx-2']) ?>
-            <?php } else { ?>
-                <?= Html::a('❤️ Remove from Favorites', ['saved-advertisement/create', 'advertisement_id' => $advertisement->id], ['class' => 'btn btn-outline-danger mx-2']) ?>
-            <?php } ?>
-            <?= Html::a('Report advertisement', ['report/create', 'entityType' => 'advertisement', 'entityId' => $advertisement->id], ['class' => 'btn btn-danger mx-2']) ?>
+            <?php if (!Yii::$app->user->isGuest): ?>
+                <?= Html::a('Trade item', ['trade-proposal/create', 'advertisementId' => $advertisement->id], ['class' => 'btn btn-primary mx-2']) ?>
+                <?php if (!$savedAdvertisement) { ?>
+                    <?= Html::a('❤️ Add to Favorites', ['saved-advertisement/create', 'advertisement_id' => $advertisement->id], ['class' => 'btn btn-outline-danger mx-2']) ?>
+                <?php } else { ?>
+                    <?= Html::a('❤️ Remove from Favorites', ['saved-advertisement/create', 'advertisement_id' => $advertisement->id], ['class' => 'btn btn-outline-danger mx-2']) ?>
+                <?php } ?>
+                <?= Html::a('Report advertisement', ['report/create', 'entityType' => 'advertisement', 'entityId' => $advertisement->id], ['class' => 'btn btn-danger mx-2']) ?>
+                <?php $cartItem = CartItem::find()?->where(['advertisement_id' => $advertisement->id])->one();
+                if (!$cartItem): ?>
+                    <?= Html::a('Add to cart', ['cart/create', 'advertisementId' => $advertisement->id], ['class' => 'btn btn-info mx-2']) ?>
+                <?php endif; ?>
+            <?php endif; ?>
             <?= Html::a('Advertiser profile', ['user-info/profile', 'userInfoId' => $userInfo->id], ['class' => 'btn btn-secondary mx-2']) ?>
-            <?= Html::a('Add to cart', ['cart/create', 'advertisementId' => $advertisement->id], ['class' => 'btn btn-info mx-2']) ?>
+
         </div>
     </div>
 </div>

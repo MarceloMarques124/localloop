@@ -43,7 +43,6 @@ class AdvertisementController extends Controller
                         [
                             'actions' => ['page'],
                             'allow' => true,
-                            'roles' => ['myOwnAdvertisement'],
                         ],
                         [
                             'actions' => ['view'],

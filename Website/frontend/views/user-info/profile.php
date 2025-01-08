@@ -19,9 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-md-9">
                         <div class="d-flex justify-content-between">
                             <h2 class="card-title"><?= Html::encode($userInfo->name) ?></h2>
-                            <a href="<?= \yii\helpers\Url::to(['report/create', 'entityType' => 'user', 'entityId' => $userInfo->id]) ?>" class="btn btn-danger btn-sm">
-                                Reportar
-                            </a>
+                            <?php if (!Yii::$app->user->isGuest): ?>
+                                <a href="<?= \yii\helpers\Url::to(['report/create', 'entityType' => 'user', 'entityId' => $userInfo->id]) ?>" class="btn btn-danger btn-sm">
+                                    Report
+                                </a>
+                            <?php endif; ?>
                         </div>
                         <p class="card-text">
                             <strong>Email:</strong> <?= Html::encode($userInfo->user->email) ?><br>
@@ -31,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </p>
                         <p class="card-text">
                             <small class="text-muted">
-                                Última atualização do perfil: <?= Yii::$app->formatter->asRelativeTime($userInfo->updated_at) ?>
+                                Last profile update: <?= Yii::$app->formatter->asRelativeTime($userInfo->updated_at) ?>
                             </small>
                         </p>
                     </div>
@@ -58,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <p class="card-text text-truncate"><?= Html::encode($advertisement->description) ?></p>
                                         <p class="card-text">
                                             <small class="text-muted">
-                                                Criado <?= Yii::$app->formatter->asRelativeTime($advertisement->created_at) ?>
+                                                Create <?= Yii::$app->formatter->asRelativeTime($advertisement->created_at) ?>
                                             </small>
                                         </p>
                                     </div>
