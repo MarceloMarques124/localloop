@@ -11,6 +11,7 @@ use common\models\Advertisement;
 use yii\data\ActiveDataProvider;
 use frontend\models\Advertisiment;
 use yii\web\NotFoundHttpException;
+use common\models\SavedAdvertisement;
 
 /**
  * AdvertisementController implements the CRUD actions for Advertisement model.
@@ -71,10 +72,12 @@ class AdvertisementController extends Controller
     public function actionPage($id)
     {
         $advertisement = Advertisement::find()->where(['id' => $id])->one();
+        $savedAdvertisement = SavedAdvertisement::find()->where(['advertisement_id' => $advertisement->id])->one();
         $userInfo = UserInfo::find()->where(['id' => $advertisement->userInfo->id])->one();
         return $this->render('page', [
             'advertisement' => $advertisement,
-            'userInfo' => $userInfo
+            'userInfo' => $userInfo,
+            'savedAdvertisement' => $savedAdvertisement
         ]);
     }
 

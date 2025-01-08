@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use common\models\Report;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 use frontend\models\ReportSearch;
 use yii\web\NotFoundHttpException;
 
@@ -37,10 +38,16 @@ class ReportController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new ReportSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        // Filtra os relatórios pelo ID no modelo Report
+        $query = Report::find()->where(['author_id' => $id]); // Troque 'user_info_id' pelo nome do campo correto
+
+        // Cria o DataProvider com a query filtrada
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

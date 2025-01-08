@@ -30,10 +30,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'author.name',
                 'label' => 'Author name',
             ],
-            'userInfo.name',
+            [
+                'attribute' => 'userInfo.name',
+                'label' => 'User reported',
+            ],
+            [
+                'attribute' => 'trade.advertisement.title',
+                'label' => 'Trade reported',
+            ],
             [
                 'attribute' => 'advertisement.title',
-                'label' => 'Advertisement title',
+                'label' => 'Advertisement reported',
             ],
             [
                 'class' => ActionColumn::className(),

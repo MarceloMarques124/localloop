@@ -94,12 +94,11 @@ class TradeProposalController extends Controller
         1 - active trade
         0 - closed trade */
         $trade->state = 1;
-
-        if ($trade->save()) {
-            if ($this->request->isPost) {
-                if ($model->load($this->request->post())) {
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                if ($trade->save()) {
                     $model->trade_id = $trade->id;
-                    $model->state = 1; //state 1 -> sent trade
+                    $model->state = 0; //state 1 -> sent trade
                     if ($model->save()) {
                         $tradeProposalItem = new TradeProposalItem;
                         $tradeProposalItem->trade_proposal_id = $model->id;
@@ -109,15 +108,15 @@ class TradeProposalController extends Controller
                         }
                     }
                 }
-            } else {
-                $model->loadDefaultValues();
             }
-
-            return $this->render('create', [
-                'model' => $model,
-                'userItems' => $userItems,
-            ]);
+        } else {
+            $model->loadDefaultValues();
         }
+
+        return $this->render('create', [
+            'model' => $model,
+            'userItems' => $userItems,
+        ]);
     }
 
     /**

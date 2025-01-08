@@ -2,14 +2,16 @@
 
 namespace frontend\controllers;
 
+use Yii;
 use yii\web\Controller;
 use common\models\Trade;
 use yii\filters\VerbFilter;
+use common\models\Advertisement;
+use common\models\TradeProposal;
 use frontend\models\TradeSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
-use common\models\Advertisement;
-use common\models\TradeProposal;
+use common\models\TradeProposalItem;
 
 
 /**
@@ -53,6 +55,28 @@ class TradeController extends Controller
         ]);
     }
 
+    public function actionReceivedIndex($id)
+    {
+        $myAdvertisementsIds = Advertisement::find()
+            ->select('id')
+            ->where(['user_info_id' => $id])
+            ->column();
+
+        $tradesReceived = Trade::find()
+            ->where(['advertisement_id' => $myAdvertisementsIds])
+            ->all();
+
+        $searchModel = new TradeSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Trade::find()->where(['advertisement_id' => $myAdvertisementsIds]),
+        ]);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Trade model.
      * @param int $id ID
@@ -61,9 +85,40 @@ class TradeController extends Controller
      */
     public function actionView($id)
     {
+        $tradeDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => Trade::find()->where(['id' => $id]),
+        ]);
+
+        $tradeProposalDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => TradeProposal::find()->where(['trade_id' => $id]),
+        ]);
+
+        $tradeProposal = TradeProposal::find()->where(['trade_id' => $id])->one();
+
+        $tradeProposalItemDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => TradeProposalItem::find()->where(['trade_proposal_id' => $tradeProposal->id]),
+        ]);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'tradeDataProvider' => $tradeDataProvider,
+            'tradeProposalDataProvider' => $tradeProposalDataProvider,
+            'tradeProposalItemDataProvider' => $tradeProposalItemDataProvider,
         ]);
+    }
+
+    public function actionReceivedView($id)
+    {
+        $myAdvertisementsIds = Advertisement::find()
+            ->select('id')
+            ->where(['user_info_id' => $id])
+            ->column();
+
+        $tradesReceived = Trade::find()
+            ->where(['advertisement_id' => $myAdvertisementsIds])
+            ->all();
+        dd($tradesReceived);
+        return $this->render('received', []);
     }
 
     /**
