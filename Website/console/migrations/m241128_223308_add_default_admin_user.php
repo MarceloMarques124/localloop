@@ -2,6 +2,7 @@
 
 use yii\db\Migration;
 use yii\db\Query;
+use const common\models\UserInfo;
 
 /**
  * Class m241128_223308_add_default_admin_user
@@ -18,7 +19,7 @@ class m241128_223308_add_default_admin_user extends Migration
             ->from('{{%user}}')
             ->where(['username' => 'admin'])
             ->scalar();
-        
+
         if (!$userId) {
 
             $adminUser = [
@@ -32,9 +33,7 @@ class m241128_223308_add_default_admin_user extends Migration
                 'verification_token' => Yii::$app->security->generateRandomString() . '_' . time(),
             ];
 
-
             $this->insert('{{%user}}', $adminUser);
-
 
             $userId = Yii::$app->db->getLastInsertID();
         }
@@ -50,6 +49,13 @@ class m241128_223308_add_default_admin_user extends Migration
         if (!$existingAssignment) {
             $auth->assign($adminRole, $userId);
         }
+
+        $userInfo = [
+            'id' => $userId,
+            'name' => 'admin user'
+        ];
+
+        $this->insert('{{%user_info}}', $userInfo);
     }
 
     /**
@@ -68,6 +74,7 @@ class m241128_223308_add_default_admin_user extends Migration
             $auth->revokeAll($userId);
         }
 
+        $this->delete('{{%user_info}}', ['id' => $userId]);
         $this->delete('{{%user}}', ['username' => 'admin']);
     }
 
