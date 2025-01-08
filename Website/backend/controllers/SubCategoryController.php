@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
-use common\models\SubCategory;
-use backend\models\SubCategorySearch;
-use common\models\Category;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use common\models\Category;
 use yii\filters\VerbFilter;
+use common\models\SubCategory;
+use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
+use backend\models\SubCategorySearch;
 
 /**
  * SubCategoryController implements the CRUD actions for SubCategory model.
@@ -22,6 +23,16 @@ class SubCategoryController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['reviwer'],
+                        ],
+                    ],
+                ],
+
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

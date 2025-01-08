@@ -7,6 +7,7 @@ use common\models\User;
 use yii\web\Controller;
 use common\models\UserInfo;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use frontend\models\EditUserInfo;
 use yii\web\NotFoundHttpException;
@@ -24,6 +25,16 @@ class UserInfoController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['userManagement'],
+                        ],
+                    ],
+                ],
+
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -96,6 +107,10 @@ class UserInfoController extends Controller
                 $user->username = $model->username;
                 $user->email = $model->email;
 
+                $defaultPassword = 'defaultPassword123';
+
+                $user->password_hash = Yii::$app->security->generatePasswordHash($defaultPassword);
+
                 if ($user->save()) {
                     // Associa o UserInfo ao User salvo
                     $userInfo->id = $user->id; // Certifique-se de que o campo `user_id` existe
@@ -109,6 +124,8 @@ class UserInfoController extends Controller
                         $auth->assign($reviwerRole, $userInfo->id);
 
                         \Yii::$app->session->setFlash('success', 'Informações atualizadas com sucesso!');
+                        \Yii::$app->session->setFlash('success', 'Temporarily password' . $defaultPassword);
+
                         return $this->render('view', [
                             'model' => $userInfo,
                             'user' => $user,
