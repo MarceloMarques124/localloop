@@ -2,7 +2,8 @@
 
 namespace common\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "report".
@@ -20,7 +21,7 @@ use Yii;
  * @property Trade $trade
  * @property UserInfo $userInfo
  */
-class Report extends \yii\db\ActiveRecord
+class Report extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -28,6 +29,16 @@ class Report extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'report';
+    }
+
+    /**
+     * Gets the total number of reports.
+     *
+     * @return int
+     */
+    public static function getTotalReports()
+    {
+        return self::find()->count();
     }
 
     /**
@@ -65,7 +76,7 @@ class Report extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Advertisement]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAdvertisement()
     {
@@ -75,7 +86,7 @@ class Report extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Author]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAuthor()
     {
@@ -85,7 +96,7 @@ class Report extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Trade]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getTrade()
     {
@@ -95,7 +106,7 @@ class Report extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UserInfo]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUserInfo()
     {
