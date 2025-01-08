@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var common\models\Trade $model */
@@ -38,11 +37,44 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'message',
             'created_at',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{accept} {reject}', // Define os botões customizados
+                'buttons' => [
+                    'accept' => function ($url, $model, $key) use ($tradeDataProvider) {
+                        // Verifica se o user_info_id é diferente do usuário logado
+                        $trade = $tradeDataProvider->getModels()[0]; // Assume que há apenas um trade relacionado
+                        if ($trade->user_info_id != Yii::$app->user->id) {
+                            return Html::a('Accept', ['trade-proposal/update-state', 'id' => $model->id, 'state' => 1], [
+                                'class' => 'btn btn-success',
+                                'data' => [
+                                    'confirm' => 'Want accept this proposal?',
+                                    'method' => 'post',
+                                ],
+                            ]);
+                        }
+                        return ''; // Não exibe o botão se for o próprio usuário
+                    },
+                    'reject' => function ($url, $model, $key) use ($tradeDataProvider) {
+                        // Verifica se o user_info_id é diferente do usuário logado
+                        $trade = $tradeDataProvider->getModels()[0]; // Assume que há apenas um trade relacionado
+                        if ($trade->user_info_id != Yii::$app->user->id) {
+                            return Html::a('Reject', ['trade-proposal/update-state', 'id' => $model->id, 'state' => 2], [
+                                'class' => 'btn btn-danger',
+                                'data' => [
+                                    'confirm' => 'Want reject this proposal?',
+                                    'method' => 'post',
+                                ],
+                            ]);
+                        }
+                        return ''; // Não exibe o botão se for o próprio usuário
+                    },
+                ],
+            ],
         ],
     ]); ?>
 
     <h2>Item Info</h2>
-
 
     <?= GridView::widget([
         'dataProvider' => $tradeProposalItemDataProvider,
