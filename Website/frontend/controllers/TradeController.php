@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use common\models\Trade;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use common\models\Advertisement;
 use common\models\TradeProposal;
 use frontend\models\TradeSearch;
@@ -27,6 +28,47 @@ class TradeController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index'],
+                            'allow' => true,
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'actions' => ['received-index'],
+                            'allow' => true,
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'actions' => ['view'],
+                            'allow' => true,
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'actions' => ['received-view'],
+                            'allow' => true,
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'actions' => ['create'],
+                            'allow' => true,
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'actions' => ['update'],
+                            'allow' => true,
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'actions' => ['delete'],
+                            'allow' => true,
+                            'roles' => ['user'],
+                        ],
+                    ],
+                ],
+
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

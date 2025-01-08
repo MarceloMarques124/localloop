@@ -83,15 +83,6 @@ AppAsset::register($this);
                             ],
                         ],
                         [
-                            'label' => 'Reports',
-                            'encode' => false,
-                            'url' => ['report/index', 'id' => $user->id],
-                            'linkOptions' => [
-                                'data-method' => 'post',
-                                'style' => 'cursor: pointer;',
-                            ],
-                        ],
-                        [
                             'label' => 'Logout',
                             'encode' => false,
                             'url' => ['site/logout'], // Defina a URL de logout conforme necessário
@@ -144,16 +135,6 @@ AppAsset::register($this);
                                 'style' => 'cursor: pointer;',
                             ],
                         ],
-                        [
-                            'label' => 'Proposals',
-                            'encode' => false,
-                            'url' => ['trade/proposals', 'userId' => $user->id],
-                            'linkOptions' => [
-                                'data-method' => 'post',
-                                'style' => 'cursor: pointer;',
-                            ],
-                        ],
-
                     ]
                 ],
                 [

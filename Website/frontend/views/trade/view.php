@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Advertisement title',
             ],
             'created_at',
-            'user_info_id',
 
         ],
     ]) ?>
@@ -36,6 +35,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $tradeProposalDataProvider,
         'columns' => [
             'message',
+            [
+                'attribute' => 'state',
+                'value' => function ($model) {
+                    if ($model->state == 1) {
+                        return 'Accepted';
+                    } elseif ($model->state == 0) {
+                        return 'Open';
+                    } else {
+                        return 'Rejected';
+                    }
+                },
+            ],
             'created_at',
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -44,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'accept' => function ($url, $model, $key) use ($tradeDataProvider) {
                         // Verifica se o user_info_id é diferente do usuário logado
                         $trade = $tradeDataProvider->getModels()[0]; // Assume que há apenas um trade relacionado
-                        if ($trade->user_info_id != Yii::$app->user->id) {
+                        if ($trade->user_info_id != Yii::$app->user->id && $trade->state == 1) {
                             return Html::a('Accept', ['trade-proposal/update-state', 'id' => $model->id, 'state' => 1], [
                                 'class' => 'btn btn-success',
                                 'data' => [
@@ -58,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'reject' => function ($url, $model, $key) use ($tradeDataProvider) {
                         // Verifica se o user_info_id é diferente do usuário logado
                         $trade = $tradeDataProvider->getModels()[0]; // Assume que há apenas um trade relacionado
-                        if ($trade->user_info_id != Yii::$app->user->id) {
+                        if ($trade->user_info_id != Yii::$app->user->id && $trade->state == 1) {
                             return Html::a('Reject', ['trade-proposal/update-state', 'id' => $model->id, 'state' => 2], [
                                 'class' => 'btn btn-danger',
                                 'data' => [

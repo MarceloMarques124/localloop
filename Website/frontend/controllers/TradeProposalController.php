@@ -98,7 +98,11 @@ class TradeProposalController extends Controller
             if ($model->load($this->request->post())) {
                 if ($trade->save()) {
                     $model->trade_id = $trade->id;
-                    $model->state = 0; //state 1 -> sent trade
+                    /* trade proposal states~
+                    2 - rejected
+                    1 - acepted trade
+                    0 - open trade */
+                    $model->state = 0;
                     if ($model->save()) {
                         $tradeProposalItem = new TradeProposalItem;
                         $tradeProposalItem->trade_proposal_id = $model->id;
@@ -181,11 +185,13 @@ class TradeProposalController extends Controller
         if ($model->trade->advertisement->user_info_id !== Yii::$app->user->id) {
             throw new ForbiddenHttpException('You are not authorized to update this proposal.');
         }
-
         // Update the state
         if (in_array($state, [1, 2])) { // 1 = Accept, 2 = Reject
             $model->state = $state;
             if ($model->save()) {
+                $trade = Trade::find()->where(['id' => $model->trade->id])->one();
+                $trade->state = 0;
+                $trade->save();
                 Yii::$app->session->setFlash('success', $state == 1 ? 'Proposal accepted!' : 'Proposal rejected!');
             } else {
                 Yii::$app->session->setFlash('error', 'Failed to update the proposal.');
@@ -194,6 +200,6 @@ class TradeProposalController extends Controller
             throw new BadRequestHttpException('Invalid state.');
         }
 
-        return $this->redirect(['trade/view', 'id' => $model->trade_id]); // Redirect back to trade details
+        return $this->redirect(['trade/received-index', 'id' => Yii::$app->user->id]); // Redirect back to trade details
     }
 }
