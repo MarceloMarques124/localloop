@@ -2,11 +2,14 @@
 
 namespace frontend\controllers;
 
-use common\models\Invoice;
-use frontend\models\InvoiceSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use common\models\Invoice;
 use yii\filters\VerbFilter;
+use common\models\TradeProposal;
+use yii\data\ActiveDataProvider;
+use frontend\models\InvoiceSearch;
+use yii\web\NotFoundHttpException;
+use common\models\TradeProposalItem;
 
 /**
  * InvoiceController implements the CRUD actions for Invoice model.
@@ -36,10 +39,12 @@ class InvoiceController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new InvoiceSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Invoice::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -55,10 +60,36 @@ class InvoiceController extends Controller
      */
     public function actionView($id)
     {
+        // Carregar a fatura (invoice) pelo id
+        $invoice = Invoice::findOne($id);
+
+        if ($invoice === null) {
+            throw new NotFoundHttpException("Invoice not found.");
+        }
+
+        // Carregar a proposta de trade (TradeProposal) relacionada à invoice
+        $tradeProposal = TradeProposal::findOne(['trade_id' => $invoice->trade_id]);
+
+        if ($tradeProposal === null) {
+            throw new NotFoundHttpException("TradeProposal not found.");
+        }
+
+        // Carregar os itens da proposta de trade (TradeProposalItem) relacionados à invoice
+        $tradeProposalItems = TradeProposalItem::find()->where(['trade_proposal_id' => $tradeProposal->id])->all();
+
+        // Carregar as informações do usuário associadas ao trade
+        $userInfo = $invoice->trade->userInfo;
+
+
+        // Passar os dados para a view
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'invoice' => $invoice,
+            'tradeProposal' => $tradeProposal,
+            'tradeProposalItems' => $tradeProposalItems,
+            'userInfo' => $userInfo,
         ]);
     }
+
 
     /**
      * Creates a new Invoice model.

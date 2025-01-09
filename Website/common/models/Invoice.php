@@ -48,4 +48,9 @@ class Invoice extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function getTrade()
+    {
+        return $this->hasOne(Trade::class, ['id' => 'trade_id']);
+    }
 }
