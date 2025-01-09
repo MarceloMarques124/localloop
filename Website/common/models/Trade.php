@@ -35,6 +35,19 @@ class Trade extends ActiveRecord
     {
         return self::find()->count();
     }
+    public static function getTotalTradesToday()
+    {
+        $startOfDay = date('Y-m-d 00:00:00'); // Início do dia atual
+        $endOfDay = date('Y-m-d 23:59:59');   // Fim do dia atual
+
+        return self::find()
+            ->where(['between', 'created_at', $startOfDay, $endOfDay])
+            ->count();
+    }
+    public static function getTotalTradesOpen()
+    {
+        return self::find()->where(['state' => 0])->count();
+    }
 
     /**
      * {@inheritdoc}

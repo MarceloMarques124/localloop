@@ -112,4 +112,26 @@ class Report extends ActiveRecord
     {
         return $this->hasOne(UserInfo::class, ['id' => 'user_info_id']);
     }
+
+    public static function getTotalUsersReported()
+    {
+        return self::find()
+            ->where(['not', ['user_info_id' => null]]) // Seleciona onde 'user_info_id' não é NULL
+            ->count();
+    }
+
+    public static function getTotalAdvertisementsReported()
+    {
+        return self::find()
+            ->where(['not', ['advertisement_id' => null]]) // Seleciona onde 'advertisement_id' não é NULL
+            ->count();
+    }
+
+
+    public static function getTotalTradesReported()
+    {
+        return self::find()
+            ->where(['not', ['trade_id' => null]]) // Seleciona onde 'trade_id' não é NULL
+            ->count();
+    }
 }

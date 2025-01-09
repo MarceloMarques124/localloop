@@ -72,12 +72,23 @@ class SiteController extends Controller
         $totalAdvertisements = Advertisement::getTotalAdvertisements();
         $totalTrades = Trade::getTotalTrades();
 
+        $totalTradesToday = Trade::getTotalTradesToday();
+        $totalTradesOpen = Trade::getTotalTradesOpen();
+
+        $totalUsersReported = Report::getTotalUsersReported();
+        $totalAdvertisementsReported = Report::getTotalAdvertisementsReported();
+        $totalTradesReported = Report::getTotalTradesReported();
 
         return $this->render('index', [
             'totalReports' => $totalReports,
             'totalUsers' => $totalUsers,
             'totalAdvertisements' => $totalAdvertisements,
             'totalTrades' => $totalTrades,
+            'totalTradesToday' => $totalTradesToday,
+            'totalTradesOpen' => $totalTradesOpen,
+            'totalUsersReported' => $totalUsersReported,
+            'totalAdvertisementsReported' => $totalAdvertisementsReported,
+            'totalTradesReported' => $totalTradesReported,
         ]);
     }
 
