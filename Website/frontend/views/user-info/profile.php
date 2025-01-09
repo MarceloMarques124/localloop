@@ -2,19 +2,17 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Perfil do Usuário';
+$this->title = 'User Profile';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="profile-page">
 
-    <!-- Informações do Usuário -->
     <div class="user-info mb-5">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <!-- Exibe uma imagem de perfil, com fallback -->
                     </div>
                     <div class="col-md-9">
                         <div class="d-flex justify-content-between">
@@ -45,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Anúncios do Usuário -->
     <div class="user-advertisements">
-        <h3>Anúncios de <?= Html::encode($userInfo->name) ?></h3>
+        <h3>Advertisements of <?= Html::encode($userInfo->name) ?></h3>
         <div class="row">
             <?php foreach ($userAdvertisements as $advertisement): ?>
                 <div class="col-lg-4 mb-4">

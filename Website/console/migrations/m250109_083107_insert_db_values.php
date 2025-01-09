@@ -61,6 +61,9 @@ class m250109_083107_insert_db_values extends Migration
                 'is_service' => $i % 2 == 0,
             ]);
         }
+        $auth = \Yii::$app->authManager;
+        $authorRole = $auth->getRole('user');
+        $auth->assign($authorRole, 3);
     }
 
     public function safeDown()
