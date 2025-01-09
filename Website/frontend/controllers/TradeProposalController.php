@@ -2,18 +2,19 @@
 
 namespace frontend\controllers;
 
-use commo\models\UserInfo;
 use Yii;
 use common\models\Item;
 use yii\web\Controller;
 use common\models\Trade;
+use commo\models\UserInfo;
+use common\models\Invoice;
 use yii\filters\VerbFilter;
 use common\models\TradeProposal;
 use yii\web\NotFoundHttpException;
-use common\models\TradeProposalItem;
-use frontend\models\TradeProposalSearch;
 use yii\web\ForbiddenHttpException;
+use common\models\TradeProposalItem;
 use yii\web\BadRequestHttpException;
+use frontend\models\TradeProposalSearch;
 
 
 
@@ -192,6 +193,13 @@ class TradeProposalController extends Controller
                 $trade = Trade::find()->where(['id' => $model->trade->id])->one();
                 $trade->state = 0;
                 $trade->save();
+
+                $invoice = new Invoice();
+                $invoice->trade_id = $trade->id;
+                $invoice->user_info_id = $trade->user_info_id;
+
+                $invoice->save();
+
                 Yii::$app->session->setFlash('success', $state == 1 ? 'Proposal accepted!' : 'Proposal rejected!');
             } else {
                 Yii::$app->session->setFlash('error', 'Failed to update the proposal.');

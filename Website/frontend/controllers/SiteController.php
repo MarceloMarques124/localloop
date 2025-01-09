@@ -101,21 +101,37 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        // Se o usuário já está logado, redireciona para a página inicial
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            // Verifica as roles do usuário usando o authManager
+            $roles = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+
+            // Se o usuário tem a role 'admin' ou 'reviewer', redireciona para a página inicial
+            if (isset($roles['admin']) || isset($roles['reviewer'])) {
+                return $this->goHome();  // Ou redirecionar para outra página desejada
+            }
+
+            return $this->goHome(); // Para outros usuários, redireciona normalmente
         }
 
+        // Caso contrário, exibe o formulário de login
         $model = new LoginForm();
+
+        // Se o formulário de login for preenchido e a autenticação for bem-sucedida
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // Após o login, redireciona para a página anterior
             return $this->goBack();
         }
 
-        $model->password = '';
+        $model->password = '';  // Reseta o campo da senha
 
         return $this->render('login', [
             'model' => $model,
         ]);
     }
+
+
+
 
     /**
      * Logs out the current user.

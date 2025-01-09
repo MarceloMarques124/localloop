@@ -76,6 +76,15 @@ AppAsset::register($this);
                             ],
                         ],
                         [
+                            'label' => 'Invoices',
+                            'encode' => false,
+                            'url' => ['invoice/index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
                             'label' => 'Items',
                             'encode' => false,
                             'url' => ['item/index', 'id' => $user->id],
@@ -87,9 +96,9 @@ AppAsset::register($this);
                         [
                             'label' => 'Logout',
                             'encode' => false,
-                            'url' => ['site/logout'], // Defina a URL de logout conforme necessário
+                            'url' => ['site/logout'],
                             'linkOptions' => [
-                                'data-method' => 'post', // Para enviar o logout como um post
+                                'data-method' => 'post',
                                 'style' => 'cursor: pointer;',
                             ],
                         ],
@@ -159,9 +168,8 @@ AppAsset::register($this);
                 ],
             ];
 
-            // Exibe os ícones na navbar à direita
             echo Nav::widget([
-                'options' => ['class' => 'navbar-nav ms-auto mb-2 mb-md-0'],  // 'ms-auto' para alinhar à direita
+                'options' => ['class' => 'navbar-nav ms-auto mb-2 mb-md-0'],
                 'items' => $menuItems,
             ]);
         }
