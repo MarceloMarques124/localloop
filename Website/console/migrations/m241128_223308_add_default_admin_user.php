@@ -14,11 +14,11 @@ class m241128_223308_add_default_admin_user extends Migration
     public function safeUp()
     {
         // Add default admin user
-        $adminUserId = $this->addUser('admin', 'admin@admin.com', 'adminadmin', 'admin user');
+        $adminUserId = $this->addUser('admin', 'admin@admin.com', 'adminadmin', 'admin user', 'rua admin', '1234-123');
         $this->assignRole($adminUserId, 'admin');
 
         // Add default reviewer user
-        $reviewerUserId = $this->addUser('reviewer', 'reviewer@domain.com', 'reviewerpass', 'reviewer user');
+        $reviewerUserId = $this->addUser('reviewer', 'reviewer@domain.com', 'reviewerpass', 'reviewer user', 'rua reviewer', '1234-123');
         $this->assignRole($reviewerUserId, 'reviwer');
     }
 
@@ -31,7 +31,7 @@ class m241128_223308_add_default_admin_user extends Migration
      * @param string $name
      * @return int|null The user ID
      */
-    protected function addUser($username, $email, $password, $name)
+    protected function addUser($username, $email, $password, $name, $address, $postal_code)
     {
         $userId = (new Query())
             ->select('id')
@@ -57,6 +57,8 @@ class m241128_223308_add_default_admin_user extends Migration
             $userInfo = [
                 'id' => $userId,
                 'name' => $name,
+                'address' => $address,
+                'postal_code' => $postal_code,
             ];
 
             $this->insert('{{%user_info}}', $userInfo);
