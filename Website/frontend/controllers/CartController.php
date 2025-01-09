@@ -146,6 +146,30 @@ class CartController extends Controller
         }
     }
 
+    public function actionRemove($advertisementId)
+    {
+        $userId = Yii::$app->user->id;
+        $cart = Cart::find()->where(['id' => $userId, 'state' => 1])->one();
+        $cartItem = CartItem::find()->where(['cart_id' => $cart->id, 'advertisement_id' => $advertisementId])->one();
+        if ($cartItem->delete()) {
+            $userItems = Item::find()->where(['user_info_id' => $userId])->all();
+
+            $advertisementIds = CartItem::find()
+                ->select('advertisement_id') // Campo que guarda o ID do anúncio no modelo SavedAdvertisement
+                ->where(['cart_id' => $cart->id])
+                ->column();
+
+            $advertisements = Advertisement::find()
+                ->where(['id' => $advertisementIds])
+                ->all();
+
+            return $this->render('index', [
+                'advertisements' => $advertisements,
+                'userItems' => $userItems,
+            ]);
+        }
+    }
+
     public function actionCheckout()
     {
         $selectedItemId = Yii::$app->request->post('selected_item');
