@@ -16,6 +16,8 @@ class m250109_083107_insert_db_values extends Migration
             'password_hash' => Yii::$app->security->generatePasswordHash('password123'),
             'email' => 'test_user@example.com',
             'status' => 10,
+            'created_at' => time(),
+            'updated_at' => time(),
         ]);
 
         $this->insert('user_info', [
