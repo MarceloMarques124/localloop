@@ -113,7 +113,9 @@ class ItemController extends Controller
         if ($this->request->isPost) {
             $userId = Yii::$app->user->id;
             $model->user_info_id = $userId;
+
             if ($model->load($this->request->post()) && $model->save()) {
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

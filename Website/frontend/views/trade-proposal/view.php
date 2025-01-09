@@ -18,7 +18,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'state',
+            [
+                'attribute' => 'state',
+                'value' => function ($model) {
+                    if ($model->state == 1) {
+                        return 'Accepted';
+                    } elseif ($model->state == 0) {
+                        return 'Open';
+                    } else {
+                        return 'Rejected';
+                    }
+                },
+            ],
             'message',
             'created_at',
         ],

@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                             ]);
                         }
-                        return ''; // Não exibe o botão se for o próprio usuário
+                        return '';
                     },
                 ],
             ],
@@ -93,6 +93,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'item.name',
         ],
     ]); ?>
+
+    <h2>Review Info</h2>
 
     <!-- Reviews Table -->
     <?= GridView::widget([
@@ -119,20 +121,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
         ],
     ]); ?>
+    <?php foreach ($tradeProposalDataProvider->getModels() as $tradeProposal): ?>
+        <?php if ($tradeProposal->state == 1 || $tradeProposal->state == 2): ?>
+            <?php foreach ($tradeDataProvider->getModels() as $trade): ?>
+                <?php $tradeUserId = $trade->user_info_id ?>
+                <?php if (!Yii::$app->user->isGuest && !\common\models\Report::find()->where(['author_id' => Yii::$app->user->id, 'trade_id' => $trade->id])->exists()): ?>
+                    <?= Html::a('Report Trade', ['report/create', 'entityType' => 'trade', 'entityId' => $model->id], ['class' => 'btn btn-danger']) ?>
+                <?php endif; ?>
 
-    <?php foreach ($tradeDataProvider->getModels() as $trade): ?>
-        <?php $tradeUserId = $trade->user_info_id ?>
-        <!-- Report button -->
-        <?php if (!Yii::$app->user->isGuest && !\common\models\Report::find()->where(['author_id' => Yii::$app->user->id, 'trade_id' => $trade->id])->exists()): ?>
-            <?= Html::a('Report Trade', ['report/create', 'entityType' => 'trade', 'entityId' => $model->id], ['class' => 'btn btn-danger']) ?>
+            <?php endforeach; ?>
+            <?php if ($tradeUserId == Yii::$app->user->id): ?>
+                <?php if ($model->state == 0 && !\common\models\Review::find()->where(['trade_id' => $model->id, 'user_info_id' => Yii::$app->user->id])->exists()): ?>
+                    <?= Html::a('Leave a Review', ['review/create', 'trade_id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?php endif; ?>
+            <?php endif; ?>
         <?php endif; ?>
     <?php endforeach; ?>
-
-    <?php if ($tradeUserId == Yii::$app->user->id): ?>
-        <!-- Add this section to allow the user to create a review after the trade is completed -->
-        <?php if ($model->state == 1 && !\common\models\Review::find()->where(['trade_id' => $model->id, 'user_info_id' => Yii::$app->user->id])->exists()): ?>
-            <?= Html::a('Leave a Review', ['review/create', 'trade_id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?php endif; ?>
-    <?php endif; ?>
-
 </div>

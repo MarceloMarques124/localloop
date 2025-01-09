@@ -98,7 +98,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
         ],
     ]); ?>
-
     <!-- Report button -->
     <?php if (!Yii::$app->user->isGuest): ?>
         <?= Html::a('Report Trade', ['report/create', 'entityType' => 'trade', 'entityId' => $model->id], ['class' => 'btn btn-danger']) ?>
