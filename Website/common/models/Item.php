@@ -39,7 +39,7 @@ class Item extends \yii\db\ActiveRecord
             [['user_info_id', 'sub_category_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
-            [['sub_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['sub_category_id' => 'id']],
+            [['sub_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => SubCategory::class, 'targetAttribute' => ['sub_category_id' => 'id']],
             [['user_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserInfo::class, 'targetAttribute' => ['user_info_id' => 'id']],
         ];
     }
@@ -66,7 +66,7 @@ class Item extends \yii\db\ActiveRecord
      */
     public function getSubCategory()
     {
-        return $this->hasOne(Category::class, ['id' => 'sub_category_id']);
+        return $this->hasOne(SubCategory::class, ['id' => 'sub_category_id']);
     }
 
     /**

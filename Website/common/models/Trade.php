@@ -57,8 +57,8 @@ class Trade extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'advertisement_id' => 'Advertisement ID',
-            'user_info_id' => 'User Info ID',
+            'advertisement_id' => 'Advertisement title',
+            'user_info_id' => 'Username',
             'state' => 'State',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

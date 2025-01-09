@@ -14,9 +14,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'message')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'item_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map($userItems, 'id', 'name'), // Mapeia os dados das categorias
-        ['prompt' => 'Select a Item'] // Adiciona uma opção padrão
-    ) ?>
+        \yii\helpers\ArrayHelper::map($userItems, 'id', 'name'),
+        ['prompt' => 'Select a Item']
+    )->label('Item name') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

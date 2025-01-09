@@ -81,7 +81,7 @@ class TradeProposalController extends Controller
         $userItems = Item::find()->where(['user_info_id' => $userId])->all();
         // Verificar se há itens do usuário
         if (empty($userItems)) {
-            Yii::$app->session->setFlash('error', 'Você não possui itens disponíveis para troca.');
+            Yii::$app->session->setFlash('error', 'Dont have item to trade. Create your own item.');
             return $this->redirect(['advertisement/page', 'id' => $advertisementId]);
         }
         $model = new TradeProposal();
