@@ -2,7 +2,8 @@
 
 namespace common\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "advertisement".
@@ -21,7 +22,7 @@ use Yii;
  * @property UserInfo $userInfo
  * @property UserInfo[] $userInfos
  */
-class Advertisement extends \yii\db\ActiveRecord
+class Advertisement extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -29,6 +30,11 @@ class Advertisement extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'advertisement';
+    }
+
+    public static function getTotalAdvertisements()
+    {
+        return self::find()->count();
     }
 
     /**
@@ -55,7 +61,7 @@ class Advertisement extends \yii\db\ActiveRecord
             'user_info_id' => 'User Info ID',
             'title' => 'Title',
             'description' => 'Description',
-            'is_service' => 'Is Service',
+            'is_service' => 'Service / Item',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -64,7 +70,7 @@ class Advertisement extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Reports]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getReports()
     {
@@ -74,7 +80,7 @@ class Advertisement extends \yii\db\ActiveRecord
     /**
      * Gets query for [[SavedAdvertisements]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getSavedAdvertisements()
     {
@@ -84,7 +90,7 @@ class Advertisement extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Trades]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getTrades()
     {
@@ -94,7 +100,7 @@ class Advertisement extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UserInfo]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUserInfo()
     {
@@ -104,7 +110,7 @@ class Advertisement extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UserInfos]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUserInfos()
     {

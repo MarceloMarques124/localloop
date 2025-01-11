@@ -2,11 +2,16 @@
 
 namespace backend\controllers;
 
+use common\models\Advertisement;
 use common\models\LoginForm;
+use common\models\Report;
+use common\models\Trade;
+use common\models\User;
 use Yii;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\ErrorAction;
 use yii\web\Response;
 
 /**
@@ -50,7 +55,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => ErrorAction::class,
             ],
         ];
     }
@@ -62,7 +67,29 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $totalReports = Report::getTotalReports();
+        $totalUsers = User::getTotalUsers();
+        $totalAdvertisements = Advertisement::getTotalAdvertisements();
+        $totalTrades = Trade::getTotalTrades();
+
+        $totalTradesToday = Trade::getTotalTradesToday();
+        $totalTradesOpen = Trade::getTotalTradesOpen();
+
+        $totalUsersReported = Report::getTotalUsersReported();
+        $totalAdvertisementsReported = Report::getTotalAdvertisementsReported();
+        $totalTradesReported = Report::getTotalTradesReported();
+
+        return $this->render('index', [
+            'totalReports' => $totalReports,
+            'totalUsers' => $totalUsers,
+            'totalAdvertisements' => $totalAdvertisements,
+            'totalTrades' => $totalTrades,
+            'totalTradesToday' => $totalTradesToday,
+            'totalTradesOpen' => $totalTradesOpen,
+            'totalUsersReported' => $totalUsersReported,
+            'totalAdvertisementsReported' => $totalAdvertisementsReported,
+            'totalTradesReported' => $totalTradesReported,
+        ]);
     }
 
     /**

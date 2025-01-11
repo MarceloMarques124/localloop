@@ -2,7 +2,8 @@
 
 namespace common\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "trade".
@@ -20,7 +21,7 @@ use Yii;
  * @property TradeProposal[] $tradeProposals
  * @property UserInfo $userInfo
  */
-class Trade extends \yii\db\ActiveRecord
+class Trade extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -28,6 +29,24 @@ class Trade extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'trade';
+    }
+
+    public static function getTotalTrades()
+    {
+        return self::find()->count();
+    }
+    public static function getTotalTradesToday()
+    {
+        $startOfDay = date('Y-m-d 00:00:00'); // Início do dia atual
+        $endOfDay = date('Y-m-d 23:59:59');   // Fim do dia atual
+
+        return self::find()
+            ->where(['between', 'created_at', $startOfDay, $endOfDay])
+            ->count();
+    }
+    public static function getTotalTradesOpen()
+    {
+        return self::find()->where(['state' => 0])->count();
     }
 
     /**
@@ -51,8 +70,8 @@ class Trade extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'advertisement_id' => 'Advertisement ID',
-            'user_info_id' => 'User Info ID',
+            'advertisement_id' => 'Advertisement title',
+            'user_info_id' => 'Username',
             'state' => 'State',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -62,7 +81,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Advertisement]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAdvertisement()
     {
@@ -72,7 +91,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Reports]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getReports()
     {
@@ -82,7 +101,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Reviews]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getReviews()
     {
@@ -92,7 +111,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[TradeProposals]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getTradeProposals()
     {
@@ -102,7 +121,7 @@ class Trade extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UserInfo]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUserInfo()
     {

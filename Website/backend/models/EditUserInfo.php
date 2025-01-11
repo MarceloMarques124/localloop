@@ -9,17 +9,19 @@ use yii\base\Model;
  */
 class EditUserInfo extends Model
 {
+    public $role;
+
     /* user data */
-    // public $username;
-    // public $email;
-    // public $password;
+    public $username;
+    public $email;
+    public $password;
 
-    // /* user info data */
-    // public $name;
-    // public $address;
-    // public $postal_code;
+    /* user info data */
+    public $name;
+    public $address;
+    public $postal_code;
 
-    // public $id;
+    public $id;
 
     public function scenarios()
     {
@@ -35,6 +37,8 @@ class EditUserInfo extends Model
     public function rules()
     {
         return [
+            [['role'], 'safe'],
+
             ['username', 'trim', 'skipOnEmpty' => false],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.', 'on' => 'create'],

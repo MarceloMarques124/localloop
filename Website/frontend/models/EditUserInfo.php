@@ -9,6 +9,8 @@ use yii\base\Model;
  */
 class EditUserInfo extends Model
 {
+    public $role;
+
     /* user data */
     public $username;
     public $email;
@@ -28,11 +30,15 @@ class EditUserInfo extends Model
     public function rules()
     {
         return [
+            [['role'], 'safe'],
+
+            ['username', 'trim', 'skipOnEmpty' => false],
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'filter' => ['<>', 'id', $this->id], 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
+            ['email', 'trim', 'skipOnEmpty' => false],
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],

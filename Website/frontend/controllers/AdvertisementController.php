@@ -3,12 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\Item;
 use yii\web\Controller;
+use common\models\UserInfo;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use common\models\Advertisement;
 use yii\data\ActiveDataProvider;
 use frontend\models\Advertisiment;
 use yii\web\NotFoundHttpException;
+use common\models\SavedAdvertisement;
 
 /**
  * AdvertisementController implements the CRUD actions for Advertisement model.
@@ -23,6 +27,40 @@ class AdvertisementController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['create'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['page'],
+                            'allow' => true,
+                        ],
+                        [
+                            'actions' => ['view'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['update'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                        [
+                            'actions' => ['delete'],
+                            'allow' => true,
+                            'roles' => ['myOwnAdvertisement'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -38,13 +76,13 @@ class AdvertisementController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new Advertisiment();
         // $dataProvider = $searchModel->search($this->request->queryParams);
-        $userId = Yii::$app->user->id;
+        //$userId = Yii::$app->user->id;
         $dataProvider = new ActiveDataProvider([
-            'query' => Advertisement::find()->where(['user_info_id' => $userId]), // Filtra pelos anúncios do usuário logado
+            'query' => Advertisement::find()->where(['user_info_id' => $id]), // Filtra pelos anúncios do usuário logado
         ]);
 
         return $this->render('index', [
@@ -63,6 +101,18 @@ class AdvertisementController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionPage($id)
+    {
+        $advertisement = Advertisement::find()->where(['id' => $id])->one();
+        $savedAdvertisement = SavedAdvertisement::find()->where(['advertisement_id' => $advertisement->id])->one();
+        $userInfo = UserInfo::find()->where(['id' => $advertisement->userInfo->id])->one();
+        return $this->render('page', [
+            'advertisement' => $advertisement,
+            'userInfo' => $userInfo,
+            'savedAdvertisement' => $savedAdvertisement
         ]);
     }
 
@@ -123,7 +173,7 @@ class AdvertisementController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['site/index']);
     }
 
     /**

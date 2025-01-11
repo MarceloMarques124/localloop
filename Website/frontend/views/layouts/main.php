@@ -34,7 +34,9 @@ AppAsset::register($this);
 
         <?php
         NavBar::begin([
-            'brandLabel' => Yii::$app->name,
+            'brandLabel' => Html::tag('span', Yii::$app->name, [
+                'style' => 'font-family: "Pacifico", cursive; font-size: 1.5rem; color: #fff;',
+            ]),
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
@@ -65,7 +67,7 @@ AppAsset::register($this);
                             ],
                         ],
                         [
-                            'label' => 'My Advertisements',
+                            'label' => 'Advertisements',
                             'encode' => false,
                             'url' => ['advertisement/index', 'id' => $user->id],
                             'linkOptions' => [
@@ -74,11 +76,29 @@ AppAsset::register($this);
                             ],
                         ],
                         [
+                            'label' => 'Invoices',
+                            'encode' => false,
+                            'url' => ['invoice/index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
+                            'label' => 'Items',
+                            'encode' => false,
+                            'url' => ['item/index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
                             'label' => 'Logout',
                             'encode' => false,
-                            'url' => ['site/logout'], // Defina a URL de logout conforme necessário
+                            'url' => ['site/logout'],
                             'linkOptions' => [
-                                'data-method' => 'post', // Para enviar o logout como um post
+                                'data-method' => 'post',
                                 'style' => 'cursor: pointer;',
                             ],
                         ],
@@ -87,49 +107,58 @@ AppAsset::register($this);
                 [
                     'label' => '<i class="fas fa-heart"></i>',
                     'encode' => false,
+                    'url' => ['saved-advertisement/index', 'id' => $user->id],
                     'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '',
-                        'data-user-id' => $user->id,
+                        'data-method' => 'post',
                         'style' => 'cursor: pointer;',
                     ],
-                    'url' => '#',
                 ],
-                [
-                    'label' => '<i class="fas fa-bell"></i>',
-                    'encode' => false,
-                    'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '',
-                        'data-user-id' => $user->id,
-                        'style' => 'cursor: pointer;',
-                    ],
-                    'url' => '#',
-                ],
+                // [
+                //     'label' => '<i class="fas fa-bell"></i>',
+                //     'encode' => false,
+                //     'linkOptions' => [
+                //         'data-bs-toggle' => 'modal',
+                //         'data-bs-target' => '',
+                //         'data-user-id' => $user->id,
+                //         'style' => 'cursor: pointer;',
+                //     ],
+                //     'url' => '#',
+                // ],
                 [
                     'label' => '<i class="fas fa-briefcase"></i>',
                     'encode' => false,
-                    'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '',
-                        'data-user-id' => $user->id,
-                        'style' => 'cursor: pointer;',
-                    ],
-                    'url' => '#',
+                    'items' => [
+                        [
+                            'label' => 'Trades done',
+                            'encode' => false,
+                            'url' => ['trade/index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        [
+                            'label' => 'Trades Received',
+                            'encode' => false,
+                            'url' => ['trade/received-index', 'id' => $user->id],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                    ]
                 ],
                 [
                     'label' => '<i class="fas fa-shopping-cart"></i>',
                     'encode' => false,
+                    'url' => ['cart/index', 'id' => $user->id],
                     'linkOptions' => [
-                        'data-bs-toggle' => 'modal',
-                        'data-bs-target' => '',
-                        'data-user-id' => $user->id,
+                        'data-method' => 'post',
                         'style' => 'cursor: pointer;',
                     ],
-                    'url' => '#',
                 ],
                 [
-                    'label' => '<i class="fas fa-plus-circle"></i> Criar Anúncio',
+                    'label' => '<i class="fas fa-plus-circle"></i> Create Advertisement',
                     'encode' => false,
                     'url' => ['advertisement/create', 'id' => $user->id],
                     'linkOptions' => [
@@ -139,9 +168,8 @@ AppAsset::register($this);
                 ],
             ];
 
-            // Exibe os ícones na navbar à direita
             echo Nav::widget([
-                'options' => ['class' => 'navbar-nav ms-auto mb-2 mb-md-0'],  // 'ms-auto' para alinhar à direita
+                'options' => ['class' => 'navbar-nav ms-auto mb-2 mb-md-0'],
                 'items' => $menuItems,
             ]);
         }

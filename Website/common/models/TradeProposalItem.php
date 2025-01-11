@@ -47,7 +47,7 @@ class TradeProposalItem extends \yii\db\ActiveRecord
     {
         return [
             'trade_proposal_id' => 'Trade Proposal ID',
-            'item_id' => 'Item ID',
+            'item_id' => 'Item name',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

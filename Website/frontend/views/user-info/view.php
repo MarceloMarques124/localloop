@@ -24,14 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            // Atributos do modelo User
             [
                 'label' => 'Username',
-                'value' => $user->username, // Acessando o atributo username do User
+                'value' => $user->username,
             ],
             [
                 'label' => 'Email',
-                'value' => $user->email, // Acessando o atributo email do User
+                'value' => $user->email,
             ],
             'address',
             'postal_code',

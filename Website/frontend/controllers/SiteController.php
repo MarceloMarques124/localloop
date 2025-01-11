@@ -2,19 +2,20 @@
 
 namespace frontend\controllers;
 
-use frontend\models\ResendVerificationEmailForm;
-use frontend\models\VerifyEmailForm;
 use Yii;
-use yii\base\InvalidArgumentException;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
+use yii\filters\AccessControl;
 use frontend\models\SignupForm;
+use common\models\Advertisement;
 use frontend\models\ContactForm;
+use frontend\models\VerifyEmailForm;
+use yii\web\BadRequestHttpException;
+use frontend\models\ResetPasswordForm;
+use yii\base\InvalidArgumentException;
+use frontend\models\PasswordResetRequestForm;
+use frontend\models\ResendVerificationEmailForm;
 
 /**
  * Site controller
@@ -75,7 +76,22 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $query = Advertisement::find()
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(9);
+
+        if (!Yii::$app->user->isGuest) {
+            // Usuário está logado, remover anúncios do usuário logado
+            $userId = Yii::$app->user->id;
+            $query->where(['!=', 'user_info_id', $userId]);
+        }
+
+        // Executar a query e obter os resultados
+        $advertisements = $query->all();
+
+        return $this->render('index', [
+            'advertisements' => $advertisements,
+        ]);
     }
 
     /**
@@ -85,21 +101,37 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        // Se o usuário já está logado, redireciona para a página inicial
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            // Verifica as roles do usuário usando o authManager
+            $roles = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+
+            // Se o usuário tem a role 'admin' ou 'reviewer', redireciona para a página inicial
+            if (isset($roles['admin']) || isset($roles['reviewer'])) {
+                return $this->goHome();  // Ou redirecionar para outra página desejada
+            }
+
+            return $this->goHome(); // Para outros usuários, redireciona normalmente
         }
 
+        // Caso contrário, exibe o formulário de login
         $model = new LoginForm();
+
+        // Se o formulário de login for preenchido e a autenticação for bem-sucedida
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // Após o login, redireciona para a página anterior
             return $this->goBack();
         }
 
-        $model->password = '';
+        $model->password = '';  // Reseta o campo da senha
 
         return $this->render('login', [
             'model' => $model,
         ]);
     }
+
+
+
 
     /**
      * Logs out the current user.

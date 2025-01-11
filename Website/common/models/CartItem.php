@@ -8,12 +8,12 @@ use Yii;
  * This is the model class for table "cart_item".
  *
  * @property int $cart_id
- * @property int $trade_proposal_id
+ * @property int $advertisement_id
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property Advertisement $advertisement
  * @property Cart $cart
- * @property TradeProposal $tradeProposal
  */
 class CartItem extends \yii\db\ActiveRecord
 {
@@ -31,12 +31,12 @@ class CartItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cart_id', 'trade_proposal_id'], 'required'],
-            [['cart_id', 'trade_proposal_id'], 'integer'],
+            [['cart_id', 'advertisement_id'], 'required'],
+            [['cart_id', 'advertisement_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['cart_id', 'trade_proposal_id'], 'unique', 'targetAttribute' => ['cart_id', 'trade_proposal_id']],
+            [['cart_id', 'advertisement_id'], 'unique', 'targetAttribute' => ['cart_id', 'advertisement_id']],
+            [['advertisement_id'], 'exist', 'skipOnError' => true, 'targetClass' => Advertisement::class, 'targetAttribute' => ['advertisement_id' => 'id']],
             [['cart_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cart::class, 'targetAttribute' => ['cart_id' => 'id']],
-            [['trade_proposal_id'], 'exist', 'skipOnError' => true, 'targetClass' => TradeProposal::class, 'targetAttribute' => ['trade_proposal_id' => 'id']],
         ];
     }
 
@@ -47,10 +47,20 @@ class CartItem extends \yii\db\ActiveRecord
     {
         return [
             'cart_id' => 'Cart ID',
-            'trade_proposal_id' => 'Trade Proposal ID',
+            'advertisement_id' => 'Advertisement ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * Gets query for [[Advertisement]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdvertisement()
+    {
+        return $this->hasOne(Advertisement::class, ['id' => 'advertisement_id']);
     }
 
     /**
@@ -61,15 +71,5 @@ class CartItem extends \yii\db\ActiveRecord
     public function getCart()
     {
         return $this->hasOne(Cart::class, ['id' => 'cart_id']);
-    }
-
-    /**
-     * Gets query for [[TradeProposal]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTradeProposal()
-    {
-        return $this->hasOne(TradeProposal::class, ['id' => 'trade_proposal_id']);
     }
 }

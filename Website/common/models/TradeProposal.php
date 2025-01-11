@@ -22,6 +22,7 @@ use Yii;
  */
 class TradeProposal extends \yii\db\ActiveRecord
 {
+    public $item_id;
     /**
      * {@inheritdoc}
      */
@@ -36,6 +37,7 @@ class TradeProposal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['item_id'], 'safe'],
             [['trade_id', 'message'], 'required'],
             [['trade_id', 'state'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],

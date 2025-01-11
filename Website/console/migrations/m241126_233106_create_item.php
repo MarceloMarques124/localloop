@@ -34,7 +34,7 @@ class m241126_233106_create_item extends Migration
             'fk_item_sub_category',
             'item',
             'sub_category_id',
-            'category',
+            'sub_category',
             'id',
             'CASCADE'
         );

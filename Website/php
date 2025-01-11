@@ -1,0 +1,187 @@
+Codeception PHP Testing Framework v5.1.2 https://stand-with-ukraine.pp.ua
+
+[1mFrontend\tests.functional Tests (24) [22m------------------------------------------------------------------------------------------------------------------------
+- [35;1mAboutCest:[39;22m Check about[32;1m✔[39;22m [35;1mAboutCest:[39;22m Check about[32m(0.02s)[39m
+- [35;1mContactCest:[39;22m Check contact[32;1m✔[39;22m [35;1mContactCest:[39;22m Check contact[32m(0.01s)[39m
+- [35;1mContactCest:[39;22m Check contact submit no data[32;1m✔[39;22m [35;1mContactCest:[39;22m Check contact submit no data[32m(0.01s)[39m
+- [35;1mContactCest:[39;22m Check contact submit not correct email[32;1m✔[39;22m [35;1mContactCest:[39;22m Check contact submit not correct email[32m(0.00s)[39m
+- [35;1mContactCest:[39;22m Check contact submit correct data[32;1m✔[39;22m [35;1mContactCest:[39;22m Check contact submit correct data[32m(0.01s)[39m
+- [35;1mHomeCest:[39;22m Check open[31;1m✖[39;22m [35;1mHomeCest:[39;22m Check open[32m(0.00s)[39m
+- [35;1mLoginCest:[39;22m Check empty[32;1m✔[39;22m [35;1mLoginCest:[39;22m Check empty[32m(0.01s)[39m
+- [35;1mLoginCest:[39;22m Check wrong password[32;1m✔[39;22m [35;1mLoginCest:[39;22m Check wrong password[32m(0.01s)[39m
+- [35;1mLoginCest:[39;22m Check inactive account[32;1m✔[39;22m [35;1mLoginCest:[39;22m Check inactive account[32m(0.01s)[39m
+- [35;1mLoginCest:[39;22m Check valid login[31;1m✖[39;22m [35;1mLoginCest:[39;22m Check valid login[32m(0.56s)[39m
+- [35;1mResendVerificationEmailCest:[39;22m Check page[32;1m✔[39;22m [35;1mResendVerificationEmailCest:[39;22m Check page[32m(0.00s)[39m
+- [35;1mResendVerificationEmailCest:[39;22m Check empty field[32;1m✔[39;22m [35;1mResendVerificationEmailCest:[39;22m Check empty field[32m(0.00s)[39m
+- [35;1mResendVerificationEmailCest:[39;22m Check wrong email format[32;1m✔[39;22m [35;1mResendVerificationEmailCest:[39;22m Check wrong email format[32m(0.00s)[39m
+- [35;1mResendVerificationEmailCest:[39;22m Check wrong email[32;1m✔[39;22m [35;1mResendVerificationEmailCest:[39;22m Check wrong email[32m(0.01s)[39m
+- [35;1mResendVerificationEmailCest:[39;22m Check already verified email[32;1m✔[39;22m [35;1mResendVerificationEmailCest:[39;22m Check already verified email[32m(0.01s)[39m
+- [35;1mResendVerificationEmailCest:[39;22m Check send successfully[32;1m✔[39;22m [35;1mResendVerificationEmailCest:[39;22m Check send successfully[32m(0.01s)[39m
+- [35;1mSignupCest:[39;22m Signup with empty fields[32;1m✔[39;22m [35;1mSignupCest:[39;22m Signup with empty fields[32m(0.01s)[39m
+- [35;1mSignupCest:[39;22m Signup with wrong email[32;1m✔[39;22m [35;1mSignupCest:[39;22m Signup with wrong email[32m(0.01s)[39m
+- [35;1mSignupCest:[39;22m Signup successfully[31;1m✖[39;22m [35;1mSignupCest:[39;22m Signup successfully[32m(0.01s)[39m
+- [35;1mVerifyEmailCest:[39;22m Check empty token[32;1m✔[39;22m [35;1mVerifyEmailCest:[39;22m Check empty token[32m(0.00s)[39m
+- [35;1mVerifyEmailCest:[39;22m Check invalid token[32;1m✔[39;22m [35;1mVerifyEmailCest:[39;22m Check invalid token[32m(0.00s)[39m
+- [35;1mVerifyEmailCest:[39;22m Check no token[32;1m✔[39;22m [35;1mVerifyEmailCest:[39;22m Check no token[32m(0.00s)[39m
+- [35;1mVerifyEmailCest:[39;22m Check already activated token[32;1m✔[39;22m [35;1mVerifyEmailCest:[39;22m Check already activated token[32m(0.01s)[39m
+- [35;1mVerifyEmailCest:[39;22m Check success verification[31;1m✖[39;22m [35;1mVerifyEmailCest:[39;22m Check success verification[32m(0.01s)[39m
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Time: 00:01.091, Memory: 24.00 MB
+
+There were 4 failures:
+1) [35;1mHomeCest:[39;22m Check open
+[37;41;1m Test  [39;49;22mtests/functional/HomeCest.php:checkOpen
+[37;41;1m Step [39;49;22m See "Criar Anúncio"
+[37;41;1m Fail [39;49;22m Failed asserting that on page /index-test.php/index-test.php
+-->  Not Found (#404) My Application LoginSignup Not Found (#404) Page not found. The above error occurred while the Web server was processing your request. Please contact us if you think this is a server error. Thank you. © My Application 2025 Powered by Yii Framework 
+--> contains "Criar Anúncio".
+[33m
+Scenario Steps:
+[39m
+[1m 2. $I->see("Criar Anúncio")[22m at [32mtests/functional/HomeCest.php:13[39m
+ 1. $I->amOnRoute("/index-test.php") at [32mtests/functional/HomeCest.php:11[39m
+
+[33mArtifacts:[39m
+
+Yii-log: [36m[yii\web\HttpException:404] 'yii\\base\\InvalidRouteException: Unable to resolve the request "index-test.php". in /Applications/MAMP/htdocs/localloop/Website/vendor/yiisoft/yii2/base/Module.php:561
+Stack trace:
+#0 /Applications/MAMP/htdocs/localloop/Website/vendor/yiisoft/yii2/web/Application.php(103): yii\\base\\Module->runAction(\'index-test.php\', Array)
+#1 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/module-yii2/src/Codeception/Lib/Connector/Yii2.php(345): yii\\web\\Application->handleRequest(Object(yii\\web\\Request))
+#2 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/browser-kit/AbstractBrowser.php(385): Codeception\\Lib\\Connector\\Yii2->doRequest(Object(Symfony\\Component\\BrowserKit\\Request))
+#3 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/lib-innerbrowser/src/Codeception/Lib/InnerBrowser.php(243): Symfony\\Component\\BrowserKit\\AbstractBrowser->request(\'GET\', \'http://localhos...\', Array, Array, Array, NULL, true)
+#4 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/lib-innerbrowser/src/Codeception/Lib/InnerBrowser.php(285): Codeception\\Lib\\InnerBrowser->clientRequest(\'GET\', \'/index-test.php...\', Array, Array, Array, NULL)
+#5 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/lib-innerbrowser/src/Codeception/Lib/InnerBrowser.php(391): Codeception\\Lib\\InnerBrowser->_loadPage(\'GET\', \'/index-test.php...\')
+#6 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/module-yii2/src/Codeception/Module/Yii2.php(690): Codeception\\Lib\\InnerBrowser->amOnPage(\'/index-test.php...\')
+#7 [internal function]: Codeception\\Module\\Yii2->amOnRoute(\'//index-test.ph...\')
+#8 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Step.php(292): call_user_func_array(Array, Array)
+#9 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Scenario.php(76): Codeception\\Step->run(Object(Codeception\\Lib\\ModuleContainer))
+#10 /Applications/MAMP/htdocs/localloop/Website/frontend/tests/_support/_generated/FunctionalTesterActions.php(600): Codeception\\Scenario->runStep(Object(Codeception\\Step\\Condition))
+#11 /Applications/MAMP/htdocs/localloop/Website/frontend/tests/functional/HomeCest.php(11): frontend\\tests\\FunctionalTester->amOnRoute(\'/index-test.php\')
+#12 [internal function]: frontend\\tests\\functional\\HomeCest->checkOpen(Object(frontend\\tests\\FunctionalTester))
+#13 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Lib/Di.php(130): ReflectionMethod->invokeArgs(Object(frontend\\tests\\functional\\HomeCest), Array)
+#14 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Test/Cest.php(184): Codeception\\Lib\\Di->injectDependencies(Object(frontend\\tests\\functional\\HomeCest), \'checkOpen\', Array)
+#15 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Test/Cest.php(200): Codeception\\Test\\Cest->invoke(\'checkOpen\', Array)
+#16 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Test/Cest.php(129): Codeception\\Test\\Cest->executeTestMethod(Object(frontend\\tests\\FunctionalTester))
+#17 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Test/Test.php(168): Codeception\\Test\\Cest->test()
+#18 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Suite.php(130): Codeception\\Test\\Test->realRun(Object(Codeception\\ResultAggregator))
+#19 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/SuiteManager.php(151): Codeception\\Suite->run(Object(Codeception\\ResultAggregator))
+#20 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Codecept.php(260): Codeception\\SuiteManager->run(Object(Codeception\\ResultAggregator))
+#21 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Codecept.php(216): Codeception\\Codecept->runSuite(Array, \'functional\', NULL)
+#22 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Command/Run.php(646): Codeception\\Codecept->run(\'functional\')
+#23 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Command/Run.php(467): Codeception\\Command\\Run->runSuites(Array, Array)
+#24 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/console/Command/Command.php(326): Codeception\\Command\\Run->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#25 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/console/Application.php(1078): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/console/Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Codeception\\Command\\Run), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#27 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/console/Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#28 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Application.php(112): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#29 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/app.php(45): Codeception\\Application->run()
+#30 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/app.php(46): {closure}()
+#31 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/codecept(7): require(\'/Applications/M...\')
+#32 /Applications/MAMP/htdocs/localloop/Website/vendor/bin/codecept(119): include(\'/Applications/M...\')
+#33 {main}
+
+Next yii\\web\\NotFoundHttpException: Page not found. in /Applications/MAMP/htdocs/localloop/Website/vendor/yiisoft/yii2/web/Application.php:115
+Stack trace:
+#0 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/module-yii2/src/Codeception/Lib/Connector/Yii2.php(345): yii\\web\\Application->handleRequest(Object(yii\\web\\Request))
+#1 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/browser-kit/AbstractBrowser.php(385): Codeception\\Lib\\Connector\\Yii2->doRequest(Object(Symfony\\Component\\BrowserKit\\Request))
+#2 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/lib-innerbrowser/src/Codeception/Lib/InnerBrowser.php(243): Symfony\\Component\\BrowserKit\\AbstractBrowser->request(\'GET\', \'http://localhos...\', Array, Array, Array, NULL, true)
+#3 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/lib-innerbrowser/src/Codeception/Lib/InnerBrowser.php(285): Codeception\\Lib\\InnerBrowser->clientRequest(\'GET\', \'/index-test.php...\', Array, Array, Array, NULL)
+#4 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/lib-innerbrowser/src/Codeception/Lib/InnerBrowser.php(391): Codeception\\Lib\\InnerBrowser->_loadPage(\'GET\', \'/index-test.php...\')
+#5 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/module-yii2/src/Codeception/Module/Yii2.php(690): Codeception\\Lib\\InnerBrowser->amOnPage(\'/index-test.php...\')
+#6 [internal function]: Codeception\\Module\\Yii2->amOnRoute(\'//index-test.ph...\')
+#7 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Step.php(292): call_user_func_array(Array, Array)
+#8 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Scenario.php(76): Codeception\\Step->run(Object(Codeception\\Lib\\ModuleContainer))
+#9 /Applications/MAMP/htdocs/localloop/Website/frontend/tests/_support/_generated/FunctionalTesterActions.php(600): Codeception\\Scenario->runStep(Object(Codeception\\Step\\Condition))
+#10 /Applications/MAMP/htdocs/localloop/Website/frontend/tests/functional/HomeCest.php(11): frontend\\tests\\FunctionalTester->amOnRoute(\'/index-test.php\')
+#11 [internal function]: frontend\\tests\\functional\\HomeCest->checkOpen(Object(frontend\\tests\\FunctionalTester))
+#12 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Lib/Di.php(130): ReflectionMethod->invokeArgs(Object(frontend\\tests\\functional\\HomeCest), Array)
+#13 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Test/Cest.php(184): Codeception\\Lib\\Di->injectDependencies(Object(frontend\\tests\\functional\\HomeCest), \'checkOpen\', Array)
+#14 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Test/Cest.php(200): Codeception\\Test\\Cest->invoke(\'checkOpen\', Array)
+#15 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Test/Cest.php(129): Codeception\\Test\\Cest->executeTestMethod(Object(frontend\\tests\\FunctionalTester))
+#16 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Test/Test.php(168): Codeception\\Test\\Cest->test()
+#17 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Suite.php(130): Codeception\\Test\\Test->realRun(Object(Codeception\\ResultAggregator))
+#18 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/SuiteManager.php(151): Codeception\\Suite->run(Object(Codeception\\ResultAggregator))
+#19 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Codecept.php(260): Codeception\\SuiteManager->run(Object(Codeception\\ResultAggregator))
+#20 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Codecept.php(216): Codeception\\Codecept->runSuite(Array, \'functional\', NULL)
+#21 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Command/Run.php(646): Codeception\\Codecept->run(\'functional\')
+#22 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Command/Run.php(467): Codeception\\Command\\Run->runSuites(Array, Array)
+#23 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/console/Command/Command.php(326): Codeception\\Command\\Run->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#24 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/console/Application.php(1078): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#25 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/console/Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Codeception\\Command\\Run), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 /Applications/MAMP/htdocs/localloop/Website/vendor/symfony/console/Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#27 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/src/Codeception/Application.php(112): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#28 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/app.php(45): Codeception\\Application->run()
+#29 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/app.php(46): {closure}()
+#30 /Applications/MAMP/htdocs/localloop/Website/vendor/codeception/codeception/codecept(7): require(\'/Applications/M...\')
+#31 /Applications/MAMP/htdocs/localloop/Website/vendor/bin/codecept(119): include(\'/Applications/M...\')
+#32 {main}'
+[yii\web\Session::open] 'Session started'
+[39m
+Html: [36m/Applications/MAMP/htdocs/localloop/Website/frontend/tests/_output/frontend.tests.functional.HomeCest.checkOpen.fail.html[39m
+Response: [36m/Applications/MAMP/htdocs/localloop/Website/frontend/tests/_output/frontend.tests.functional.HomeCest.checkOpen.fail.html[39m
+2) [35;1mLoginCest:[39;22m Check valid login
+[37;41;1m Test  [39;49;22mtests/functional/LoginCest.php:checkValidLogin
+[37;41;1m Step [39;49;22m See "Logout (erau)","form button[type=submit]"
+[37;41;1m Fail [39;49;22m Element located either by name, CSS or XPath element with 'form button[type=submit]' was not found.
+[33m
+Scenario Steps:
+[39m
+[1m 3. $I->see("Logout (erau)","form button[type=submit]")[22m at [32mtests/functional/LoginCest.php:62[39m
+ 2. $I->submitForm("#login-form",{"LoginForm[username]":"erau","LoginForm[password]":"password_0"}) at [32mtests/functional/LoginCest.php:61[39m
+ 1. $I->amOnRoute("site/login") at [32mtests/functional/LoginCest.php:29[39m
+
+[33mArtifacts:[39m
+
+Yii-log: [36m[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[39m
+Html: [36m/Applications/MAMP/htdocs/localloop/Website/frontend/tests/_output/frontend.tests.functional.LoginCest.checkValidLogin.fail.html[39m
+Response: [36m/Applications/MAMP/htdocs/localloop/Website/frontend/tests/_output/frontend.tests.functional.LoginCest.checkValidLogin.fail.html[39m
+3) [35;1mSignupCest:[39;22m Signup successfully
+[37;41;1m Test  [39;49;22mtests/functional/SignupCest.php:signupSuccessfully
+[37;41;1m Step [39;49;22m See record "common\models\User",{"username":"tester","email":"tester.email@example.com","status":9}
+[37;41;1m Fail [39;49;22m Couldn't find common\models\User with {"username":"tester","email":"tester.email@example.com","status":9}
+[33m
+Scenario Steps:
+[39m
+[1m 3. $I->seeRecord("common\models\User",{"username":"tester","email":"tester.email@example.com","status":9})[22m at [32mtests/functional/SignupCest.php:53[39m
+ 2. $I->submitForm("#form-signup",{"SignupForm[username]":"tester","SignupForm[email]":"tester.email@example.com","SignupForm[password]":"tester_password"}) at [32mtests/functional/SignupCest.php:45[39m
+ 1. $I->amOnRoute("site/signup") at [32mtests/functional/SignupCest.php:14[39m
+
+[33mArtifacts:[39m
+
+Yii-log: [36m[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[application] 'You\'re trying to register a file after View::endPage() has been called.'
+[39m
+Html: [36m/Applications/MAMP/htdocs/localloop/Website/frontend/tests/_output/frontend.tests.functional.SignupCest.signupSuccessfully.fail.html[39m
+Response: [36m/Applications/MAMP/htdocs/localloop/Website/frontend/tests/_output/frontend.tests.functional.SignupCest.signupSuccessfully.fail.html[39m
+4) [35;1mVerifyEmailCest:[39;22m Check success verification
+[37;41;1m Test  [39;49;22mtests/functional/VerifyEmailCest.php:checkSuccessVerification
+[37;41;1m Step [39;49;22m See "Logout (test.test)","form button[type=submit]"
+[37;41;1m Fail [39;49;22m Element located either by name, CSS or XPath element with 'form button[type=submit]' was not found.
+[33m
+Scenario Steps:
+[39m
+[1m 4. $I->see("Logout (test.test)","form button[type=submit]")[22m at [32mtests/functional/VerifyEmailCest.php:60[39m
+ 3. $I->canSee("Congratulations!","h1") at [32mtests/functional/VerifyEmailCest.php:59[39m
+ 2. $I->canSee("Your email has been confirmed!") at [32mtests/functional/VerifyEmailCest.php:58[39m
+ 1. $I->amOnRoute("site/verify-email",{"token":"4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330"}) at [32mtests/functional/VerifyEmailCest.php:57[39m
+
+[33mArtifacts:[39m
+
+Yii-log: [36m[yii\db\Connection::open] 'Opening DB connection: mysql:host=localhost:8889;dbname=test_yii2advanced'
+[yii\db\Connection::open] 'Opening DB connection: mysql:host=localhost:8889;dbname=test_yii2advanced'
+[yii\web\Session::open] 'Session started'
+[yii\web\User::login] 'User \'3\' logged in from  with duration 0.'
+[39m
+Html: [36m/Applications/MAMP/htdocs/localloop/Website/frontend/tests/_output/frontend.tests.functional.VerifyEmailCest.checkSuccessVerification.fail.html[39m
+Response: [36m/Applications/MAMP/htdocs/localloop/Website/frontend/tests/_output/frontend.tests.functional.VerifyEmailCest.checkSuccessVerification.fail.html[39m
+
+[37;41;1mFAILURES![39;49;22m
+[37;41;1mTests: 24, Assertions: 49, Failures: 4.[39;49;22m
