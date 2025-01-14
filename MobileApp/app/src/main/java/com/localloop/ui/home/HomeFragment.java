@@ -1,4 +1,4 @@
-package com.example.localloop.ui.home;
+package com.localloop.ui.home;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.localloop.databinding.FragmentHomeBinding;
+import com.localloop.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 

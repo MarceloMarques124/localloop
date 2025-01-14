@@ -1,4 +1,4 @@
-package com.example.localloop.ui.advertisement;
+package com.localloop.ui.advertisement;
 
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.localloop.R;
-import com.example.localloop.databinding.FragmentAdvertisementBinding;
+import com.localloop.R;
+import com.localloop.databinding.FragmentAdvertisementBinding;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

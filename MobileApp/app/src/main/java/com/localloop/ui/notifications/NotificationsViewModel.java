@@ -1,4 +1,4 @@
-package com.example.localloop.ui.notifications;
+package com.localloop.ui.notifications;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

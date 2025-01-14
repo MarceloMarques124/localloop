@@ -1,6 +1,7 @@
-package com.example.localloop.api.interfaces;
+package com.localloop.api.interfaces;
 
-import com.example.localloop.models.Advertisement;
+
+import com.localloop.models.Advertisement;
 
 import java.util.List;
 

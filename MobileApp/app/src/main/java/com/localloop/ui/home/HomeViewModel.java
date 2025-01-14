@@ -1,12 +1,12 @@
-package com.example.localloop.ui.home;
+package com.localloop.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.localloop.api.RetrofitClient;
-import com.example.localloop.api.interfaces.AdvertisementApiService;
-import com.example.localloop.models.Advertisement;
+import com.localloop.api.RetrofitClient;
+import com.localloop.api.interfaces.AdvertisementApiService;
+import com.localloop.models.Advertisement;
 
 import java.util.List;
 

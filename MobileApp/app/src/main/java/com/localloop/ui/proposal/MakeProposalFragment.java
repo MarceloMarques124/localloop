@@ -1,4 +1,4 @@
-package com.example.localloop.ui.proposal;
+package com.localloop.ui.proposal;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.localloop.R;
+import com.localloop.R;
 
 public class MakeProposalFragment extends Fragment {
     @Override

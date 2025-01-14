@@ -1,4 +1,4 @@
-package com.example.localloop.ui.profile;
+package com.localloop.ui.profile;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

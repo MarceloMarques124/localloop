@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.localloop.ui.home.HomeFragment"
+        android:name="com.localloop.ui.home.HomeFragment"
         android:label="@string/EXPLORE"
         tools:layout="@layout/fragment_home">
 
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/navigation_advertisement"
-        android:name="com.example.localloop.ui.advertisement.AdvertisementFragment"
+        android:name="com.localloop.ui.advertisement.AdvertisementFragment"
         android:label="@string/ADVERTISEMENT"
         tools:layout="@layout/fragment_advertisement">
 
@@ -49,19 +49,19 @@
 
     <fragment
         android:id="@+id/navigation_make_proposal"
-        android:name="com.example.localloop.ui.proposal.MakeProposalFragment"
+        android:name="com.localloop.ui.proposal.MakeProposalFragment"
         android:label="@string/MAKE_PROPOSAL"
         tools:layout="@layout/fragment_make_proposal" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.localloop.ui.profile.ProfileFragment"
+        android:name="com.localloop.ui.profile.ProfileFragment"
         android:label="@string/PROFILE"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.localloop.ui.notifications.NotificationsFragment"
+        android:name="com.localloop.ui.notifications.NotificationsFragment"
         android:label="@string/NOTIFICATIONS"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.localloop.ui.home;
+package com.localloop.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.localloop.R;
-import com.example.localloop.models.Advertisement;
+import com.localloop.R;
+import com.localloop.models.Advertisement;
 
 import java.util.List;
 

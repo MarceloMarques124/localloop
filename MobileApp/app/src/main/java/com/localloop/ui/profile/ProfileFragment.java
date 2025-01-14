@@ -1,4 +1,4 @@
-package com.example.localloop.ui.profile;
+package com.localloop.ui.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.localloop.databinding.FragmentDashboardBinding;
+import com.localloop.databinding.FragmentDashboardBinding;
 
 public class ProfileFragment extends Fragment {
 

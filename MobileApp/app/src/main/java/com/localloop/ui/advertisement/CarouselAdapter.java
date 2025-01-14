@@ -1,4 +1,4 @@
-package com.example.localloop.ui.advertisement;
+package com.localloop.ui.advertisement;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.localloop.R;
+import com.localloop.R;
 
 import java.util.List;
 

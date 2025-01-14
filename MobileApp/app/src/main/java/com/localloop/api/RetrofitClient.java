@@ -1,11 +1,11 @@
-package com.example.localloop.api;
+package com.localloop.api;
 
-import com.example.localloop.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.localloop.BuildConfig;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
