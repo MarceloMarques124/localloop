@@ -1,11 +1,19 @@
 package com.example.localloop.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Advertisement extends BaseModel {
     private int id;
+
+    @SerializedName("user_info_id")
     private int userId;
+
     private String title;
     private String description;
-    private boolean isService;
+
+    @SerializedName("is_service")
+    private Boolean isService;
+
 
     public int getId() {
         return id;

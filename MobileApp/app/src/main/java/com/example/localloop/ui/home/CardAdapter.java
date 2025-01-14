@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +18,9 @@ import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private final List<Advertisement> advertisements;
-    private final FragmentManager fragmentManager;
 
-    public CardAdapter(List<Advertisement> advertisements, FragmentManager fragmentManager) {
+    public CardAdapter(List<Advertisement> advertisements) {
         this.advertisements = advertisements;
-        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -37,9 +34,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         Advertisement advertisement = advertisements.get(position);
 
-        String text = advertisement.getUserId() + advertisement.getCreatedDate().toString();
-
-        holder.title.setText(text);
+        holder.title.setText(advertisement.getTitle());
         holder.description.setText(advertisement.getDescription());
 
         holder.itemView.setOnClickListener(v -> {
@@ -50,7 +45,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
             navController.navigate(R.id.action_navigation_home_to_navigation_advertisement, args);
         });
-
     }
 
     @Override
@@ -58,7 +52,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return advertisements.size();
     }
 
-    static class CardViewHolder extends RecyclerView.ViewHolder {
+    public static class CardViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView description;
 
