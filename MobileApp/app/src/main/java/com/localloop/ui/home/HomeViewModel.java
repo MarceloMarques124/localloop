@@ -1,5 +1,6 @@
 package com.localloop.ui.home;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -24,24 +25,23 @@ public class HomeViewModel extends ViewModel {
         errorMessage = new MutableLiveData<>();
         loadAdvertisements();
     }
-
-    // Method to fetch the advertisements
+    
     private void loadAdvertisements() {
         AdvertisementApiService apiService = RetrofitClient.getApiService(AdvertisementApiService.class);
         Call<List<Advertisement>> call = apiService.getAdvertisements();
 
         call.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<List<Advertisement>> call, Response<List<Advertisement>> response) {
+            public void onResponse(@NonNull Call<List<Advertisement>> call, @NonNull Response<List<Advertisement>> response) {
                 if (response.isSuccessful()) {
-                    advertisements.setValue(response.body()); // Set the data on success
+                    advertisements.setValue(response.body());
                 } else {
                     errorMessage.setValue("Error: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Advertisement>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Advertisement>> call, @NonNull Throwable t) {
                 errorMessage.setValue("Failure: " + t.getMessage());
             }
         });
