@@ -12,6 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.localloop.databinding.FragmentDashboardBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ProfileFragment extends Fragment {
 
     private FragmentDashboardBinding binding;

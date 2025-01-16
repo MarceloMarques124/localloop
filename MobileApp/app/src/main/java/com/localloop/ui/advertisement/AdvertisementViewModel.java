@@ -4,6 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class AdvertisementViewModel extends ViewModel {
 
     private final MutableLiveData<String> description;
@@ -13,6 +18,7 @@ public class AdvertisementViewModel extends ViewModel {
     private final MutableLiveData<String> accountCreatedAt;
     private final MutableLiveData<String> buttonText;
 
+    @Inject
     public AdvertisementViewModel() {
         description = new MutableLiveData<>();
         title = new MutableLiveData<>();

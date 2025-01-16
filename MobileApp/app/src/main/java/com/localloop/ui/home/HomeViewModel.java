@@ -1,48 +1,50 @@
 package com.localloop.ui.home;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.localloop.api.RetrofitClient;
-import com.localloop.api.interfaces.AdvertisementApiService;
-import com.localloop.models.Advertisement;
+import com.localloop.api.repositories.AdvertisementRepository;
+import com.localloop.api.services.AdvertisementApiService;
+import com.localloop.data.models.Advertisement;
+import com.localloop.utils.DataCallBack;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
+import retrofit2.Call;
+
+@HiltViewModel
 public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<List<Advertisement>> advertisements;
-    private final MutableLiveData<String> errorMessage;
+    private final MutableLiveData<String> error;
+    private final AdvertisementRepository advertisementRepository;
 
-    public HomeViewModel() {
+    @Inject
+    public HomeViewModel(AdvertisementRepository advertisementRepository) {
+        this.advertisementRepository = advertisementRepository;
         advertisements = new MutableLiveData<>();
-        errorMessage = new MutableLiveData<>();
+        error = new MutableLiveData<>();
         loadAdvertisements();
     }
-    
+
     private void loadAdvertisements() {
         AdvertisementApiService apiService = RetrofitClient.getApiService(AdvertisementApiService.class);
         Call<List<Advertisement>> call = apiService.getAdvertisements();
 
-        call.enqueue(new Callback<>() {
+        advertisementRepository.getAdvertisements(new DataCallBack<>() {
             @Override
-            public void onResponse(@NonNull Call<List<Advertisement>> call, @NonNull Response<List<Advertisement>> response) {
-                if (response.isSuccessful()) {
-                    advertisements.setValue(response.body());
-                } else {
-                    errorMessage.setValue("Error: " + response.message());
-                }
+            public void onSuccess(List<Advertisement> data) {
+                advertisements.setValue(data);
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Advertisement>> call, @NonNull Throwable t) {
-                errorMessage.setValue("Failure: " + t.getMessage());
+            public void onError(String errorMessage) {
+                error.setValue(errorMessage);
             }
         });
     }
@@ -51,7 +53,7 @@ public class HomeViewModel extends ViewModel {
         return advertisements;
     }
 
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
+    public LiveData<String> getError() {
+        return error;
     }
 }

@@ -12,6 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.localloop.databinding.FragmentNotificationsBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;

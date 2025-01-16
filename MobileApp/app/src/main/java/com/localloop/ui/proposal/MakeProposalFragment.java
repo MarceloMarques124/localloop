@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment;
 
 import com.localloop.R;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MakeProposalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

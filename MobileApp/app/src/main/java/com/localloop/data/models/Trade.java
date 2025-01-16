@@ -1,4 +1,4 @@
-package com.localloop.models;
+package com.localloop.data.models;
 
 public class Trade extends BaseModel {
     private int id;

@@ -15,17 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.localloop.databinding.FragmentHomeBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private HomeViewModel homeViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -36,7 +38,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
+        homeViewModel.getError().observe(getViewLifecycleOwner(), errorMessage -> {
             if (errorMessage != null) {
                 Log.e("API Failure", errorMessage);
                 showErrorPopup(getContext(), errorMessage);

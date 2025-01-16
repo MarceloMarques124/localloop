@@ -1,4 +1,4 @@
-package com.localloop.models;
+package com.localloop.data.models;
 
 import com.google.gson.annotations.SerializedName;
 

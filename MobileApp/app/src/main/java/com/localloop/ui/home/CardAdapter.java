@@ -12,7 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.localloop.R;
-import com.localloop.models.Advertisement;
+import com.localloop.data.models.Advertisement;
 
 import java.util.List;
 
