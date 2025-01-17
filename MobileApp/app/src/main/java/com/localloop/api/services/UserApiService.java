@@ -16,15 +16,15 @@ public interface UserApiService {
     @GET("users")
     Call<List<User>> getUsers();
 
-    @GET("user/{id}")
+    @GET("users/{id}")
     Call<User> getUser(@Path("id") int id);
 
-    @POST("user")
+    @POST("users")
     Call<User> createUser(@Body User user);
 
-    @PUT("user/{id}")
+    @PUT("users/{id}")
     Call<User> updateUser(@Path("id") int id, @Body User user);
 
-    @DELETE("user/{id}")
+    @DELETE("users/{id}")
     Call<Void> deleteUser(@Path("id") int id);
 }
