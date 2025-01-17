@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.localloop.api.RetrofitClient;
 import com.localloop.api.repositories.AdvertisementRepository;
-import com.localloop.api.services.AdvertisementApiService;
 import com.localloop.data.models.Advertisement;
 import com.localloop.utils.DataCallBack;
 
@@ -15,7 +13,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import retrofit2.Call;
 
 @HiltViewModel
 public class HomeViewModel extends ViewModel {
@@ -33,9 +30,6 @@ public class HomeViewModel extends ViewModel {
     }
 
     private void loadAdvertisements() {
-        AdvertisementApiService apiService = RetrofitClient.getApiService(AdvertisementApiService.class);
-        Call<List<Advertisement>> call = apiService.getAdvertisements();
-
         advertisementRepository.getAdvertisements(new DataCallBack<>() {
             @Override
             public void onSuccess(List<Advertisement> data) {
