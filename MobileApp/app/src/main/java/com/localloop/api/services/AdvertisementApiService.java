@@ -17,15 +17,15 @@ public interface AdvertisementApiService {
     @GET("advertisements")
     Call<List<Advertisement>> getAdvertisements();
 
-    @GET("advertisement/{id}")
+    @GET("advertisements/{id}")
     Call<Advertisement> getAdvertisement(@Path("id") int id);
 
-    @POST("advertisement")
+    @POST("advertisements")
     Call<Advertisement> createAdvertisement(@Body Advertisement advertisement);
 
-    @PUT("advertisement/{id}")
+    @PUT("advertisements/{id}")
     Call<Advertisement> updateAdvertisement(@Path("id") int id, @Body Advertisement advertisement);
 
-    @DELETE("advertisement/{id}")
+    @DELETE("advertisements/{id}")
     Call<Void> deleteAdvertisement(@Path("id") int id);
 }

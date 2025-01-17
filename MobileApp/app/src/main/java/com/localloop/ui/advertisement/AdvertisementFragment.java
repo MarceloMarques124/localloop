@@ -1,6 +1,8 @@
 package com.localloop.ui.advertisement;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +21,6 @@ import androidx.navigation.Navigation;
 import com.localloop.R;
 import com.localloop.databinding.FragmentAdvertisementBinding;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -40,14 +42,51 @@ public class AdvertisementFragment extends Fragment {
 
         LifecycleOwner viewLifecycleOwner = getViewLifecycleOwner();
 
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+        DateTimeFormatter dtfDateOnly = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         viewModel.getDescription().observe(viewLifecycleOwner, binding.descriptionText::setText);
         viewModel.getTitle().observe(viewLifecycleOwner, binding.advertisementName::setText);
-        viewModel.getAdvertisementCreatedDate().observe(viewLifecycleOwner, binding.createdDate::setText);
+
+        viewModel.getAdvertisementCreatedDate().observe(viewLifecycleOwner, dateTime -> {
+            String createdByUser = getString(R.string.CREATED_BY_USER_AT, viewModel.advertisement.getUser().getName(), dtf.format(dateTime));
+            binding.createdDate.setText(createdByUser);
+        });
+
         viewModel.getRating().observe(viewLifecycleOwner, binding.userRating::setRating);
         viewModel.getButtonText().observe(viewLifecycleOwner, binding.actionButton::setText);
-        viewModel.getAccountCreatedAt().observe(viewLifecycleOwner, binding.accountCreated::setText);
+
+        viewModel.getAccountCreatedAt().observe(viewLifecycleOwner, dateTime -> {
+            String accountCreatedAt = getString(R.string.ACCOUNT_CREATED_IN, dtfDateOnly.format(dateTime));
+            binding.accountCreated.setText(accountCreatedAt);
+        });
+
+        viewModel.getError().observe(getViewLifecycleOwner(), errorMessage -> {
+            if (errorMessage != null) {
+                Log.e("API Failure", errorMessage);
+                showErrorPopup(getContext(), errorMessage);
+            }
+        });
+
+        var arguments = getArguments();
+        if (arguments != null) {
+            String value = arguments.getString("ADVERTISEMENT_ID");
+            if (value != null) {
+                int advertisementId = Integer.parseInt(value);
+                viewModel.getAdvertisement(advertisementId);
+            }
+        }
 
         return binding.getRoot();
+    }
+
+    private void showErrorPopup(Context context, String errorMessage) {
+        new AlertDialog.Builder(context)
+                .setTitle("Error")
+                .setMessage(errorMessage)
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
     }
 
     @Override
@@ -81,34 +120,11 @@ public class AdvertisementFragment extends Fragment {
 
         binding.getRoot().setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
 
-        if (getArguments() == null) {
-            return;
-        }
-
         viewModel.setButtonText(getString(R.string.MAKE_PROPOSAL));
 
         binding.actionButton.setOnClickListener(v -> navigateToMakeProposalFragment());
 
-        String advertisementId = getArguments().getString("ADVERTISEMENT_ID");
-
-        String advertisementDescription = "Description for advertisement with ID: " + advertisementId;
-        String advertisementName = "Advertisement " + advertisementId;
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
-        DateTimeFormatter dtfDateOnly = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDateTime now = LocalDateTime.now();
-
-        viewModel.setDescription(advertisementDescription);
-        viewModel.setTitle(advertisementName);
-
-        String createdByUser = getString(R.string.CREATED_BY_USER_AT, "Marcelo", dtf.format(now));
-
-        viewModel.setAdvertisementCreatedDate(createdByUser);
         viewModel.setRating(3f);
-
-        String accountCreatedAt = getString(R.string.ACCOUNT_CREATED_IN, dtfDateOnly.format(now));
-
-        viewModel.setAccountCreatedAt(accountCreatedAt);
     }
 
     private void navigateToHomeFragment() {

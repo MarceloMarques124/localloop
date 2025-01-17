@@ -1,6 +1,7 @@
 package com.localloop.di;
 
 import com.localloop.api.services.AdvertisementApiService;
+import com.localloop.api.services.UserApiService;
 
 import javax.inject.Singleton;
 
@@ -15,7 +16,13 @@ import retrofit2.Retrofit;
 public class ApiServiceModule {
     @Provides
     @Singleton
-    public AdvertisementApiService provideApiService(Retrofit retrofit) {
+    public AdvertisementApiService provideAdvertisementApiService(Retrofit retrofit) {
         return retrofit.create(AdvertisementApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public UserApiService provideUserApiService(Retrofit retrofit) {
+        return retrofit.create(UserApiService.class);
     }
 }

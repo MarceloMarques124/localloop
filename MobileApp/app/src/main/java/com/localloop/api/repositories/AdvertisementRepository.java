@@ -6,5 +6,7 @@ import com.localloop.utils.DataCallBack;
 import java.util.List;
 
 public interface AdvertisementRepository {
-    void getAdvertisements(final DataCallBack<List<Advertisement>> callback);
+    void getAdvertisements(final DataCallBack<List<Advertisement>> callBack);
+
+    void getAdvertisement(int id, final DataCallBack<Advertisement> callBack);
 }
