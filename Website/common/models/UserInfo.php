@@ -2,9 +2,8 @@
 
 namespace common\models;
 
-use backend\models\EditUserInfo;
-use Yii;
-use yii\web\NotFoundHttpException;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user_info".
@@ -15,7 +14,7 @@ use yii\web\NotFoundHttpException;
  * @property string $postal_code
  * @property int $flagged_for_ban
  */
-class UserInfo extends \yii\db\ActiveRecord
+class UserInfo extends ActiveRecord
 {
 
     /**
@@ -58,5 +57,15 @@ class UserInfo extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Reviews]].
+     *
+     * @return ActiveQuery
+     */
+    public function getReviews()
+    {
+        return $this->hasMany(Review::class, ['user_info_id' => 'id']);
     }
 }

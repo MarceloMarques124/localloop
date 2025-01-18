@@ -3,6 +3,7 @@
 namespace frontend\modules\api\controllers;
 
 use common\models\UserInfo;
+use frontend\modules\api\transformers\UserTransformer;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 
@@ -32,19 +33,7 @@ class UserController extends ActiveController
 
         $models = $dataProvider->getModels();
 
-        $flattenedData = array_map(function ($model) {
-            $user = $model['user'];
-
-            $model['username'] = $user['username'];
-            $model['email'] = $user['email'];
-            $model['status'] = $user['status'];
-
-            unset($model['user']);
-
-            return $model;
-        }, $models);
-
-        return $flattenedData;
+        return array_map(fn($model) => UserTransformer::transform($model), $models);
     }
 
     public function actionView($id)
@@ -61,19 +50,6 @@ class UserController extends ActiveController
 
         $models = $dataProvider->getModels();
 
-        $flattenedData = array_map(function ($model) {
-            $user = $model['user'];
-
-            $model['username'] = $user['username'];
-            $model['email'] = $user['email'];
-            $model['status'] = $user['status'];
-
-            unset($model['user']);
-
-            return $model;
-        }, $models);
-
-        return $flattenedData;
+        return array_map(fn($model) => UserTransformer::transform($model), $models);
     }
-
 }

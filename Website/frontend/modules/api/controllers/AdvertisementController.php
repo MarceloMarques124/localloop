@@ -3,6 +3,7 @@
 namespace frontend\modules\api\controllers;
 
 use common\models\Advertisement;
+use frontend\modules\api\transformers\UserTransformer;
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
 
@@ -30,24 +31,8 @@ class AdvertisementController extends ActiveController
             throw new NotFoundHttpException('Advertisement not found.');
         }
 
-        $userInfo = $advertisement['userInfo'];
-        $user = $userInfo['user'];
-
-        $advertisement['user'] = [
-            'id' => $userInfo['id'],
-            'name' => $userInfo['name'],
-            'address' => $userInfo['address'],
-            'postal_code' => $userInfo['postal_code'],
-            'flagged_for_ban' => $userInfo['flagged_for_ban'],
-            'created_at' => $userInfo['created_at'],
-            'updated_at' => $userInfo['updated_at'],
-            'username' => $user['username'],
-            'email' => $user['email'],
-            'status' => $user['status'],
-        ];
-
+        $advertisement['user'] = UserTransformer::transform($advertisement['userInfo']);
         unset($advertisement['userInfo']);
-        unset($advertisement['userInfo']['user']);
 
         return $advertisement;
     }
