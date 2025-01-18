@@ -17,6 +17,9 @@ public class User extends BaseModel {
     private String email;
     private int status;
 
+    @SerializedName("average_stars")
+    private Float averageStars;
+
     public int getId() {
         return id;
     }
@@ -79,5 +82,13 @@ public class User extends BaseModel {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Float getAverageStars() {
+        return averageStars;
+    }
+
+    public void setAverageStars(Float averageStars) {
+        this.averageStars = averageStars;
     }
 }

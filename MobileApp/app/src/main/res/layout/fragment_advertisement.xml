@@ -109,7 +109,18 @@
                         android:isIndicator="true"
                         android:numStars="5"
                         android:rating="4.5"
-                        android:stepSize="0.5" />
+                        android:stepSize="0.5"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/noReviewsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/NO_REVIEWS"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

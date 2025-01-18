@@ -60,7 +60,7 @@ public class AdvertisementViewModel extends ViewModel {
         description.setValue(advertisement.getDescription());
         title.setValue(advertisement.getTitle());
         advertisementCreatedDate.setValue(advertisement.getCreatedAt());
-        // rating =
+        rating.setValue(advertisement.getUser().getAverageStars());
         accountCreatedAt.setValue(advertisement.getUser().getCreatedAt());
         // buttonText =
     }

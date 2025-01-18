@@ -16,4 +16,5 @@
     <string name="USER_ICON">Icon do Utilizador</string>
     <string name="ACCOUNT_CREATED_IN">Conta criada em %1$s</string>
     <string name="VIEW_YOUR_PROPOSAL">Ver a tua Proposta</string>
+    <string name="NO_REVIEWS">Sem avaliações</string>
 </resources>

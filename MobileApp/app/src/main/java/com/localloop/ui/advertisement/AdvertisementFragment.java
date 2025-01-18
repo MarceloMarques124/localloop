@@ -53,7 +53,17 @@ public class AdvertisementFragment extends Fragment {
             binding.createdDate.setText(createdByUser);
         });
 
-        viewModel.getRating().observe(viewLifecycleOwner, binding.userRating::setRating);
+        viewModel.getRating().observe(viewLifecycleOwner, rating -> {
+            if (rating == 0) {
+                binding.userRating.setVisibility(View.GONE);
+                binding.noReviewsText.setVisibility(View.VISIBLE);
+            } else {
+                binding.userRating.setVisibility(View.VISIBLE);
+                binding.noReviewsText.setVisibility(View.GONE);
+                binding.userRating.setRating(rating);
+            }
+        });
+
         viewModel.getButtonText().observe(viewLifecycleOwner, binding.actionButton::setText);
 
         viewModel.getAccountCreatedAt().observe(viewLifecycleOwner, dateTime -> {
@@ -123,8 +133,6 @@ public class AdvertisementFragment extends Fragment {
         viewModel.setButtonText(getString(R.string.MAKE_PROPOSAL));
 
         binding.actionButton.setOnClickListener(v -> navigateToMakeProposalFragment());
-
-        viewModel.setRating(3f);
     }
 
     private void navigateToHomeFragment() {
