@@ -25,7 +25,7 @@ public class AdvertisementViewModel extends ViewModel {
     private final MutableLiveData<String> buttonText;
     private final MutableLiveData<String> error;
     private final AdvertisementRepository advertisementRepository;
-    public Advertisement advertisement;
+    private Advertisement advertisement;
 
     @Inject
     public AdvertisementViewModel(AdvertisementRepository advertisementRepository) {

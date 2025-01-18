@@ -3,9 +3,7 @@ package com.localloop.ui.advertisement;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -49,7 +47,7 @@ public class AdvertisementFragment extends Fragment {
         viewModel.getTitle().observe(viewLifecycleOwner, binding.advertisementName::setText);
 
         viewModel.getAdvertisementCreatedDate().observe(viewLifecycleOwner, dateTime -> {
-            String createdByUser = getString(R.string.CREATED_BY_USER_AT, viewModel.advertisement.getUser().getName(), dtf.format(dateTime));
+            String createdByUser = getString(R.string.CREATED_BY_USER_AT, viewModel.getAdvertisement().getUser().getName(), dtf.format(dateTime));
             binding.createdDate.setText(createdByUser);
         });
 
@@ -101,7 +99,6 @@ public class AdvertisementFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        GestureDetector gestureDetector;
         super.onViewCreated(view, savedInstanceState);
 
         List<Integer> images = List.of(
@@ -113,33 +110,15 @@ public class AdvertisementFragment extends Fragment {
 
         navController = Navigation.findNavController(binding.getRoot());
 
-        gestureDetector = new GestureDetector(requireContext(), new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                float diffX = e2.getX() - e1.getX();
-
-                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffX > 0) {
-                        navigateToHomeFragment();
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        binding.getRoot().setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
-
         viewModel.setButtonText(getString(R.string.MAKE_PROPOSAL));
 
-        binding.actionButton.setOnClickListener(v -> navigateToMakeProposalFragment());
+        binding.actionButton.setOnClickListener(v -> navigateToMakeProposalFragment(viewModel.getAdvertisement().getId()));
     }
 
-    private void navigateToHomeFragment() {
-        navController.navigate(R.id.action_navigation_advertisement_to_navigation_home);
-    }
+    private void navigateToMakeProposalFragment(int id) {
+        Bundle args = new Bundle();
+        args.putString("ADVERTISEMENT_ID", String.valueOf(id));
 
-    private void navigateToMakeProposalFragment() {
-        navController.navigate(R.id.action_navigation_advertisement_to_navigation_make_proposal);
+        navController.navigate(R.id.action_navigation_advertisement_to_navigation_make_proposal, args);
     }
 }
