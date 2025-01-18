@@ -2,10 +2,10 @@ package com.localloop.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.localloop.api.repositories.AdvertisementRepository;
 import com.localloop.data.models.Advertisement;
+import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
 
 import java.util.List;
@@ -15,17 +15,15 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends BaseViewModel {
 
     private final MutableLiveData<List<Advertisement>> advertisements;
-    private final MutableLiveData<String> error;
     private final AdvertisementRepository advertisementRepository;
 
     @Inject
     public HomeViewModel(AdvertisementRepository advertisementRepository) {
         this.advertisementRepository = advertisementRepository;
         advertisements = new MutableLiveData<>();
-        error = new MutableLiveData<>();
         loadAdvertisements();
     }
 
@@ -45,9 +43,5 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<List<Advertisement>> getAdvertisements() {
         return advertisements;
-    }
-
-    public LiveData<String> getError() {
-        return error;
     }
 }

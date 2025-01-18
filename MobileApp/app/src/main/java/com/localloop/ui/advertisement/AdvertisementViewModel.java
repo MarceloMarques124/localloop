@@ -2,10 +2,10 @@ package com.localloop.ui.advertisement;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.localloop.api.repositories.AdvertisementRepository;
 import com.localloop.data.models.Advertisement;
+import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class AdvertisementViewModel extends ViewModel {
+public class AdvertisementViewModel extends BaseViewModel {
 
     private final MutableLiveData<String> description;
     private final MutableLiveData<String> title;
@@ -23,12 +23,12 @@ public class AdvertisementViewModel extends ViewModel {
     private final MutableLiveData<Float> rating;
     private final MutableLiveData<LocalDateTime> accountCreatedAt;
     private final MutableLiveData<String> buttonText;
-    private final MutableLiveData<String> error;
     private final AdvertisementRepository advertisementRepository;
     private Advertisement advertisement;
 
     @Inject
     public AdvertisementViewModel(AdvertisementRepository advertisementRepository) {
+        super();
         this.advertisementRepository = advertisementRepository;
 
         description = new MutableLiveData<>();
@@ -37,7 +37,6 @@ public class AdvertisementViewModel extends ViewModel {
         rating = new MutableLiveData<>();
         accountCreatedAt = new MutableLiveData<>();
         buttonText = new MutableLiveData<>();
-        error = new MutableLiveData<>();
     }
 
     public void getAdvertisement(int id) {
@@ -119,9 +118,5 @@ public class AdvertisementViewModel extends ViewModel {
 
     public void setButtonText(String text) {
         this.buttonText.setValue(text);
-    }
-
-    public LiveData<String> getError() {
-        return error;
     }
 }
