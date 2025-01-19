@@ -26,8 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class AdvertisementFragment extends Fragment {
-    private static final int SWIPE_THRESHOLD = 100;
-    private static final int SWIPE_VELOCITY_THRESHOLD = 100;
     private FragmentAdvertisementBinding binding;
     private AdvertisementViewModel viewModel;
     private NavController navController;
