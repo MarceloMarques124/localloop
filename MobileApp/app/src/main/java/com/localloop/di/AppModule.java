@@ -1,9 +1,14 @@
 package com.localloop.di;
 
+import android.app.Application;
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.localloop.BuildConfig;
 import com.localloop.api.RetrofitClient;
+import com.localloop.utils.AuthInterceptor;
+import com.localloop.utils.SecureStorage;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
@@ -25,12 +30,13 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideOkHttpClient() {
+    public OkHttpClient provideOkHttpClient(SecureStorage secureStorage) {
         return new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(new AuthInterceptor(secureStorage))
                 .build();
     }
 
@@ -53,4 +59,9 @@ public class AppModule {
                 .build();
     }
 
+    @Provides
+    @Singleton
+    public Context provideContext(Application application) {
+        return application.getApplicationContext();
+    }
 }

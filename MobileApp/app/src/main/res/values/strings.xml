@@ -18,4 +18,7 @@
     <string name="ACCOUNT_CREATED_IN">Account created in %1$s</string>
     <string name="VIEW_YOUR_PROPOSAL">View your Proposal</string>
     <string name="NO_REVIEWS">No reviews</string>
+    <string name="INVENTORY">Inventory</string>
+    <string name="USERNAME">Username</string>
+    <string name="PASSWORD">Password</string>
 </resources>

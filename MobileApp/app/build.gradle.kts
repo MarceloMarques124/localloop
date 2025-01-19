@@ -58,6 +58,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
     implementation("com.google.dagger:hilt-android:2.51.1")
+    implementation(libs.activity)
+    implementation("androidx.security:security-crypto:1.0.0")
     annotationProcessor("com.google.dagger:hilt-compiler:2.51.1")
 
     testImplementation(libs.junit)
