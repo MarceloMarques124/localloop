@@ -50,14 +50,9 @@ public class AuthActivity extends AppCompatActivity {
             viewModel.login(username, password);
         });
 
-        viewModel.getLoginResult().observe(this, result -> {
-            Toast.makeText(AuthActivity.this, "Login Success: " + result, Toast.LENGTH_SHORT).show();
-            navigateToHome();
-        });
+        viewModel.getLoginResult().observe(this, result -> navigateToHome());
 
-        viewModel.getError().observe(this, error -> {
-            Toast.makeText(AuthActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
-        });
+        viewModel.getError().observe(this, error -> Toast.makeText(AuthActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show());
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
