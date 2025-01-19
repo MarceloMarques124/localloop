@@ -32,8 +32,6 @@ class AuthController extends ActiveController
             throw new UnauthorizedHttpException('Invalid username or password.');
         }
 
-        return [
-            'auth_key' => $user->getAuthKey(),
-        ];
+        return $user->getAuthKey();
     }
 }
