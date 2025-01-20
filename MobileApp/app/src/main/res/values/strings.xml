@@ -3,7 +3,6 @@
     <string name="EXPLORE">Explore</string>
     <string name="PROFILE">Profile</string>
     <string name="NOTIFICATIONS">Notifications</string>
-
     <string name="AD_IMAGE">Advertisement Image</string>
     <string name="AD_TITLE">Advertisement Title</string>
     <string name="AD_DESCRIPTION">Advertisement Description</string>
@@ -21,4 +20,9 @@
     <string name="INVENTORY">Inventory</string>
     <string name="USERNAME">Username</string>
     <string name="PASSWORD">Password</string>
+    <string name="DONT_HAVE_AN_ACCOUNT_SIGN_UP">Don\'t have an account? Sign Up</string>
+    <string name="ALREADY_HAVE_AN_ACCOUNT_LOG_IN">Already have an account? Log In</string>
+    <string name="LOGIN">Login</string>
+    <string name="SIGN_UP">Sign Up</string>
+    <string name="THE_FIELD_CANT_BE_EMPTY">The %1$s can\'t be empty!</string>
 </resources>

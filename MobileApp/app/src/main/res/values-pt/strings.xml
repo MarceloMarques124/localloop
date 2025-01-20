@@ -18,6 +18,11 @@
     <string name="VIEW_YOUR_PROPOSAL">Ver a tua Proposta</string>
     <string name="NO_REVIEWS">Sem avaliações</string>
     <string name="INVENTORY">Inventário</string>
-    <string name="USERNAME">Utilizador</string>
+    <string name="USERNAME">Nome do Utilizador</string>
     <string name="PASSWORD">Palavra-Passe</string>
+    <string name="DONT_HAVE_AN_ACCOUNT_SIGN_UP">Não tens conta? Regista-te</string>
+    <string name="ALREADY_HAVE_AN_ACCOUNT_LOG_IN">Já tens conta? Inicia sessão</string>
+    <string name="LOGIN">Iniciar sessão</string>
+    <string name="SIGN_UP">Registar-se</string>
+    <string name="THE_FIELD_CANT_BE_EMPTY">O campo %1$s não pode estar vazio!</string>
 </resources>
