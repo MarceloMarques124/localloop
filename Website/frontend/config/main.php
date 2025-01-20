@@ -69,7 +69,9 @@ return [
                 ['class' => UrlRule::class, 'controller' => 'api/trade', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/trade-proposal', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/trade-proposal-item', 'tokens' => ['{id}' => '<id:\\d+>']],
-                ['class' => UrlRule::class, 'controller' => 'api/user', 'tokens' => ['{id}' => '<id:\\d+>']],
+                ['class' => UrlRule::class, 'controller' => 'api/user', 'extraPatterns' => [
+                    'GET current-user' => 'get-current-user',
+                ]],
             ],
         ],
     ],

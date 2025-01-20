@@ -4,9 +4,11 @@ namespace frontend\modules\api\controllers;
 
 use common\models\UserInfo;
 use frontend\modules\api\transformers\UserTransformer;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
+use yii\web\BadRequestHttpException;
 
 
 class UserController extends ActiveController
@@ -63,5 +65,25 @@ class UserController extends ActiveController
         $models = $dataProvider->getModels();
 
         return array_map(fn($model) => UserTransformer::transform($model), $models);
+    }
+
+    /**
+     * @throws BadRequestHttpException
+     */
+    public function actionGetCurrentUser()
+    {
+        $user = Yii::$app->user->identity;
+
+        if ($user === null) {
+            throw new BadRequestHttpException('User not authenticated.');
+        }
+
+        $userInfo = UserInfo::find()->where(['id' => $user->id])->one();
+
+        if (!$userInfo) {
+            throw new BadRequestHttpException('User info not found.');
+        }
+
+        return UserTransformer::transform($userInfo);
     }
 }
