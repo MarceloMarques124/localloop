@@ -81,14 +81,16 @@ public class AuthActivity extends AppCompatActivity {
             return false;
         }
 
-        if (email.isEmpty()) {
-            binding.email.setError(getString(R.string.THE_FIELD_CANT_BE_EMPTY, getString(R.string.EMAIL)));
-            return false;
-        }
+        if (!isLogin) {
+            if (email.isEmpty()) {
+                binding.email.setError(getString(R.string.THE_FIELD_CANT_BE_EMPTY, getString(R.string.EMAIL)));
+                return false;
+            }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.email.setError(getString(R.string.INVALID_EMAIL));
-            return false;
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.email.setError(getString(R.string.INVALID_EMAIL));
+                return false;
+            }
         }
 
         return true;
