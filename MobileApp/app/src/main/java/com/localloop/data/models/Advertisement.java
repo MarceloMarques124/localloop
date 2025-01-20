@@ -12,6 +12,9 @@ public class Advertisement extends BaseModel {
     @SerializedName("is_service")
     private Boolean isService;
 
+    @SerializedName("is_saved")
+    private Boolean isSaved;
+
     public User getUser() {
         return user;
     }
@@ -58,5 +61,13 @@ public class Advertisement extends BaseModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Boolean getSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(Boolean saved) {
+        isSaved = saved;
     }
 }
