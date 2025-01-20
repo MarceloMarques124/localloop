@@ -5,12 +5,24 @@ namespace frontend\modules\api\controllers;
 use common\models\UserInfo;
 use frontend\modules\api\transformers\UserTransformer;
 use yii\data\ActiveDataProvider;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 
 
 class UserController extends ActiveController
 {
     public $modelClass = UserInfo::class;
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
+        ];
+
+        return $behaviors;
+    }
 
     public function actions()
     {
