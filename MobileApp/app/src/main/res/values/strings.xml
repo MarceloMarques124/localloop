@@ -25,4 +25,6 @@
     <string name="LOGIN">Login</string>
     <string name="SIGN_UP">Sign Up</string>
     <string name="THE_FIELD_CANT_BE_EMPTY">The %1$s can\'t be empty!</string>
+    <string name="EMAIL" translatable="false">Email</string>
+    <string name="INVALID_EMAIL">Invalid Email</string>
 </resources>
