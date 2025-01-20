@@ -3,7 +3,9 @@
 namespace frontend\modules\api\controllers;
 
 use common\models\Advertisement;
+use common\models\SavedAdvertisement;
 use frontend\modules\api\transformers\UserTransformer;
+use Yii;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
@@ -27,7 +29,7 @@ class AdvertisementController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['view']);
+        unset($actions['view'], $actions['index']);
         return $actions;
     }
 
@@ -47,5 +49,26 @@ class AdvertisementController extends ActiveController
         unset($advertisement['userInfo']);
 
         return $advertisement;
+    }
+
+    public function actionIndex()
+    {
+        $userId = Yii::$app->user->id;
+
+        $advertisements = Advertisement::find()
+            ->with(['userInfo', 'userInfo.user'])
+            ->asArray()
+            ->all();
+
+        foreach ($advertisements as &$advertisement) {
+            $isSaved = SavedAdvertisement::find()
+                ->where(['advertisement_id' => $advertisement['id'], 'user_info_id' => $userId])
+                ->exists();
+            $advertisement['is_saved'] = $isSaved ? 1 : 0;
+
+            unset($advertisement['userInfo']);
+        }
+
+        return $advertisements;
     }
 }
