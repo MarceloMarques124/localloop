@@ -27,4 +27,7 @@ public interface UserApiService {
 
     @DELETE("users/{id}")
     Call<Void> deleteUser(@Path("id") int id);
+
+    @GET("users/current-user")
+    Call<User> getCurrentUser();
 }
