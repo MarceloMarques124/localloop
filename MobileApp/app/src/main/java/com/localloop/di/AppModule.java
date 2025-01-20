@@ -19,6 +19,7 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -31,12 +32,15 @@ public class AppModule {
     @Provides
     @Singleton
     public OkHttpClient provideOkHttpClient(SecureStorage secureStorage) {
+        Interceptor connectionCloseInterceptor = chain -> chain.proceed(chain.request());
+
         return new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(new AuthInterceptor(secureStorage))
+                .addInterceptor(connectionCloseInterceptor)
                 .build();
     }
 
