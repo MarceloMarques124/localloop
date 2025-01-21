@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,14 +15,11 @@ import com.localloop.R;
 import com.localloop.data.models.Advertisement;
 
 import java.util.List;
+
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     private final List<Advertisement> advertisements;
     private final SaveAdvertisementCallback callback;
-
-    public interface SaveAdvertisementCallback {
-        void onSaveClicked(Advertisement advertisement);
-    }
 
     public CardAdapter(List<Advertisement> advertisements, SaveAdvertisementCallback callback) {
         this.advertisements = advertisements;
@@ -43,9 +39,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         holder.bind(advertisement);
     }
 
+
     @Override
     public int getItemCount() {
         return advertisements.size();
+    }
+
+    public interface SaveAdvertisementCallback {
+        void onSaveClicked(Advertisement advertisement);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,7 +65,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             title.setText(advertisement.getTitle());
             description.setText(advertisement.getDescription());
 
+            // Set save button onClickListener
             saveIcon.setOnClickListener(v -> callback.onSaveClicked(advertisement));
+
+            // Set click on entire card to navigate
+            itemView.setOnClickListener(v -> {
+                // Get NavController directly from the context, which is safer for navigation
+                NavController navController = Navigation.findNavController(itemView);
+
+                // Bundle to pass data to next fragment
+                Bundle bundle = new Bundle();
+                bundle.putString("ADVERTISEMENT_ID", String.valueOf(advertisement.getId())); // pass data to next fragment
+
+                // Navigate to the detailed fragment
+                navController.navigate(R.id.action_navigation_home_to_navigation_advertisement, bundle);
+            });
         }
     }
 }

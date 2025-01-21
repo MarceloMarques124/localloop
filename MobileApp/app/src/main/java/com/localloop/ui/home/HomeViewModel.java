@@ -49,7 +49,7 @@ public class HomeViewModel extends BaseViewModel {
         });
     }
 
-    public void saveAdvertisement(SavedAdvertisement savedAdvertisement) {
+    public void insertSavedAdvertisement(SavedAdvertisement savedAdvertisement) {
         savedAdvertisementRepository.insertSavedAdvertisement(savedAdvertisement.getAdvertisementId(), new DataCallBack<>() {
             @Override
             public void onSuccess(SavedAdvertisement data) {

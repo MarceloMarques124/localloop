@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
                 recyclerView.setAdapter(new CardAdapter(advertisements, advertisement -> {
                     SavedAdvertisement savedAdvertisement = new SavedAdvertisement();
                     savedAdvertisement.setAdvertisementId(savedAdvertisement.getAdvertisementId()); // Set the advertisement ID
-                    homeViewModel.saveAdvertisement(savedAdvertisement); // Call the method to save the advertisement
+                    homeViewModel.insertSavedAdvertisement(savedAdvertisement); // Call the method to save the advertisement
                 }));
             }
         });
