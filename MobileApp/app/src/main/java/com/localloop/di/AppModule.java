@@ -6,7 +6,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.localloop.BuildConfig;
-import com.localloop.api.RetrofitClient;
+import com.localloop.utils.Adapters;
 import com.localloop.utils.AuthInterceptor;
 import com.localloop.utils.SecureStorage;
 
@@ -48,8 +48,8 @@ public class AppModule {
     @Singleton
     public Gson provideGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(Boolean.class, new RetrofitClient.BooleanTypeAdapter())
-                .registerTypeAdapter(LocalDateTime.class, new RetrofitClient.LocalDateTimeAdapter())
+                .registerTypeAdapter(Boolean.class, new Adapters.BooleanTypeAdapter())
+                .registerTypeAdapter(LocalDateTime.class, new Adapters.LocalDateTimeAdapter())
                 .create();
     }
 
