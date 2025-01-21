@@ -16,7 +16,6 @@ public class SecureStorage {
 
     public SecureStorage(Context context) {
         try {
-            // Correct way to get or create the master key
             String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
 
             encryptedSharedPreferences = (EncryptedSharedPreferences) EncryptedSharedPreferences.create(
@@ -31,17 +30,14 @@ public class SecureStorage {
         }
     }
 
-    // Storing the Auth Key securely
     public void storeAuthKey(String authKey) {
         encryptedSharedPreferences.edit().putString(AUTH_KEY, authKey).apply();
     }
 
-    // Retrieving the Auth Key securely
     public String getAuthKey() {
         return encryptedSharedPreferences.getString(AUTH_KEY, null);
     }
 
-    // Removing the Auth Key securely
     public void removeAuthKey() {
         encryptedSharedPreferences.edit().remove(AUTH_KEY).apply();
     }
