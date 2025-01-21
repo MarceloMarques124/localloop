@@ -13,9 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.localloop.data.models.SavedAdvertisement;
 import com.localloop.databinding.FragmentHomeBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
+
 
 @AndroidEntryPoint
 public class HomeFragment extends Fragment {
@@ -34,9 +36,14 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getAdvertisements().observe(getViewLifecycleOwner(), advertisements -> {
             if (advertisements != null) {
-                recyclerView.setAdapter(new CardAdapter(advertisements));
+                recyclerView.setAdapter(new CardAdapter(advertisements, advertisement -> {
+                    SavedAdvertisement savedAdvertisement = new SavedAdvertisement();
+                    savedAdvertisement.setAdvertisementId(savedAdvertisement.getAdvertisementId()); // Set the advertisement ID
+                    homeViewModel.saveAdvertisement(savedAdvertisement); // Call the method to save the advertisement
+                }));
             }
         });
+
 
         homeViewModel.getError().observe(getViewLifecycleOwner(), errorMessage -> {
             if (errorMessage != null) {
