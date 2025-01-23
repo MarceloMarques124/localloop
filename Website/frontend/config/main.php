@@ -1,5 +1,6 @@
 <?php
 
+use frontend\modules\api\controllers\CurrentUserController;
 use frontend\modules\api\ModuleApi;
 use yii\log\FileTarget;
 use yii\rest\UrlRule;
@@ -72,6 +73,15 @@ return [
                 ['class' => UrlRule::class, 'controller' => 'api/user', 'extraPatterns' => [
                     'GET current-user' => 'get-current-user',
                 ]],
+                [
+                    'class' => UrlRule::class,
+                    'controller' => CurrentUserController::class,
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'index',
+                        'GET items' => 'items',
+                    ],
+                ],
             ],
         ],
     ],
