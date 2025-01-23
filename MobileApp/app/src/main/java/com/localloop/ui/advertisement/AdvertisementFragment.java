@@ -18,6 +18,7 @@ import androidx.navigation.Navigation;
 
 import com.localloop.R;
 import com.localloop.databinding.FragmentAdvertisementBinding;
+import com.localloop.ui.proposal.MakeProposalDrawer;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -110,13 +111,9 @@ public class AdvertisementFragment extends Fragment {
 
         viewModel.setButtonText(getString(R.string.MAKE_PROPOSAL));
 
-        binding.actionButton.setOnClickListener(v -> navigateToMakeProposalFragment(viewModel.getAdvertisement().getId()));
-    }
-
-    private void navigateToMakeProposalFragment(int id) {
-        Bundle args = new Bundle();
-        args.putString("ADVERTISEMENT_ID", String.valueOf(id));
-
-        navController.navigate(R.id.action_navigation_advertisement_to_navigation_make_proposal, args);
+        binding.actionButton.setOnClickListener(v -> {
+            MakeProposalDrawer makeProposalDrawer = new MakeProposalDrawer();
+            makeProposalDrawer.show(getParentFragmentManager(), makeProposalDrawer.getTag());
+        });
     }
 }

@@ -6,6 +6,10 @@ public class Trade extends BaseModel {
     private int userInfoId;
     private int state;
 
+    public Trade(int advertisementId) {
+        this.advertisementId = advertisementId;
+    }
+
     public int getId() {
         return id;
     }

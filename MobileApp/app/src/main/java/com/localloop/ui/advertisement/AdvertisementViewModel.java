@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.localloop.api.repositories.AdvertisementRepository;
+import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.data.models.Advertisement;
+import com.localloop.data.models.Item;
 import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -17,26 +20,22 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class AdvertisementViewModel extends BaseViewModel {
 
-    private final MutableLiveData<String> description;
-    private final MutableLiveData<String> title;
-    private final MutableLiveData<LocalDateTime> advertisementCreatedDate;
-    private final MutableLiveData<Float> rating;
-    private final MutableLiveData<LocalDateTime> accountCreatedAt;
-    private final MutableLiveData<String> buttonText;
+    private final MutableLiveData<String> description = new MutableLiveData<>();
+    private final MutableLiveData<String> title = new MutableLiveData<>();
+    private final MutableLiveData<LocalDateTime> advertisementCreatedDate = new MutableLiveData<>();
+    private final MutableLiveData<Float> rating = new MutableLiveData<>();
+    private final MutableLiveData<LocalDateTime> accountCreatedAt = new MutableLiveData<>();
+    private final MutableLiveData<String> buttonText = new MutableLiveData<>();
+    private final MutableLiveData<List<Item>> currentUserItems = new MutableLiveData<>();
+
     private final AdvertisementRepository advertisementRepository;
+    private final CurrentUserRepository currentUserRepository;
     private Advertisement advertisement;
 
     @Inject
-    public AdvertisementViewModel(AdvertisementRepository advertisementRepository) {
-        super();
+    public AdvertisementViewModel(AdvertisementRepository advertisementRepository, CurrentUserRepository currentUserRepository) {
         this.advertisementRepository = advertisementRepository;
-
-        description = new MutableLiveData<>();
-        title = new MutableLiveData<>();
-        advertisementCreatedDate = new MutableLiveData<>();
-        rating = new MutableLiveData<>();
-        accountCreatedAt = new MutableLiveData<>();
-        buttonText = new MutableLiveData<>();
+        this.currentUserRepository = currentUserRepository;
     }
 
     public void getAdvertisement(int id) {
@@ -76,40 +75,20 @@ public class AdvertisementViewModel extends BaseViewModel {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description.setValue(description);
-    }
-
     public LiveData<String> getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title.setValue(title);
     }
 
     public LiveData<LocalDateTime> getAdvertisementCreatedDate() {
         return advertisementCreatedDate;
     }
 
-    public void setAdvertisementCreatedDate(LocalDateTime createdDate) {
-        advertisementCreatedDate.setValue(createdDate);
-    }
-
     public LiveData<Float> getRating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
-        this.rating.setValue(rating);
-    }
-
     public LiveData<LocalDateTime> getAccountCreatedAt() {
         return accountCreatedAt;
-    }
-
-    public void setAccountCreatedAt(LocalDateTime createdDate) {
-        accountCreatedAt.setValue(createdDate);
     }
 
     public LiveData<String> getButtonText() {
@@ -118,5 +97,23 @@ public class AdvertisementViewModel extends BaseViewModel {
 
     public void setButtonText(String text) {
         this.buttonText.setValue(text);
+    }
+
+    public LiveData<List<Item>> getItems() {
+        return currentUserItems;
+    }
+
+    public void getCurrentUserItems() {
+        currentUserRepository.getItems(new DataCallBack<>() {
+            @Override
+            public void onSuccess(List<Item> data) {
+                currentUserItems.setValue(data);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                error.setValue(errorMessage);
+            }
+        });
     }
 }

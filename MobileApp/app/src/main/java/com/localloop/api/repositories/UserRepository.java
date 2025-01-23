@@ -5,6 +5,4 @@ import com.localloop.utils.DataCallBack;
 
 public interface UserRepository {
     void getUser(int id, final DataCallBack<User> callBack);
-
-    void getCurrentUser(final DataCallBack<User> callBack);
 }
