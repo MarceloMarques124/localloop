@@ -27,4 +27,10 @@
     <string name="THE_FIELD_CANT_BE_EMPTY">The %1$s can\'t be empty!</string>
     <string name="EMAIL" translatable="false">Email</string>
     <string name="INVALID_EMAIL">Invalid Email</string>
+    <string name="ITEM_IMAGE">Item Image</string>
+    <string name="SELECTED">Selected</string>
+    <string name="ENTER_YOUR_MESSAGE">Enter your message</string>
+    <string name="CLOSE">Close</string>
+    <string name="ADD_TO_CART">Add to Cart</string>
+    <string name="SEND_PROPOSAL">Send Proposal</string>
 </resources>

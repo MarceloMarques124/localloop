@@ -26,4 +26,9 @@
     <string name="SIGN_UP">Registar-se</string>
     <string name="THE_FIELD_CANT_BE_EMPTY">O campo %1$s não pode estar vazio!</string>
     <string name="INVALID_EMAIL">Email inválido</string>
+    <string name="ITEM_IMAGE">Imagem do Item</string>
+    <string name="SELECTED">Selecionado</string>
+    <string name="ENTER_YOUR_MESSAGE">Escreve a tua mensagem</string>
+    <string name="CLOSE">Fechar</string>
+    <string name="ADD_TO_CART">Adicionar ao Carrinho</string>
 </resources>
