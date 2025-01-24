@@ -33,4 +33,9 @@
     <string name="ADD_TO_CART">Adicionar ao Carrinho</string>
     <string name="SEND_PROPOSAL">Enviar Proposta</string>
     <string name="PLEASE_SELECT_AT_LEAST_ONE_ITEM">Por favor seleciona pelo menos um item.</string>
+    <string name="CONFIRM_PROPOSAL_SEND">Confirmar o envio da proposta</string>
+    <string name="ARE_YOU_SURE_YOU_WANT_TO_SEND_THIS_PROPOSAL">Tens a certeza que queres enviar esta proposta?</string>
+    <string name="YES">Sim</string>
+    <string name="NO">Não</string>
+    <string name="PROPOSAL_SENT">Proposta enviada!</string>
 </resources>

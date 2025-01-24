@@ -34,4 +34,9 @@
     <string name="ADD_TO_CART">Add to Cart</string>
     <string name="SEND_PROPOSAL">Send Proposal</string>
     <string name="PLEASE_SELECT_AT_LEAST_ONE_ITEM">Please select at least one item.</string>
+    <string name="CONFIRM_PROPOSAL_SEND">Confirm Proposal Send</string>
+    <string name="ARE_YOU_SURE_YOU_WANT_TO_SEND_THIS_PROPOSAL">Are you sure you want to send this proposal?</string>
+    <string name="YES">Yes</string>
+    <string name="NO">No</string>
+    <string name="PROPOSAL_SENT">Proposal sent!</string>
 </resources>
