@@ -5,6 +5,7 @@ import com.localloop.api.services.AuthApiService;
 import com.localloop.api.services.CurrentUserApiService;
 import com.localloop.api.services.ItemApiService;
 import com.localloop.api.services.SavedAdvertisementApiService;
+import com.localloop.api.services.TradeApiService;
 import com.localloop.api.services.UserApiService;
 
 import javax.inject.Singleton;
@@ -52,5 +53,11 @@ public class ApiServiceModule {
     @Singleton
     public CurrentUserApiService provideCurrentUserApiService(Retrofit retrofit) {
         return retrofit.create(CurrentUserApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public TradeApiService provideTradeApiService(Retrofit retrofit) {
+        return retrofit.create(TradeApiService.class);
     }
 }
