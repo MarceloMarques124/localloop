@@ -33,4 +33,5 @@
     <string name="CLOSE">Close</string>
     <string name="ADD_TO_CART">Add to Cart</string>
     <string name="SEND_PROPOSAL">Send Proposal</string>
+    <string name="PLEASE_SELECT_AT_LEAST_ONE_ITEM">Please select at least one item.</string>
 </resources>

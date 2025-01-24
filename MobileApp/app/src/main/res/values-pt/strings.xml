@@ -31,4 +31,6 @@
     <string name="ENTER_YOUR_MESSAGE">Escreve a tua mensagem</string>
     <string name="CLOSE">Fechar</string>
     <string name="ADD_TO_CART">Adicionar ao Carrinho</string>
+    <string name="SEND_PROPOSAL">Enviar Proposta</string>
+    <string name="PLEASE_SELECT_AT_LEAST_ONE_ITEM">Por favor seleciona pelo menos um item.</string>
 </resources>
