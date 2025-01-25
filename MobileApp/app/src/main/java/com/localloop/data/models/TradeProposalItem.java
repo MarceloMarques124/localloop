@@ -11,11 +11,6 @@ public class TradeProposalItem extends BaseModel {
     private TradeProposal tradeProposal;
     private Item item;
 
-    public TradeProposalItem(int tradeProposalId, int itemId) {
-        this.tradeProposalId = tradeProposalId;
-        this.itemId = itemId;
-    }
-
     public Item getItem() {
         return item;
     }

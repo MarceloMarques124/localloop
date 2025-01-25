@@ -12,9 +12,6 @@ public class TradeProposal extends BaseModel {
     private int tradeId;
     private int state;
     private String message;
-    public TradeProposal(String message) {
-        this.message = message;
-    }
 
     public Trade getTrade() {
         return trade;

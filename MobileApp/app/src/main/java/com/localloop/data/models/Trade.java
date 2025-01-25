@@ -10,10 +10,6 @@ public class Trade extends BaseModel {
     private List<TradeProposal> tradeProposals;
     private Advertisement advertisement;
 
-    public Trade(int advertisementId) {
-        this.advertisementId = advertisementId;
-    }
-
     public Advertisement getAdvertisement() {
         return advertisement;
     }
