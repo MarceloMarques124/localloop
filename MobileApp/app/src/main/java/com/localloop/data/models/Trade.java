@@ -1,10 +1,14 @@
 package com.localloop.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Trade extends BaseModel {
     private int id;
+    @SerializedName("advertisement_id")
     private int advertisementId;
+    @SerializedName("user_info_id")
     private int userInfoId;
     private int state;
     private List<TradeProposal> tradeProposals;
