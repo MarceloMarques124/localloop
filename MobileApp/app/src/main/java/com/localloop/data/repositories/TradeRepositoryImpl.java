@@ -3,6 +3,7 @@ package com.localloop.data.repositories;
 import androidx.annotation.NonNull;
 
 import com.localloop.api.repositories.TradeRepository;
+import com.localloop.api.requests.InitTradeRequest;
 import com.localloop.api.services.TradeApiService;
 import com.localloop.data.models.Trade;
 import com.localloop.utils.DataCallBack;
@@ -19,8 +20,8 @@ public class TradeRepositoryImpl implements TradeRepository {
     }
 
     @Override
-    public void createTrade(Trade trade, DataCallBack<Trade> callBack) {
-        var call = tradeApiService.createTrade(trade);
+    public void initTrade(InitTradeRequest trade, DataCallBack<Trade> callBack) {
+        var call = tradeApiService.initTrade(trade);
 
         call.enqueue(new Callback<>() {
             @Override
