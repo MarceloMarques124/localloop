@@ -6,7 +6,6 @@ use common\models\Item;
 use common\models\Trade;
 use common\models\TradeProposal;
 use common\models\TradeProposalItem;
-use Exception;
 use Throwable;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -39,7 +38,7 @@ class TradeController extends ActiveController
     }
 
     /**
-     * @throws Exception
+     * @throws BadRequestHttpException
      */
     public function actionCreate(): array
     {
