@@ -4,14 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.localloop.api.repositories.AdvertisementRepository;
-import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.data.models.Advertisement;
-import com.localloop.data.models.Item;
 import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,20 +23,18 @@ public class AdvertisementViewModel extends BaseViewModel {
     private final MutableLiveData<Float> rating = new MutableLiveData<>();
     private final MutableLiveData<LocalDateTime> accountCreatedAt = new MutableLiveData<>();
     private final MutableLiveData<String> buttonText = new MutableLiveData<>();
-    private final MutableLiveData<List<Item>> currentUserItems = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> hasProposal = new MutableLiveData<>();
 
     private final AdvertisementRepository advertisementRepository;
-    private final CurrentUserRepository currentUserRepository;
     private Advertisement advertisement;
 
     @Inject
-    public AdvertisementViewModel(AdvertisementRepository advertisementRepository, CurrentUserRepository currentUserRepository) {
+    public AdvertisementViewModel(AdvertisementRepository advertisementRepository) {
         this.advertisementRepository = advertisementRepository;
-        this.currentUserRepository = currentUserRepository;
     }
 
     public void getAdvertisement(int id) {
-        advertisementRepository.getAdvertisement(id, new DataCallBack<>() {
+        advertisementRepository.fetchAdvertisement(id, new DataCallBack<>() {
             @Override
             public void onSuccess(Advertisement advertisement) {
                 updateData(advertisement);
@@ -60,7 +55,7 @@ public class AdvertisementViewModel extends BaseViewModel {
         advertisementCreatedDate.setValue(advertisement.getCreatedAt());
         rating.setValue(advertisement.getUser().getAverageStars());
         accountCreatedAt.setValue(advertisement.getUser().getCreatedAt());
-        // buttonText =
+        hasProposal.setValue(advertisement.getCurrentUserTrade() != null);
     }
 
     public Advertisement getAdvertisement() {
@@ -69,6 +64,14 @@ public class AdvertisementViewModel extends BaseViewModel {
 
     public void setAdvertisement(Advertisement advertisement) {
         this.advertisement = advertisement;
+    }
+
+    public LiveData<Boolean> getHasProposal() {
+        return hasProposal;
+    }
+
+    public void setHasProposal(boolean hasProposal) {
+        this.hasProposal.setValue(hasProposal);
     }
 
     public LiveData<String> getDescription() {
@@ -97,23 +100,5 @@ public class AdvertisementViewModel extends BaseViewModel {
 
     public void setButtonText(String text) {
         this.buttonText.setValue(text);
-    }
-
-    public LiveData<List<Item>> getItems() {
-        return currentUserItems;
-    }
-
-    public void getCurrentUserItems() {
-        currentUserRepository.getItems(new DataCallBack<>() {
-            @Override
-            public void onSuccess(List<Item> data) {
-                currentUserItems.setValue(data);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                error.setValue(errorMessage);
-            }
-        });
     }
 }

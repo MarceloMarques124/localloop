@@ -43,14 +43,14 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
     }
 
     @Override
-    public void getAdvertisement(int id, DataCallBack<Advertisement> callBack) {
+    public void fetchAdvertisement(int id, DataCallBack<Advertisement> callBack) {
         var call = apiService.getAdvertisement(id);
 
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<Advertisement> call, @NonNull Response<Advertisement> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    
+
                     callBack.onSuccess(response.body());
                 } else {
                     callBack.onError("Failed to fetch advertisement");

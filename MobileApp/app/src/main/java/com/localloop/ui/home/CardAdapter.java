@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.localloop.R;
 import com.localloop.data.models.Advertisement;
+import com.localloop.utils.ArgumentKeys;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             NavController navController = Navigation.findNavController(v);
 
             Bundle args = new Bundle();
-            args.putString("ADVERTISEMENT_ID", String.valueOf(advertisement.getId()));
+            args.putString(ArgumentKeys.ADVERTISEMENT_ID, String.valueOf(advertisement.getId()));
 
             navController.navigate(R.id.action_navigation_home_to_navigation_advertisement, args);
         });

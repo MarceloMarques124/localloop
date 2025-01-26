@@ -135,7 +135,7 @@
         android:background="@drawable/rounded_button"
         android:contentDescription="@string/MAKE_PROPOSAL"
         android:padding="12dp"
-        android:text="@{advertisementViewModel.buttonText}"
+        android:text="@string/MAKE_PROPOSAL"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="8dp" />

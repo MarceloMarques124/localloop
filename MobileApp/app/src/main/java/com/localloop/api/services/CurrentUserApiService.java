@@ -14,5 +14,5 @@ public interface CurrentUserApiService {
     Call<User> getUser();
 
     @GET("current-user/items")
-    Call<List<Item>> getItems();
+    Call<List<Item>> fetchItems();
 }
