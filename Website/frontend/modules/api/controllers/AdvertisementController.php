@@ -4,6 +4,7 @@ namespace frontend\modules\api\controllers;
 
 use common\models\Advertisement;
 use common\models\SavedAdvertisement;
+use common\models\Trade;
 use frontend\modules\api\transformers\UserTransformer;
 use Yii;
 use yii\filters\auth\HttpBearerAuth;
@@ -15,7 +16,7 @@ class AdvertisementController extends ActiveController
 {
     public $modelClass = Advertisement::class;
 
-    public function behaviors()
+    public function behaviors(): array
     {
         $behaviors = parent::behaviors();
 
@@ -26,13 +27,16 @@ class AdvertisementController extends ActiveController
         return $behaviors;
     }
 
-    public function actions()
+    public function actions(): array
     {
         $actions = parent::actions();
         unset($actions['view'], $actions['index']);
         return $actions;
     }
 
+    /**
+     * @throws NotFoundHttpException
+     */
     public function actionView($id)
     {
         $advertisement = Advertisement::find()
@@ -45,13 +49,21 @@ class AdvertisementController extends ActiveController
             throw new NotFoundHttpException('Advertisement not found.');
         }
 
+        $currentUserId = Yii::$app->user->id;
+
+        $userTrade = Trade::find()
+            ->where(['advertisement_id' => $id, 'user_info_id' => $currentUserId])
+            ->asArray()
+            ->one();
+
+        $advertisement['current_user_trade'] = $userTrade;
         $advertisement['user'] = UserTransformer::transform($advertisement['userInfo']);
         unset($advertisement['userInfo']);
 
         return $advertisement;
     }
 
-    public function actionIndex()
+    public function actionIndex(): array
     {
         $userId = Yii::$app->user->id;
 
