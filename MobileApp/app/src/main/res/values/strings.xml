@@ -40,4 +40,6 @@
     <string name="NO">No</string>
     <string name="PROPOSAL_SENT">Proposal sent!</string>
     <string name="ERROR">Error</string>
+    <string name="ADD">Add</string>
+    <string name="ADD_NEW_ADVERTISEMENT">Add new Advertisement</string>
 </resources>

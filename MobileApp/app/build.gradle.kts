@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.localloop"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.localloop"
         minSdk = 34
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -54,13 +54,14 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
 
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
-    implementation("com.google.dagger:hilt-android:2.51.1")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.hilt.android)
     implementation(libs.activity)
-    implementation("androidx.security:security-crypto:1.0.0")
-    annotationProcessor("com.google.dagger:hilt-compiler:2.51.1")
+    implementation(libs.security.crypto)
+    implementation(libs.material)
+    annotationProcessor(libs.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
