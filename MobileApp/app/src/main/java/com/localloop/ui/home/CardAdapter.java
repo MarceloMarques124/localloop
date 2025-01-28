@@ -76,7 +76,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
                 // Bundle to pass data to next fragment
                 Bundle bundle = new Bundle();
-                bundle.putString("ADVERTISEMENT_ID", String.valueOf(advertisement.getId())); // pass data to next fragment
+                bundle.putString(ArgumentKeys.ADVERTISEMENT_ID, String.valueOf(advertisement.getId())); // pass data to next fragment
 
                 // Navigate to the detailed fragment
                 navController.navigate(R.id.action_navigation_home_to_navigation_advertisement, bundle);
