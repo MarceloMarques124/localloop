@@ -37,21 +37,7 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
-
-        <action
-            android:id="@+id/action_navigation_advertisement_to_navigation_make_proposal"
-            app:destination="@id/navigation_make_proposal"
-            app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/slide_out_down"
-            app:popEnterAnim="@anim/slide_in_down"
-            app:popExitAnim="@anim/slide_out_up" />
     </fragment>
-
-    <fragment
-        android:id="@+id/navigation_make_proposal"
-        android:name="com.localloop.ui.proposal.MakeProposalFragment"
-        android:label="@string/MAKE_PROPOSAL"
-        tools:layout="@layout/fragment_make_proposal" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

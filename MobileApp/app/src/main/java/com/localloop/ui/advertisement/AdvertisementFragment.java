@@ -13,11 +13,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.localloop.R;
 import com.localloop.databinding.FragmentAdvertisementBinding;
+import com.localloop.ui.proposal.MakeProposalDrawer;
+import com.localloop.utils.ArgumentKeys;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -28,7 +28,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class AdvertisementFragment extends Fragment {
     private FragmentAdvertisementBinding binding;
     private AdvertisementViewModel viewModel;
-    private NavController navController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,10 +35,25 @@ public class AdvertisementFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(AdvertisementViewModel.class);
 
+        getParentFragmentManager().setFragmentResultListener(ArgumentKeys.PROPOSAL_SENT, getViewLifecycleOwner(), (requestKey, result) -> {
+            boolean proposalSent = result.getBoolean(ArgumentKeys.PROPOSAL_SENT, false);
+            if (proposalSent) {
+                viewModel.setHasProposal(true);
+            }
+        });
+
         LifecycleOwner viewLifecycleOwner = getViewLifecycleOwner();
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
         DateTimeFormatter dtfDateOnly = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        viewModel.getHasProposal().observe(viewLifecycleOwner, value -> {
+            if (Boolean.TRUE.equals(viewModel.getHasProposal().getValue())) {
+                viewModel.setButtonText(getString(R.string.VIEW_YOUR_PROPOSAL));
+            } else {
+                viewModel.setButtonText(getString(R.string.MAKE_PROPOSAL));
+            }
+        });
 
         viewModel.getDescription().observe(viewLifecycleOwner, binding.descriptionText::setText);
         viewModel.getTitle().observe(viewLifecycleOwner, binding.advertisementName::setText);
@@ -76,7 +90,7 @@ public class AdvertisementFragment extends Fragment {
 
         var arguments = getArguments();
         if (arguments != null) {
-            String value = arguments.getString("ADVERTISEMENT_ID");
+            String value = arguments.getString(ArgumentKeys.ADVERTISEMENT_ID);
             if (value != null) {
                 int advertisementId = Integer.parseInt(value);
                 viewModel.getAdvertisement(advertisementId);
@@ -88,7 +102,7 @@ public class AdvertisementFragment extends Fragment {
 
     private void showErrorPopup(Context context, String errorMessage) {
         new AlertDialog.Builder(context)
-                .setTitle("Error")
+                .setTitle(getString(R.string.ERROR))
                 .setMessage(errorMessage)
                 .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                 .create()
@@ -106,17 +120,17 @@ public class AdvertisementFragment extends Fragment {
         CarouselAdapter adapter = new CarouselAdapter(images);
         binding.viewPagerCarousel.setAdapter(adapter);
 
-        navController = Navigation.findNavController(binding.getRoot());
+        binding.actionButton.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putInt(ArgumentKeys.ADVERTISEMENT_ID, viewModel.getAdvertisement().getId());
 
-        viewModel.setButtonText(getString(R.string.MAKE_PROPOSAL));
+            if (Boolean.TRUE.equals(viewModel.getHasProposal().getValue())) {
 
-        binding.actionButton.setOnClickListener(v -> navigateToMakeProposalFragment(viewModel.getAdvertisement().getId()));
-    }
-
-    private void navigateToMakeProposalFragment(int id) {
-        Bundle args = new Bundle();
-        args.putString("ADVERTISEMENT_ID", String.valueOf(id));
-
-        navController.navigate(R.id.action_navigation_advertisement_to_navigation_make_proposal, args);
+            } else {
+                MakeProposalDrawer makeProposalDrawer = new MakeProposalDrawer();
+                makeProposalDrawer.setArguments(args);
+                makeProposalDrawer.show(getParentFragmentManager(), makeProposalDrawer.getTag());
+            }
+        });
     }
 }

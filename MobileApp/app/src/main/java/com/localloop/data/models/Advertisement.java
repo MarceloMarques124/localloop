@@ -14,6 +14,16 @@ public class Advertisement extends BaseModel {
 
     @SerializedName("is_saved")
     private Boolean isSaved;
+    @SerializedName("current_user_trade")
+    private Trade currentUserTrade;
+
+    public Trade getCurrentUserTrade() {
+        return currentUserTrade;
+    }
+
+    public void setCurrentUserTrade(Trade currentUserTrade) {
+        this.currentUserTrade = currentUserTrade;
+    }
 
     public User getUser() {
         return user;

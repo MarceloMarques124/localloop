@@ -27,4 +27,17 @@
     <string name="THE_FIELD_CANT_BE_EMPTY">The %1$s can\'t be empty!</string>
     <string name="EMAIL" translatable="false">Email</string>
     <string name="INVALID_EMAIL">Invalid Email</string>
+    <string name="ITEM_IMAGE">Item Image</string>
+    <string name="SELECTED">Selected</string>
+    <string name="ENTER_YOUR_MESSAGE">Enter your message</string>
+    <string name="CLOSE">Close</string>
+    <string name="ADD_TO_CART">Add to Cart</string>
+    <string name="SEND_PROPOSAL">Send Proposal</string>
+    <string name="PLEASE_SELECT_AT_LEAST_ONE_ITEM">Please select at least one item.</string>
+    <string name="CONFIRM_PROPOSAL_SEND">Confirm Proposal Send</string>
+    <string name="ARE_YOU_SURE_YOU_WANT_TO_SEND_THIS_PROPOSAL">Are you sure you want to send this proposal?</string>
+    <string name="YES">Yes</string>
+    <string name="NO">No</string>
+    <string name="PROPOSAL_SENT">Proposal sent!</string>
+    <string name="ERROR">Error</string>
 </resources>

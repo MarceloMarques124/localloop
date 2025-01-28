@@ -8,5 +8,5 @@ import java.util.List;
 public interface AdvertisementRepository {
     void getAdvertisements(final DataCallBack<List<Advertisement>> callBack);
 
-    void getAdvertisement(int id, final DataCallBack<Advertisement> callBack);
+    void fetchAdvertisement(int id, final DataCallBack<Advertisement> callBack);
 }

@@ -17,30 +17,24 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class AdvertisementViewModel extends BaseViewModel {
 
-    private final MutableLiveData<String> description;
-    private final MutableLiveData<String> title;
-    private final MutableLiveData<LocalDateTime> advertisementCreatedDate;
-    private final MutableLiveData<Float> rating;
-    private final MutableLiveData<LocalDateTime> accountCreatedAt;
-    private final MutableLiveData<String> buttonText;
+    private final MutableLiveData<String> description = new MutableLiveData<>();
+    private final MutableLiveData<String> title = new MutableLiveData<>();
+    private final MutableLiveData<LocalDateTime> advertisementCreatedDate = new MutableLiveData<>();
+    private final MutableLiveData<Float> rating = new MutableLiveData<>();
+    private final MutableLiveData<LocalDateTime> accountCreatedAt = new MutableLiveData<>();
+    private final MutableLiveData<String> buttonText = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> hasProposal = new MutableLiveData<>();
+
     private final AdvertisementRepository advertisementRepository;
     private Advertisement advertisement;
 
     @Inject
     public AdvertisementViewModel(AdvertisementRepository advertisementRepository) {
-        super();
         this.advertisementRepository = advertisementRepository;
-
-        description = new MutableLiveData<>();
-        title = new MutableLiveData<>();
-        advertisementCreatedDate = new MutableLiveData<>();
-        rating = new MutableLiveData<>();
-        accountCreatedAt = new MutableLiveData<>();
-        buttonText = new MutableLiveData<>();
     }
 
     public void getAdvertisement(int id) {
-        advertisementRepository.getAdvertisement(id, new DataCallBack<>() {
+        advertisementRepository.fetchAdvertisement(id, new DataCallBack<>() {
             @Override
             public void onSuccess(Advertisement advertisement) {
                 updateData(advertisement);
@@ -61,7 +55,7 @@ public class AdvertisementViewModel extends BaseViewModel {
         advertisementCreatedDate.setValue(advertisement.getCreatedAt());
         rating.setValue(advertisement.getUser().getAverageStars());
         accountCreatedAt.setValue(advertisement.getUser().getCreatedAt());
-        // buttonText =
+        hasProposal.setValue(advertisement.getCurrentUserTrade() != null);
     }
 
     public Advertisement getAdvertisement() {
@@ -72,44 +66,32 @@ public class AdvertisementViewModel extends BaseViewModel {
         this.advertisement = advertisement;
     }
 
-    public LiveData<String> getDescription() {
-        return description;
+    public LiveData<Boolean> getHasProposal() {
+        return hasProposal;
     }
 
-    public void setDescription(String description) {
-        this.description.setValue(description);
+    public void setHasProposal(boolean hasProposal) {
+        this.hasProposal.setValue(hasProposal);
+    }
+
+    public LiveData<String> getDescription() {
+        return description;
     }
 
     public LiveData<String> getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title.setValue(title);
-    }
-
     public LiveData<LocalDateTime> getAdvertisementCreatedDate() {
         return advertisementCreatedDate;
-    }
-
-    public void setAdvertisementCreatedDate(LocalDateTime createdDate) {
-        advertisementCreatedDate.setValue(createdDate);
     }
 
     public LiveData<Float> getRating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
-        this.rating.setValue(rating);
-    }
-
     public LiveData<LocalDateTime> getAccountCreatedAt() {
         return accountCreatedAt;
-    }
-
-    public void setAccountCreatedAt(LocalDateTime createdDate) {
-        accountCreatedAt.setValue(createdDate);
     }
 
     public LiveData<String> getButtonText() {

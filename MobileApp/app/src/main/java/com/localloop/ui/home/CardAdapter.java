@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.localloop.R;
 import com.localloop.data.models.Advertisement;
+import com.localloop.utils.ArgumentKeys;
 
 import java.util.List;
 
