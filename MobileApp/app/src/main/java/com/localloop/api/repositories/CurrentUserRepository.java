@@ -9,5 +9,5 @@ import java.util.List;
 public interface CurrentUserRepository {
     void getUser(DataCallBack<User> callBack);
 
-    void getItems(DataCallBack<List<Item>> callBack);
+    void fetchItems(DataCallBack<List<Item>> callBack);
 }

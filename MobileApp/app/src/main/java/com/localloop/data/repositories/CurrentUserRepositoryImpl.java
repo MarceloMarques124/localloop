@@ -44,8 +44,8 @@ public class CurrentUserRepositoryImpl implements CurrentUserRepository {
     }
 
     @Override
-    public void getItems(DataCallBack<List<Item>> callBack) {
-        var call = apiService.getItems();
+    public void fetchItems(DataCallBack<List<Item>> callBack) {
+        var call = apiService.fetchItems();
 
         call.enqueue(new Callback<>() {
             @Override
