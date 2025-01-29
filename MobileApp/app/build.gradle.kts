@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.security.crypto)
     implementation(libs.material)
+    implementation(libs.legacy.support.v4)
     annotationProcessor(libs.hilt.compiler)
 
     testImplementation(libs.junit)
