@@ -11,9 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.localloop.R;
 import com.localloop.databinding.FragmentHomeBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -46,7 +49,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        binding.fab.setOnClickListener(this::navigateToCreateAdvertisement);
+
         return root;
+    }
+
+    private void navigateToCreateAdvertisement(View v) {
+        NavController navController = Navigation.findNavController(v);
+
+        navController.navigate(R.id.action_navigation_home_to_navigation_create_advertisement);
     }
 
     private void showErrorPopup(Context context, String errorMessage) {

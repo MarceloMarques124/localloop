@@ -29,6 +29,4 @@ public class CreateAdvertisementFragment extends Fragment {
 
         return binding.getRoot();
     }
-
-    
 }
