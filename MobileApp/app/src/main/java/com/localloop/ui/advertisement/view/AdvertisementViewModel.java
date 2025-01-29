@@ -1,4 +1,4 @@
-package com.localloop.ui.advertisement;
+package com.localloop.ui.advertisement.view;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

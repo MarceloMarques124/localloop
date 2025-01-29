@@ -39,4 +39,7 @@
     <string name="NO">Não</string>
     <string name="PROPOSAL_SENT">Proposta enviada!</string>
     <string name="ERROR">Erro</string>
+    <string name="ADD">Adicionar</string>
+    <string name="ADD_NEW_ADVERTISEMENT">Adicionar um novo Anúncio</string>
+    <string name="CREATE_ADVERTISEMENT">Criar Anúncio</string>
 </resources>
