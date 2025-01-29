@@ -39,7 +39,7 @@
             app:argType="string" />
 
         <action
-            android:id="@+id/action_navigation_advertisement_to_navigation_home"
+            android:id="@+id/action_navigation_create_advertisement_to_navigation_home"
             app:destination="@id/navigation_home"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
@@ -52,7 +52,7 @@
         android:name="com.localloop.ui.advertisement.create.CreateAdvertisementFragment"
         android:label="@string/CREATE_ADVERTISEMENT"
         tools:layout="@layout/fragment_create_advertisement">
-        
+
         <action
             android:id="@+id/action_navigation_advertisement_to_navigation_home"
             app:destination="@id/navigation_home"
