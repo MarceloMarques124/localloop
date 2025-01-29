@@ -3,7 +3,7 @@ package com.localloop.data.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Advertisement extends BaseModel {
-    public User user;
+    private User user;
     private int id;
     @SerializedName("user_info_id")
     private int userId;
