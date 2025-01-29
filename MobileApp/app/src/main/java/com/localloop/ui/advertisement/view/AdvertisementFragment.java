@@ -1,4 +1,4 @@
-package com.localloop.ui.advertisement;
+package com.localloop.ui.advertisement.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.localloop.R;
 import com.localloop.databinding.FragmentAdvertisementBinding;
+import com.localloop.ui.advertisement.CarouselAdapter;
 import com.localloop.ui.proposal.MakeProposalDrawer;
 import com.localloop.utils.ArgumentKeys;
 
