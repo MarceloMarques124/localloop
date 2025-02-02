@@ -1,5 +1,7 @@
 package com.localloop.di;
 
+import android.content.Context;
+
 import com.localloop.api.repositories.AdvertisementRepository;
 import com.localloop.api.repositories.AuthRepository;
 import com.localloop.api.repositories.CurrentUserRepository;
@@ -33,8 +35,8 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    AdvertisementRepository providesAdvertisementRepository(AdvertisementApiService apiService) {
-        return new AdvertisementRepositoryImpl(apiService);
+    AdvertisementRepository providesAdvertisementRepository(AdvertisementApiService apiService, Context context) {
+        return new AdvertisementRepositoryImpl(apiService, context);
     }
 
     @Provides
