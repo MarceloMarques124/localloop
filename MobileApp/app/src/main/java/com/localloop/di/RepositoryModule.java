@@ -1,72 +1,50 @@
 package com.localloop.di;
 
-import android.content.Context;
-
 import com.localloop.api.repositories.AdvertisementRepository;
 import com.localloop.api.repositories.AuthRepository;
 import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.api.repositories.SavedAdvertisementRepository;
 import com.localloop.api.repositories.TradeRepository;
 import com.localloop.api.repositories.UserRepository;
-import com.localloop.api.services.AdvertisementApiService;
-import com.localloop.api.services.AuthApiService;
-import com.localloop.api.services.CurrentUserApiService;
-import com.localloop.api.services.SavedAdvertisementApiService;
-import com.localloop.api.services.TradeApiService;
-import com.localloop.api.services.UserApiService;
 import com.localloop.data.repositories.AdvertisementRepositoryImpl;
 import com.localloop.data.repositories.AuthRepositoryImpl;
 import com.localloop.data.repositories.CurrentUserRepositoryImpl;
 import com.localloop.data.repositories.SavedAdvertisementRepositoryImpl;
 import com.localloop.data.repositories.TradeRepositoryImpl;
 import com.localloop.data.repositories.UserRepositoryImpl;
-import com.localloop.utils.SecureStorage;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 
 @Module
 @InstallIn(SingletonComponent.class)
-public class RepositoryModule {
+public abstract class RepositoryModule {
 
-    @Provides
+    @Binds
     @Singleton
-    AdvertisementRepository providesAdvertisementRepository(AdvertisementApiService apiService, Context context) {
-        return new AdvertisementRepositoryImpl(apiService, context);
-    }
+    abstract AdvertisementRepository bindAdvertisementRepository(AdvertisementRepositoryImpl repository);
 
-    @Provides
+    @Binds
     @Singleton
-    UserRepository providesUserRepository(UserApiService apiService) {
-        return new UserRepositoryImpl(apiService);
-    }
+    abstract UserRepository bindUserRepository(UserRepositoryImpl repository);
 
-    @Provides
+    @Binds
     @Singleton
-    AuthRepository providesAuthRepository(AuthApiService apiService, SecureStorage secureStorage) {
-        return new AuthRepositoryImpl(apiService, secureStorage);
-    }
+    abstract AuthRepository bindAuthRepository(AuthRepositoryImpl repository);
 
-    @Provides
+    @Binds
     @Singleton
-    SavedAdvertisementRepository providesSavedAdvertisementRepository(SavedAdvertisementApiService apiService) {
-        return new SavedAdvertisementRepositoryImpl(apiService);
-    }
+    abstract SavedAdvertisementRepository bindSavedAdvertisementRepository(SavedAdvertisementRepositoryImpl repository);
 
-    @Provides
+    @Binds
     @Singleton
-    CurrentUserRepository providesCurrentUserRepository(CurrentUserApiService apiService) {
-        return new CurrentUserRepositoryImpl(apiService);
-    }
+    abstract CurrentUserRepository bindCurrentUserRepository(CurrentUserRepositoryImpl repository);
 
-    @Provides
+    @Binds
     @Singleton
-    TradeRepository providesTradeRepository(TradeApiService apiService) {
-        return new TradeRepositoryImpl(apiService);
-    }
-
+    abstract TradeRepository bindTradeRepository(TradeRepositoryImpl repository);
 }

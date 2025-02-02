@@ -8,6 +8,8 @@ import com.localloop.api.services.TradeApiService;
 import com.localloop.data.models.Trade;
 import com.localloop.utils.DataCallBack;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,6 +17,7 @@ import retrofit2.Response;
 public class TradeRepositoryImpl implements TradeRepository {
     private final TradeApiService tradeApiService;
 
+    @Inject
     public TradeRepositoryImpl(TradeApiService tradeApiService) {
         this.tradeApiService = tradeApiService;
     }

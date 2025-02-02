@@ -43,5 +43,7 @@
     <string name="ADD_NEW_ADVERTISEMENT">Adicionar um novo Anúncio</string>
     <string name="CREATE_ADVERTISEMENT">Criar Anúncio</string>
     <string name="FAILED_TO_FETCH">Falha ao obter %1$s</string>
+    <string name="FAILED_TO_CREATE">Falha ao criar %1$s</string>
     <string name="THE_ADVERTISEMENT">O Anúncio</string>
+    <string name="THE_ADVERTISEMENTS">Os Anúncios</string>
 </resources>
