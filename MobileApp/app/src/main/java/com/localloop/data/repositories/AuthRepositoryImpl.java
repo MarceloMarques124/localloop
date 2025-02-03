@@ -10,6 +10,8 @@ import com.localloop.utils.DataCallBack;
 import com.localloop.utils.ErrorRequest;
 import com.localloop.utils.SecureStorage;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,6 +20,7 @@ public class AuthRepositoryImpl implements AuthRepository {
     private final AuthApiService apiService;
     private final SecureStorage secureStorage;
 
+    @Inject
     public AuthRepositoryImpl(AuthApiService apiService, SecureStorage secureStorage) {
         this.apiService = apiService;
         this.secureStorage = secureStorage;

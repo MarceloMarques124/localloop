@@ -43,4 +43,8 @@
     <string name="ADD">Add</string>
     <string name="ADD_NEW_ADVERTISEMENT">Add new Advertisement</string>
     <string name="CREATE_ADVERTISEMENT">Create advertisement</string>
+    <string name="FAILED_TO_FETCH">Failed to fetch %1$s</string>
+    <string name="FAILED_TO_CREATE">Failed to create %1$s</string>
+    <string name="THE_ADVERTISEMENT">The Advertisement</string>
+    <string name="THE_ADVERTISEMENTS">The Advertisements</string>
 </resources>
