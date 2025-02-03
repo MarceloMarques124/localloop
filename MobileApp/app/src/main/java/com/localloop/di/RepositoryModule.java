@@ -26,10 +26,8 @@ public abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    AdvertisementRepository providesAdvertisementRepository(AdvertisementApiService apiService,
-            CurrentUserRepository currentUserRepository) {
-        return new AdvertisementRepositoryImpl(apiService, currentUserRepository); // Corrected here
-    }
+    abstract AdvertisementRepository bindAdvertisementRepository(AdvertisementRepositoryImpl repository);
+
 
     @Binds
     @Singleton

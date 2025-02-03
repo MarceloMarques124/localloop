@@ -1,5 +1,7 @@
 package com.localloop.data.repositories;
 
+import androidx.annotation.NonNull;
+
 import com.localloop.api.repositories.AdvertisementRepository;
 import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.api.services.AdvertisementApiService;
@@ -22,7 +24,7 @@ public class AdvertisementRepositoryImpl extends BaseRepositoryImpl implements A
 
     @Inject
     public AdvertisementRepositoryImpl(AdvertisementApiService apiService,
-            CurrentUserRepository currentUserRepository) {
+                                       CurrentUserRepository currentUserRepository) {
         this.apiService = apiService;
         this.currentUserRepository = currentUserRepository;
     }
@@ -55,7 +57,7 @@ public class AdvertisementRepositoryImpl extends BaseRepositoryImpl implements A
 
     @Override
     public void createAdvertisement(String title, String description, boolean isService, String imagePath,
-            final DataCallBack<Advertisement> callback) {
+                                    final DataCallBack<Advertisement> callback) {
         currentUserRepository.getUser(new DataCallBack<>() {
             @Override
             public void onSuccess(User user) {
@@ -70,7 +72,7 @@ public class AdvertisementRepositoryImpl extends BaseRepositoryImpl implements A
     }
 
     private void createdAd(User user, String title, String description, boolean isService,
-            DataCallBack<Advertisement> callback) {
+                           DataCallBack<Advertisement> callback) {
         int userId = user.getId();
         Advertisement advertisement = new Advertisement(userId, title, description, isService);
         var call = apiService.createAdvertisement(advertisement);
