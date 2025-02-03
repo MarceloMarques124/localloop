@@ -1,8 +1,5 @@
 package com.localloop.di;
 
-import android.app.Application;
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.localloop.BuildConfig;
@@ -19,7 +16,6 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -32,16 +28,18 @@ public class AppModule {
     @Provides
     @Singleton
     public OkHttpClient provideOkHttpClient(SecureStorage secureStorage) {
-        Interceptor connectionCloseInterceptor = chain -> chain.proceed(chain.request());
-
-        return new OkHttpClient.Builder()
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new AuthInterceptor(secureStorage))
-                .addInterceptor(connectionCloseInterceptor)
-                .build();
+                .addInterceptor(new AuthInterceptor(secureStorage));
+
+        if (BuildConfig.DEBUG) {
+            clientBuilder.addInterceptor(new HttpLoggingInterceptor()
+                    .setLevel(HttpLoggingInterceptor.Level.BODY));
+        }
+
+        return clientBuilder.build();
     }
 
     @Provides
@@ -61,11 +59,5 @@ public class AppModule {
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-    }
-
-    @Provides
-    @Singleton
-    public Context provideContext(Application application) {
-        return application.getApplicationContext();
     }
 }

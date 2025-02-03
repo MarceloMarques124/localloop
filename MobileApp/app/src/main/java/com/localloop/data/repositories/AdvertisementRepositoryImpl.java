@@ -1,7 +1,5 @@
 package com.localloop.data.repositories;
 
-import androidx.annotation.NonNull;
-
 import com.localloop.api.repositories.AdvertisementRepository;
 import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.api.services.AdvertisementApiService;
@@ -17,36 +15,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AdvertisementRepositoryImpl implements AdvertisementRepository {
+public class AdvertisementRepositoryImpl extends BaseRepositoryImpl implements AdvertisementRepository {
 
     private final AdvertisementApiService apiService;
     private final CurrentUserRepository currentUserRepository;
 
     @Inject
-    public AdvertisementRepositoryImpl(AdvertisementApiService apiService, CurrentUserRepository currentUserRepository) {
+    public AdvertisementRepositoryImpl(AdvertisementApiService apiService,
+            CurrentUserRepository currentUserRepository) {
         this.apiService = apiService;
         this.currentUserRepository = currentUserRepository;
     }
 
     @Override
-    public void getAdvertisements(final DataCallBack<List<Advertisement>> callBack) {
-        var call = apiService.getAdvertisements();
-
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Advertisement>> call, @NonNull Response<List<Advertisement>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callBack.onSuccess(response.body());
-                } else {
-                    callBack.onError("Failed to fetch advertisements");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Advertisement>> call, @NonNull Throwable t) {
-                callBack.onError(t.getMessage());
-            }
-        });
+    public void getAdvertisements(DataCallBack<List<Advertisement>> callBack) {
+        enqueueCall(apiService.getAdvertisements(), callBack, "");
     }
 
     @Override
@@ -71,7 +54,8 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
     }
 
     @Override
-    public void createAdvertisement(String title, String description, boolean isService, String imagePath, final DataCallBack<Advertisement> callback) {
+    public void createAdvertisement(String title, String description, boolean isService, String imagePath,
+            final DataCallBack<Advertisement> callback) {
         currentUserRepository.getUser(new DataCallBack<>() {
             @Override
             public void onSuccess(User user) {
@@ -85,7 +69,8 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
         });
     }
 
-    private void createdAd(User user, String title, String description, boolean isService, DataCallBack<Advertisement> callback) {
+    private void createdAd(User user, String title, String description, boolean isService,
+            DataCallBack<Advertisement> callback) {
         int userId = user.getId();
         Advertisement advertisement = new Advertisement(userId, title, description, isService);
         var call = apiService.createAdvertisement(advertisement);
