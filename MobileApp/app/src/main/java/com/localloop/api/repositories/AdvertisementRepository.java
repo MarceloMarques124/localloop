@@ -9,4 +9,7 @@ public interface AdvertisementRepository {
     void getAdvertisements(final DataCallBack<List<Advertisement>> callBack);
 
     void fetchAdvertisement(int id, final DataCallBack<Advertisement> callBack);
+
+    void createAdvertisement(String title, String description, boolean isService, String imagePath, DataCallBack<Advertisement> callback);
+
 }

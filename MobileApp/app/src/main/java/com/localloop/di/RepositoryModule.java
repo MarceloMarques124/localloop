@@ -33,8 +33,8 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    AdvertisementRepository providesAdvertisementRepository(AdvertisementApiService apiService) {
-        return new AdvertisementRepositoryImpl(apiService);
+    AdvertisementRepository providesAdvertisementRepository(AdvertisementApiService apiService, CurrentUserRepository currentUserRepository) {
+        return new AdvertisementRepositoryImpl(apiService, currentUserRepository); // Corrected here
     }
 
     @Provides

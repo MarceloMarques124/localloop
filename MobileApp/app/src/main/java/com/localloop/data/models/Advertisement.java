@@ -17,6 +17,14 @@ public class Advertisement extends BaseModel {
     @SerializedName("current_user_trade")
     private Trade currentUserTrade;
 
+
+    public Advertisement(int userId, String title, String description, Boolean isService) {
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.isService = isService;
+    }
+
     public Trade getCurrentUserTrade() {
         return currentUserTrade;
     }
@@ -80,4 +88,6 @@ public class Advertisement extends BaseModel {
     public void setSaved(Boolean saved) {
         isSaved = saved;
     }
+
+
 }
