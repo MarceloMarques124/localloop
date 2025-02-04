@@ -2,7 +2,9 @@
 
 namespace frontend\modules\api\controllers;
 
+use common\models\Advertisement;
 use common\models\Item;
+use common\models\Trade;
 use common\models\UserInfo;
 use frontend\modules\api\transformers\UserTransformer;
 use Yii;
@@ -66,4 +68,32 @@ class CurrentUserController extends ActiveController
 
         return Item::find()->where(['user_info_id' => $user->id])->asArray()->all();
     }
+
+    /**
+     * @throws BadRequestHttpException
+     */
+    public function actionTradePartners(): array
+    {
+        $user = Yii::$app->user->identity;
+
+        if ($user === null) {
+            throw new BadRequestHttpException('User not authenticated.');
+        }
+
+        $userInfoId = $user->id;
+
+        $trades = Trade::find()
+            ->where(['user_info_id' => $userInfoId])
+            ->orWhere(['advertisement_id' => Advertisement::find()->select('id')->where(['user_info_id' => $userInfoId])])
+            ->all();
+
+        $userIds = array_unique(array_map(function ($trade) use ($userInfoId) {
+            return $trade->user_info_id !== $userInfoId ? $trade->user_info_id : $trade->advertisement->user_info_id;
+        }, $trades));
+
+        $tradePartners = UserInfo::find()->where(['id' => $userIds])->all();
+
+        return array_map(fn($partner) => UserTransformer::transform($partner), $tradePartners);
+    }
+
 }

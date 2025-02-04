@@ -80,6 +80,7 @@ return [
                     'extraPatterns' => [
                         'GET' => 'index',
                         'GET items' => 'items',
+                        'GET trade-partners' => 'get-trade-partners',
                     ],
                 ],
             ],
