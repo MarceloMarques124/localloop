@@ -10,4 +10,6 @@ public interface CurrentUserRepository {
     void getUser(DataCallBack<User> callBack);
 
     void fetchItems(DataCallBack<List<Item>> callBack);
+
+    void getTradePartners(DataCallBack<List<User>> callBack);
 }
