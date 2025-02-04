@@ -7,6 +7,8 @@ use common\models\SavedAdvertisement;
 use common\models\Trade;
 use frontend\modules\api\transformers\UserTransformer;
 use Yii;
+use yii\db\Exception;
+use yii\db\StaleObjectException;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
@@ -30,7 +32,7 @@ class AdvertisementController extends ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
-        unset($actions['view'], $actions['index']);
+        unset($actions['view'], $actions['index'], $actions['create']);
         return $actions;
     }
 
@@ -82,5 +84,26 @@ class AdvertisementController extends ActiveController
         }
 
         return $advertisements;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function actionCreate(): Advertisement
+    {
+        $userId = Yii::$app->user->id;
+
+        $request = Yii::$app->request->post();
+
+        $advertisement = new Advertisement();
+        $advertisement->user_info_id = $userId;
+        $advertisement->title = $request['title'] ?? null;
+        $advertisement->description = $request['description'] ?? null;
+        $advertisement->is_service = $request['is_service'] ?? 0;
+
+        if (!$advertisement->save()) {
+            throw new StaleObjectException('Failed to save Advertisement: ' . json_encode($advertisement->errors));
+        }
+        return $advertisement;
     }
 }

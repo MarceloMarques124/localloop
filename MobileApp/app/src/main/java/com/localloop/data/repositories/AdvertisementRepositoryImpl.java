@@ -6,7 +6,6 @@ import com.localloop.api.repositories.AdvertisementRepository;
 import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.api.services.AdvertisementApiService;
 import com.localloop.data.models.Advertisement;
-import com.localloop.data.models.User;
 import com.localloop.utils.DataCallBack;
 
 import java.util.List;
@@ -56,25 +55,7 @@ public class AdvertisementRepositoryImpl extends BaseRepositoryImpl implements A
     }
 
     @Override
-    public void createAdvertisement(String title, String description, boolean isService, String imagePath,
-                                    final DataCallBack<Advertisement> callback) {
-        currentUserRepository.getUser(new DataCallBack<>() {
-            @Override
-            public void onSuccess(User user) {
-                createdAd(user, title, description, isService, callback);
-            }
-
-            @Override
-            public void onError(String error) {
-                callback.onError(error);
-            }
-        });
-    }
-
-    private void createdAd(User user, String title, String description, boolean isService,
-                           DataCallBack<Advertisement> callback) {
-        int userId = user.getId();
-        Advertisement advertisement = new Advertisement(userId, title, description, isService);
+    public void createAdvertisement(Advertisement advertisement, DataCallBack<Advertisement> callback) {
         var call = apiService.createAdvertisement(advertisement);
 
         call.enqueue(new Callback<>() {

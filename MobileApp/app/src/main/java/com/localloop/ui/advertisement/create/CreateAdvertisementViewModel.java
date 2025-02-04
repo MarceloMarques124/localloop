@@ -33,7 +33,9 @@ public class CreateAdvertisementViewModel extends BaseViewModel {
     }
 
     public void createAdvertisement(String title, String description, boolean isService, String imagePath) {
-        advertisementRepository.createAdvertisement(title, description, isService, imagePath, new DataCallBack<Advertisement>() {
+        Advertisement advertisement = new Advertisement(title, description, isService);
+
+        advertisementRepository.createAdvertisement(advertisement, new DataCallBack<>() {
             @Override
             public void onSuccess(Advertisement data) {
                 createdAdvertisement.setValue(data);
