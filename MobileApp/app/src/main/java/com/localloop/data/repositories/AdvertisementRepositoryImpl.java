@@ -1,9 +1,6 @@
 package com.localloop.data.repositories;
 
-import androidx.annotation.NonNull;
-
 import com.localloop.api.repositories.AdvertisementRepository;
-import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.api.services.AdvertisementApiService;
 import com.localloop.data.models.Advertisement;
 import com.localloop.utils.DataCallBack;
@@ -12,66 +9,27 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class AdvertisementRepositoryImpl extends BaseRepositoryImpl implements AdvertisementRepository {
 
     private final AdvertisementApiService apiService;
-    private final CurrentUserRepository currentUserRepository;
 
     @Inject
-    public AdvertisementRepositoryImpl(AdvertisementApiService apiService,
-                                       CurrentUserRepository currentUserRepository) {
+    public AdvertisementRepositoryImpl(AdvertisementApiService apiService) {
         this.apiService = apiService;
-        this.currentUserRepository = currentUserRepository;
     }
 
     @Override
     public void getAdvertisements(DataCallBack<List<Advertisement>> callBack) {
-        enqueueCall(apiService.getAdvertisements(), callBack, "");
+        enqueueCall(apiService.getAdvertisements(), callBack, "Failed to get the advertisements");
     }
 
     @Override
     public void fetchAdvertisement(int id, DataCallBack<Advertisement> callBack) {
-        var call = apiService.getAdvertisement(id);
-
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<Advertisement> call, @NonNull Response<Advertisement> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callBack.onSuccess(response.body());
-                } else {
-                    callBack.onError("Failed to fetch advertisement");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Advertisement> call, @NonNull Throwable t) {
-                callBack.onError(t.getMessage());
-            }
-        });
+        enqueueCall(apiService.getAdvertisement(id), callBack, "Failed to fetch advertisement");
     }
 
     @Override
-    public void createAdvertisement(Advertisement advertisement, DataCallBack<Advertisement> callback) {
-        var call = apiService.createAdvertisement(advertisement);
-
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<Advertisement> call, @NonNull Response<Advertisement> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body());
-                } else {
-                    callback.onError("Failed to create advertisement");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Advertisement> call, @NonNull Throwable t) {
-                callback.onError(t.getMessage());
-            }
-        });
+    public void createAdvertisement(Advertisement advertisement, DataCallBack<Advertisement> callBack) {
+        enqueueCall(apiService.createAdvertisement(advertisement), callBack, "Failed to create advertisement");
     }
 }
