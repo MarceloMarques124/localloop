@@ -11,6 +11,8 @@ import com.localloop.utils.ErrorRequest;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,6 +20,7 @@ import retrofit2.Response;
 public class CurrentUserRepositoryImpl implements CurrentUserRepository {
     private final CurrentUserApiService apiService;
 
+    @Inject
     public CurrentUserRepositoryImpl(CurrentUserApiService apiService) {
         this.apiService = apiService;
     }
