@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,18 +17,25 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.localloop.R;
+import com.localloop.api.repositories.ReportRepository;
+import com.localloop.data.models.Report;
 import com.localloop.databinding.FragmentAdvertisementBinding;
 import com.localloop.ui.advertisement.CarouselAdapter;
 import com.localloop.ui.proposal.MakeProposalDrawer;
 import com.localloop.utils.ArgumentKeys;
+import com.localloop.utils.DataCallBack;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class AdvertisementFragment extends Fragment {
+    @Inject
+    ReportRepository reportRepository;
     private FragmentAdvertisementBinding binding;
     private AdvertisementViewModel viewModel;
 
@@ -121,6 +130,7 @@ public class AdvertisementFragment extends Fragment {
         CarouselAdapter adapter = new CarouselAdapter(images);
         binding.viewPagerCarousel.setAdapter(adapter);
 
+
         binding.actionButton.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putInt(ArgumentKeys.ADVERTISEMENT_ID, viewModel.getAdvertisement().getId());
@@ -133,5 +143,49 @@ public class AdvertisementFragment extends Fragment {
                 makeProposalDrawer.show(getParentFragmentManager(), makeProposalDrawer.getTag());
             }
         });
+        // Handle Report Button Click
+        binding.reportButton.setOnClickListener(v -> {
+            // Show a dialog asking for the reason for reporting the ad
+            showReportDialog();
+        });
+    }
+
+    private void showReportDialog() {
+        // Example dialog where user can type in the reason for reporting
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(getString(R.string.REPORT_ADVERTISEMENT));
+
+        final EditText input = new EditText(getContext());
+        input.setHint(getString(R.string.REPORT_COMMENT));
+        builder.setView(input);
+
+        builder.setPositiveButton(getString(R.string.SUBMIT), (dialog, which) -> {
+            String reason = input.getText().toString();
+            if (!reason.isEmpty()) {
+                // Here, we're using the ReportRepository to insert the report
+                String entityType = "advertisement";  // or the appropriate entity type
+                int reportId = viewModel.getAdvertisement().getId();  // assuming this is the advertisement ID
+
+                reportRepository.insertReport(entityType, reportId, new DataCallBack<>() {
+                    @Override
+                    public void onSuccess(Report report) {
+                        // Handle successful report submission
+                        Toast.makeText(getContext(), getString(R.string.REPORT_SUBMITTED), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        // Handle error case
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(getContext(), getString(R.string.PLEASE_ADD_COMMENT), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton(getString(R.string.CANCEL), (dialog, which) -> dialog.dismiss());
+
+        builder.show();
     }
 }

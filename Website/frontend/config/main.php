@@ -65,10 +65,14 @@ return [
                 ['class' => UrlRule::class, 'controller' => 'api/cart-item', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/invoice', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/item', 'tokens' => ['{id}' => '<id:\\d+>']],
-                ['class' => UrlRule::class, 'controller' => 'api/report', 'tokens' => ['{id}' => '<id:\\d+>']],
+                //['class' => UrlRule::class, 'controller' => 'api/report', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/saved-advertisement', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/trade', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/trade-proposal', 'tokens' => ['{id}' => '<id:\\d+>']],
+                ['class' => UrlRule::class, 'controller' => 'api/report', 'tokens' => ['{id}' => '<id:\\d+>'], 'extraPatterns' => [
+                    'POST create' => 'create',
+                ]],
+
                 ['class' => UrlRule::class, 'controller' => 'api/trade-proposal-item', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/user', 'extraPatterns' => [
                     'GET current-user' => 'get-current-user',

@@ -43,4 +43,10 @@
     <string name="ADD">Add</string>
     <string name="ADD_NEW_ADVERTISEMENT">Add new Advertisement</string>
     <string name="CREATE_ADVERTISEMENT">Create advertisement</string>
+    <string name="REPORT_ADVERTISEMENT">Report Advertisement</string>
+    <string name="REPORT_COMMENT">reportComment</string>
+    <string name="SUBMIT">reportSubmit</string>
+    <string name="REPORT_SUBMITTED">reportSubmitted</string>
+    <string name="PLEASE_ADD_COMMENT">reportCommentAdd</string>
+    <string name="CANCEL">reportCancel</string>
 </resources>

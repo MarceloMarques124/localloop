@@ -5,6 +5,5 @@ import com.localloop.utils.DataCallBack;
 
 public interface ReportRepository {
 
-    void insertReport(int reportId, DataCallBack<Report> callBack);
-
+    void insertReport(String entityType, int reportId, DataCallBack<Report> callBack);
 }

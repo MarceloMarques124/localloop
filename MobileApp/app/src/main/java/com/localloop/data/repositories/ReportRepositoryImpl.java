@@ -20,8 +20,8 @@ public class ReportRepositoryImpl implements ReportRepository {
     }
 
     @Override
-    public void insertReport(int reportId, DataCallBack<Report> callBack) {
-        Call<Report> call = apiService.Report(reportId);
+    public void insertReport(String entityType, int reportId, DataCallBack<Report> callBack) {
+        Call<Report> call = apiService.report(entityType, reportId);
 
         call.enqueue(new Callback<>() {
             @Override
@@ -39,4 +39,5 @@ public class ReportRepositoryImpl implements ReportRepository {
             }
         });
     }
+
 }

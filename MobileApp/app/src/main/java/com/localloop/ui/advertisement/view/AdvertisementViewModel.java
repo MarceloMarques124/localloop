@@ -101,4 +101,5 @@ public class AdvertisementViewModel extends BaseViewModel {
     public void setButtonText(String text) {
         this.buttonText.setValue(text);
     }
+    
 }
