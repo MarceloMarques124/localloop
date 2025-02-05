@@ -8,6 +8,8 @@ import com.localloop.data.models.Report;
 import com.localloop.utils.DataCallBack;
 import com.localloop.utils.ErrorRequest;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,6 +17,7 @@ import retrofit2.Response;
 public class ReportRepositoryImpl implements ReportRepository {
     private final ReportApiService apiService;
 
+    @Inject
     public ReportRepositoryImpl(ReportApiService apiService) {
         this.apiService = apiService;
     }

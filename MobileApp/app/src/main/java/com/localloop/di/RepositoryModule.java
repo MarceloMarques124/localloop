@@ -50,4 +50,10 @@ public abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract TradeRepository bindTradeRepository(TradeRepositoryImpl repository);
+
+    @Binds
+    @Singleton
+    abstract ReportRepository bindReportRepository(ReportRepositoryImpl repository);
+
+
 }
