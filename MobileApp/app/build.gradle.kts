@@ -30,6 +30,10 @@ android {
             )
             buildConfigField("String", "API_URL", "${project.findProperty("PROD_API_URL") ?: ""}")
         }
+        create("debugProd") {
+            initWith(buildTypes.getByName("debug"))
+            buildConfigField("String", "API_URL", "${project.findProperty("PROD_API_URL") ?: ""}")
+        }
     }
 
 

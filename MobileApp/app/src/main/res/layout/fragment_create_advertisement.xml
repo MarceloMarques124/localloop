@@ -1,13 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.advertisement.create.CreateAdvertisementFragment">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView
+    <!-- Title Field -->
+    <EditText
+        android:id="@+id/edt_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:hint="Advertisement Title"
+        android:inputType="text" />
 
-</FrameLayout>
+    <!-- Description Field -->
+    <EditText
+        android:id="@+id/edt_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:maxLines="5"
+        android:minHeight="150dp" />
+
+    <!-- Service/Non-Service Toggle -->
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service" />
+
+        <RadioButton
+            android:id="@+id/rb_non_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non-Service" />
+    </RadioGroup>
+
+    <!-- Image Upload Button -->
+    <Button
+        android:id="@+id/btn_upload_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Image" />
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onSubmitAdvertisement"
+        android:text="Submit Advertisement" />
+
+    <!-- Cancel Button -->
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onCancelCreateAdvertisement"
+        android:text="Cancel" />
+</LinearLayout>
