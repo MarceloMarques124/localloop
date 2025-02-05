@@ -3,13 +3,11 @@
 namespace frontend\modules\api\controllers;
 
 use common\models\Report;
-use yii\rest\ActiveController;
-use yii\web\NotFoundHttpException;
-use yii\base\DynamicModel;
 use yii;
-use yii\web\Response;
+use yii\db\Exception;
 use yii\db\StaleObjectException;
-
+use yii\rest\ActiveController;
+use yii\web\Response;
 
 
 class ReportController extends ActiveController
@@ -24,25 +22,24 @@ class ReportController extends ActiveController
     }
 
 
-    public function actionCreate()
+    /**
+     * @throws Exception
+     * @throws StaleObjectException
+     */
+    public function actionCreate(): array
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        // Check if user is logged in
-        if (Yii::$app->user->isGuest) {
-            return ['status' => 'error', 'message' => 'User not logged in.'];
-        }
-
         $request = Yii::$app->request;
-        $entityType = $request->get('entityType'); // Should match 'advertisement', 'trade', or 'user'
-        $reportId = $request->get('reportId'); // ID being reported
+        $entityType = $request->get('entityType');
+        $reportId = $request->get('reportId');
 
         if (!$entityType || !$reportId) {
             return ['status' => 'error', 'message' => 'Invalid parameters.'];
         }
 
         $report = new Report();
-        $report->author_id = Yii::$app->user->id; // Assign the logged-in user ID
+        $report->author_id = Yii::$app->user->id;
 
         if ($entityType === 'advertisement') {
             $report->advertisement_id = $reportId;
@@ -54,7 +51,6 @@ class ReportController extends ActiveController
             return ['status' => 'error', 'message' => 'Invalid entity type.'];
         }
 
-        // Save the report
         if (!$report->save()) {
             throw new StaleObjectException('Failed to save Report: ' . json_encode($report->errors));
         }
