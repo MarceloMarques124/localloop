@@ -6,6 +6,7 @@ use common\models\Report;
 use yii;
 use yii\db\Exception;
 use yii\db\StaleObjectException;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\Response;
 
@@ -14,7 +15,18 @@ class ReportController extends ActiveController
 {
     public $modelClass = Report::class;
 
-    public function actions()
+    public function behaviors(): array
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
+        ];
+
+        return $behaviors;
+    }
+
+    public function actions(): array
     {
         $actions = parent::actions();
         unset($actions['create']);
