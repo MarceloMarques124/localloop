@@ -28,6 +28,7 @@ public abstract class RepositoryModule {
     @Singleton
     abstract AdvertisementRepository bindAdvertisementRepository(AdvertisementRepositoryImpl repository);
 
+
     @Binds
     @Singleton
     abstract UserRepository bindUserRepository(UserRepositoryImpl repository);

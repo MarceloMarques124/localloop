@@ -20,16 +20,16 @@ public class AdvertisementRepositoryImpl extends BaseRepositoryImpl implements A
 
     @Override
     public void getAdvertisements(DataCallBack<List<Advertisement>> callBack) {
-        enqueueCall(apiService.getAdvertisements(), callBack, "");
+        enqueueCall(apiService.getAdvertisements(), callBack, "Failed to get the advertisements");
     }
 
     @Override
     public void fetchAdvertisement(int id, DataCallBack<Advertisement> callBack) {
-        enqueueCall(apiService.getAdvertisement(id), callBack, "");
+        enqueueCall(apiService.getAdvertisement(id), callBack, "Failed to fetch advertisement");
     }
 
     @Override
     public void createAdvertisement(Advertisement advertisement, DataCallBack<Advertisement> callBack) {
-        enqueueCall(apiService.createAdvertisement(advertisement), callBack, "");
+        enqueueCall(apiService.createAdvertisement(advertisement), callBack, "Failed to create advertisement");
     }
 }

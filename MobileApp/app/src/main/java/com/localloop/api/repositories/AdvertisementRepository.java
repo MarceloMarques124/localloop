@@ -10,5 +10,7 @@ public interface AdvertisementRepository {
 
     void fetchAdvertisement(int id, final DataCallBack<Advertisement> callBack);
 
-    void createAdvertisement(Advertisement advertisement, final DataCallBack<Advertisement> callBack);
+    void createAdvertisement(Advertisement advertisement,
+                             DataCallBack<Advertisement> callback);
+
 }
