@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.localloop.data.models.User;
 import com.localloop.databinding.FragmentProfileBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -20,8 +19,6 @@ public class ProfileFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;
 
-    private User currentUser;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -30,9 +27,9 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
 
-        profileViewModel.getCurrentUser();
+        profileViewModel.getCurrentUserProfile();
 
-        profileViewModel.getUserLiveData().observe(getViewLifecycleOwner(), user -> binding.userEmail.setText(user.getEmail()));
+        profileViewModel.getUserProfileLiveData().observe(getViewLifecycleOwner(), user -> binding.userEmail.setText(user.getUser().getEmail()));
 
         return binding.getRoot();
     }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.localloop.api.repositories.CurrentUserRepository;
-import com.localloop.data.models.User;
+import com.localloop.api.responses.UserProfile;
 import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
 
@@ -16,21 +16,21 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class ProfileViewModel extends BaseViewModel {
 
     private final CurrentUserRepository currentUserRepository;
-    private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
+    private final MutableLiveData<UserProfile> userLiveData = new MutableLiveData<>();
 
     @Inject
     public ProfileViewModel(CurrentUserRepository currentUserRepository) {
         this.currentUserRepository = currentUserRepository;
     }
 
-    public LiveData<User> getUserLiveData() {
+    public LiveData<UserProfile> getUserProfileLiveData() {
         return userLiveData;
     }
 
-    public void getCurrentUser() {
-        currentUserRepository.getUser(new DataCallBack<>() {
+    public void getCurrentUserProfile() {
+        currentUserRepository.getUserProfile(new DataCallBack<>() {
             @Override
-            public void onSuccess(User user) {
+            public void onSuccess(UserProfile user) {
                 userLiveData.setValue(user);
             }
 
