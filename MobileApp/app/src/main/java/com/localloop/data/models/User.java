@@ -12,7 +12,6 @@ public class User extends BaseModel {
 
     @SerializedName("flagged_for_ban")
     private int flaggedForBan;
-
     private String username;
     private String email;
     private int status;
