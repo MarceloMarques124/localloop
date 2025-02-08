@@ -48,30 +48,16 @@ public class HomeViewModel extends BaseViewModel {
             }
         });
     }
-/*
-    public void insertSavedAdvertisement(SavedAdvertisement savedAdvertisement) {
-        savedAdvertisementRepository.insertSavedAdvertisement(savedAdvertisement.getAdvertisementId(), new DataCallBack<>() {
-            @Override
-            public void onSuccess(SavedAdvertisement data) {
-                Log.d("Save Success", "Advertisement saved");
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                error.setValue(errorMessage);
-            }
-        });
-    }*/
 
     public void toggleSavedAdvertisement(Advertisement advertisement) {
         if (Boolean.TRUE.equals(advertisement.getSaved())) {
-            // Advertisement is saved; so remove it from saved list
             savedAdvertisementRepository.removeSavedAdvertisement(advertisement.getId(), new DataCallBack<Void>() {
                 @Override
                 public void onSuccess(Void data) {
                     advertisement.setSaved(false);
-                    // Optionally: update LiveData to refresh the UI (e.g. notify observers or adapter)
                     Log.d("ToggleSaved", "Advertisement removed from saved");
+                    loadAdvertisements();
+
                 }
 
                 @Override
@@ -80,13 +66,12 @@ public class HomeViewModel extends BaseViewModel {
                 }
             });
         } else {
-            // Advertisement is not saved; so save it
             savedAdvertisementRepository.insertSavedAdvertisement(advertisement.getId(), new DataCallBack<SavedAdvertisement>() {
                 @Override
                 public void onSuccess(SavedAdvertisement data) {
                     advertisement.setSaved(true);
-                    // Optionally: update LiveData to refresh the UI
                     Log.d("ToggleSaved", "Advertisement saved");
+                    loadAdvertisements();
                 }
 
                 @Override

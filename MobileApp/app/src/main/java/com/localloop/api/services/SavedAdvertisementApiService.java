@@ -14,28 +14,12 @@ import retrofit2.http.Path;
 public interface SavedAdvertisementApiService {
     @GET("saved-advertisements")
     Call<List<SavedAdvertisement>> getSavedAdvertisements();
-
-/*
-    @POST("saved-advertisements/{id}")
-    Call<SavedAdvertisement> saveAdvertisement(@Path("id") int advertisementId);
-
-    */
-
-    // Notice that we no longer pass an ID in the URL; instead, we send a JSON body.
+    
     @POST("saved-advertisements")
     Call<SavedAdvertisement> saveAdvertisement(@Body int advertisementId);
-
-    /*
-        @DELETE("saved-advertisements/{advertisement_id}")
-        Call<Void> removeSavedAdvertisement(@Body int advertisementId);
-
-    */
 
     @DELETE("saved-advertisements/{id}")
     Call<Void> removeSavedAdvertisement(@Path("id") int advertisementId);
 
-/*
-    @DELETE("saved-advertisements/{id}")
-    Call<Void> removeSavedAdvertisement(@Path("id") int advertisementId);*/
 }
 

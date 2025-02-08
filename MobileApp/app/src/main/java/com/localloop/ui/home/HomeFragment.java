@@ -42,8 +42,7 @@ public class HomeFragment extends Fragment {
             if (advertisements != null) {
                 recyclerView.setAdapter(new CardAdapter(advertisements, advertisement -> {
                     SavedAdvertisement savedAdvertisement = new SavedAdvertisement();
-                    savedAdvertisement.setAdvertisementId(savedAdvertisement.getAdvertisementId()); // Set the advertisement ID
-                    //homeViewModel.insertSavedAdvertisement(savedAdvertisement); // Call the method to save the advertisement
+                    savedAdvertisement.setAdvertisementId(savedAdvertisement.getAdvertisementId());
                     homeViewModel.toggleSavedAdvertisement(advertisement);
 
                 }));

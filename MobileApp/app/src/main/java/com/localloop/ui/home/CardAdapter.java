@@ -66,27 +66,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             title.setText(advertisement.getTitle());
             description.setText(advertisement.getDescription());
 
-            // Set the correct icon depending on the saved state
             if (Boolean.TRUE.equals(advertisement.getSaved())) {
                 favoriteIcon.setImageResource(R.drawable.baseline_favorite_24);
             } else {
                 favoriteIcon.setImageResource(R.drawable.baseline_favorite_border_24);
             }
 
-            // Set click listener on the favorite icon to toggle the save state
             favoriteIcon.setOnClickListener(v -> callback.onSaveClicked(advertisement));
 
 
-            // Set click on entire card to navigate
             itemView.setOnClickListener(v -> {
-                // Get NavController directly from the context, which is safer for navigation
                 NavController navController = Navigation.findNavController(itemView);
 
-                // Bundle to pass data to next fragment
                 Bundle bundle = new Bundle();
                 bundle.putString(ArgumentKeys.ADVERTISEMENT_ID, String.valueOf(advertisement.getId())); // pass data to next fragment
 
-                // Navigate to the detailed fragment
                 navController.navigate(R.id.action_navigation_home_to_navigation_advertisement, bundle);
             });
         }
