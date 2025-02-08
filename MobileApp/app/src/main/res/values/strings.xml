@@ -47,4 +47,5 @@
     <string name="FAILED_TO_CREATE">Failed to create %1$s</string>
     <string name="THE_ADVERTISEMENT">The Advertisement</string>
     <string name="THE_ADVERTISEMENTS">The Advertisements</string>
+    <string name="USER_IMAGE">User Image</string>
 </resources>

@@ -104,20 +104,13 @@ class CurrentUserController extends ActiveController
             throw new BadRequestHttpException('User not authenticated.');
         }
 
-        $userInfoId = $user->id;
-
         $trades = Trade::find()
-            ->where(['user_info_id' => $userInfoId])
-            ->orWhere(['advertisement_id' => Advertisement::find()->select('id')->where(['user_info_id' => $userInfoId])])
+            ->joinWith('advertisement')
+            ->where(['trade.user_info_id' => $user->id])
+            ->orWhere(['advertisement.user_info_id' => $user->id])
+            ->asArray()
             ->all();
 
-        $userIds = array_unique(array_map(function ($trade) use ($userInfoId) {
-            return $trade->user_info_id !== $userInfoId ? $trade->user_info_id : $trade->advertisement->user_info_id;
-        }, $trades));
-
-        $tradePartners = UserInfo::find()->where(['id' => $userIds])->all();
-
-        return array_map(fn($partner) => UserTransformer::transform($partner), $tradePartners);
+        return $trades;
     }
-
 }
