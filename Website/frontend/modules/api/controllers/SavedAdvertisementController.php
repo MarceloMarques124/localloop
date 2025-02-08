@@ -8,6 +8,8 @@ use yii\db\StaleObjectException;
 use yii\rest\ActiveController;
 use yii\filters\auth\HttpBearerAuth;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
 
 class SavedAdvertisementController extends ActiveController
 {
@@ -27,7 +29,7 @@ class SavedAdvertisementController extends ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
-        unset($actions['create']);
+        unset($actions['create'], $actions['delete']);
         return $actions;
     }
 
@@ -52,5 +54,21 @@ class SavedAdvertisementController extends ActiveController
             throw new StaleObjectException('Failed to save Advertisement: ' . json_encode($savedAdvertisement->errors));
         }
         return $savedAdvertisement;
+    }
+
+    public function actionDelete($id)
+    {
+        $userId = Yii::$app->user->id;
+        $savedAd = SavedAdvertisement::findOne([
+            'advertisement_id' => $id,
+            'user_info_id' => $userId,
+        ]);
+        if ($savedAd === null) {
+            throw new NotFoundHttpException("Saved advertisement not found.");
+        }
+        if ($savedAd->delete() === false) {
+            throw new ServerErrorHttpException("Failed to delete saved advertisement.");
+        }
+        return ['success' => true];
     }
 }

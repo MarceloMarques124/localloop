@@ -25,8 +25,17 @@ public interface SavedAdvertisementApiService {
     @POST("saved-advertisements")
     Call<SavedAdvertisement> saveAdvertisement(@Body int advertisementId);
 
+    /*
+        @DELETE("saved-advertisements/{advertisement_id}")
+        Call<Void> removeSavedAdvertisement(@Body int advertisementId);
+
+    */
 
     @DELETE("saved-advertisements/{id}")
     Call<Void> removeSavedAdvertisement(@Path("id") int advertisementId);
+
+/*
+    @DELETE("saved-advertisements/{id}")
+    Call<Void> removeSavedAdvertisement(@Path("id") int advertisementId);*/
 }
 
