@@ -53,21 +53,29 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView title, description;
-        private final ImageView saveIcon;
+        private final ImageView favoriteIcon;
 
         ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.text_card_title);
             description = itemView.findViewById(R.id.text_card_description);
-            saveIcon = itemView.findViewById(R.id.image_add);
+            favoriteIcon = itemView.findViewById(R.id.favorite_icon);
         }
 
         void bind(Advertisement advertisement) {
             title.setText(advertisement.getTitle());
             description.setText(advertisement.getDescription());
 
-            // Set save button onClickListener
-            saveIcon.setOnClickListener(v -> callback.onSaveClicked(advertisement));
+            // Set the correct icon depending on the saved state
+            if (Boolean.TRUE.equals(advertisement.getSaved())) {
+                favoriteIcon.setImageResource(R.drawable.baseline_favorite_24);
+            } else {
+                favoriteIcon.setImageResource(R.drawable.baseline_favorite_border_24);
+            }
+
+            // Set click listener on the favorite icon to toggle the save state
+            favoriteIcon.setOnClickListener(v -> callback.onSaveClicked(advertisement));
+
 
             // Set click on entire card to navigate
             itemView.setOnClickListener(v -> {
