@@ -46,4 +46,7 @@
     <string name="FAILED_TO_CREATE">Falha ao criar %1$s</string>
     <string name="THE_ADVERTISEMENT">O Anúncio</string>
     <string name="THE_ADVERTISEMENTS">Os Anúncios</string>
+    <string name="USER_IMAGE">Imagem do Utilizador</string>
+    <string name="SENT_TRADES">Trocas Enviadas</string>
+    <string name="RECEIVED_TRADES">Trocas Recebidas</string>
 </resources>
