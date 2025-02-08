@@ -21,7 +21,7 @@ public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
     private NotificationsViewModel viewModel;
-    private TradePartnersAdapter adapter;
+    private TradesAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class NotificationsFragment extends Fragment {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        adapter = new TradePartnersAdapter();
+        adapter = new TradesAdapter();
 
         setupRecyclerViews();
         setupTabLayout();

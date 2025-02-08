@@ -18,7 +18,7 @@ import com.localloop.utils.ArgumentKeys;
 
 import java.util.List;
 
-public class TradePartnersAdapter extends RecyclerView.Adapter<TradePartnersAdapter.ViewHolder> {
+public class TradesAdapter extends RecyclerView.Adapter<TradesAdapter.ViewHolder> {
 
     private List<TradeResponse> trades;
 
