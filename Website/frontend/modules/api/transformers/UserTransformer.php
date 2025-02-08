@@ -6,7 +6,7 @@ use common\models\Review;
 
 class UserTransformer
 {
-    public static function transform($userInfo)
+    public static function transform($userInfo): array
     {
         $user = $userInfo['user'];
 

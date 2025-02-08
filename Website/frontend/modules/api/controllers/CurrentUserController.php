@@ -2,6 +2,7 @@
 
 namespace frontend\modules\api\controllers;
 
+use common\models\Advertisement;
 use common\models\Item;
 use common\models\UserInfo;
 use frontend\modules\api\transformers\UserTransformer;
@@ -65,5 +66,29 @@ class CurrentUserController extends ActiveController
         }
 
         return Item::find()->where(['user_info_id' => $user->id])->asArray()->all();
+    }
+
+    /**
+     * @throws BadRequestHttpException
+     */
+    public function actionProfile(): array
+    {
+        $user = Yii::$app->user->identity;
+
+        if ($user === null) {
+            throw new BadRequestHttpException('User not authenticated.');
+        }
+
+        $userInfo = UserInfo::findOne($user->id);
+
+        if (!$userInfo) {
+            throw new BadRequestHttpException('User info not found.');
+        }
+
+        $userData = UserTransformer::transform($userInfo);
+        $userData['items'] = Item::find()->where(['user_info_id' => $user->id])->asArray()->all();
+        $userData['advertisements'] = Advertisement::find()->where(['user_info_id' => $user->id])->asArray()->all();
+
+        return $userData;
     }
 }
