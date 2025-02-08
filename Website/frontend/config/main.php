@@ -85,6 +85,8 @@ return [
                         'GET' => 'index',
                         'GET items' => 'items',
                         'GET profile' => 'profile',
+                        'GET sent-trades' => 'sent-trades',
+                        'GET received-trades' => 'received-trades',
                     ],
                 ],
             ],

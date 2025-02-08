@@ -47,6 +47,9 @@
     <string name="FAILED_TO_CREATE">Failed to create %1$s</string>
     <string name="THE_ADVERTISEMENT">The Advertisement</string>
     <string name="THE_ADVERTISEMENTS">The Advertisements</string>
+    <string name="USER_IMAGE">User Image</string>
+    <string name="SENT_TRADES">Sent Trades</string>
+    <string name="RECEIVED_TRADES">Received Trades</string>
     <string name="REPORT_ADVERTISEMENT">Report Advertisement</string>
     <string name="REPORT_COMMENT">reportComment</string>
     <string name="SUBMIT">reportSubmit</string>
