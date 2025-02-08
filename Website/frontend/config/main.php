@@ -56,7 +56,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/auth', 'extraPatterns' => [
+                ['class' => UrlRule::class, 'controller' => 'api/auth', 'extraPatterns' => [
                     'POST login' => 'login',
                     'POST signup' => 'signup',
                 ]],
@@ -80,6 +80,7 @@ return [
                     'extraPatterns' => [
                         'GET' => 'index',
                         'GET items' => 'items',
+                        'GET profile' => 'profile',
                         'GET trade-partners' => 'get-trade-partners',
                     ],
                 ],

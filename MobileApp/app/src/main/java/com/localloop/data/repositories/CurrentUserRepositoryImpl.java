@@ -1,6 +1,7 @@
 package com.localloop.data.repositories;
 
 import com.localloop.api.repositories.CurrentUserRepository;
+import com.localloop.api.responses.UserProfile;
 import com.localloop.api.services.CurrentUserApiService;
 import com.localloop.data.models.Item;
 import com.localloop.data.models.User;
@@ -26,7 +27,12 @@ public class CurrentUserRepositoryImpl extends BaseRepositoryImpl implements Cur
 
     @Override
     public void fetchItems(DataCallBack<List<Item>> callBack) {
-        enqueueCall(apiService.fetchItems(), callBack, "Failed to get Current User Items");
+        enqueueCall(apiService.fetchItems(), callBack, "Failed to get Current user items");
+    }
+
+    @Override
+    public void getUserProfile(DataCallBack<UserProfile> callBack) {
+        enqueueCall(apiService.getUserProfile(), callBack, "Failed to get the current user profile");
     }
 
     @Override
