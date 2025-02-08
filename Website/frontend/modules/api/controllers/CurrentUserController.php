@@ -96,7 +96,7 @@ class CurrentUserController extends ActiveController
     /**
      * @throws BadRequestHttpException
      */
-    public function actionTradePartners(): array
+    public function actionSentTrades(): array
     {
         $user = Yii::$app->user->identity;
 
@@ -104,13 +104,51 @@ class CurrentUserController extends ActiveController
             throw new BadRequestHttpException('User not authenticated.');
         }
 
-        $trades = Trade::find()
-            ->joinWith('advertisement')
-            ->where(['trade.user_info_id' => $user->id])
-            ->orWhere(['advertisement.user_info_id' => $user->id])
+        return Trade::find()
+            ->alias('t')
+            ->select([
+                't.id AS trade_id',
+                'a.title AS advertisement_title',
+                't.state AS trade_state',
+                'tp.message AS last_proposal_message'
+            ])
+            ->leftJoin('advertisement a', 'a.id = t.advertisement_id')
+            ->leftJoin(
+                'trade_proposal tp',
+                'tp.trade_id = t.id AND tp.created_at = (SELECT MAX(created_at) FROM trade_proposal WHERE trade_id = t.id)'
+            )
+            ->where(['t.user_info_id' => $user->id])
             ->asArray()
             ->all();
-
-        return $trades;
     }
+
+    /**
+     * @throws BadRequestHttpException
+     */
+    public function actionReceivedTrades(): array
+    {
+        $user = Yii::$app->user->identity;
+
+        if ($user === null) {
+            throw new BadRequestHttpException('User not authenticated.');
+        }
+
+        return Trade::find()
+            ->alias('t')
+            ->select([
+                't.id AS trade_id',
+                'a.title AS advertisement_title',
+                't.state AS trade_state',
+                'tp.message AS last_proposal_message'
+            ])
+            ->leftJoin('advertisement a', 'a.id = t.advertisement_id')
+            ->leftJoin(
+                'trade_proposal tp',
+                'tp.trade_id = t.id AND tp.created_at = (SELECT MAX(created_at) FROM trade_proposal WHERE trade_id = t.id)'
+            )
+            ->where(['a.user_info_id' => $user->id])
+            ->asArray()
+            ->all();
+    }
+
 }

@@ -11,74 +11,63 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.localloop.data.models.User;
+import com.localloop.R;
 import com.localloop.databinding.FragmentNotificationsBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class NotificationsFragment extends Fragment {
 
-    private final List<User> messagesList = new ArrayList<>();
-    private final List<User> notificationsList = new ArrayList<>();
     private FragmentNotificationsBinding binding;
-    private NotificationsViewModel notificationsViewModel;
+    private NotificationsViewModel viewModel;
     private TradePartnersAdapter adapter;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        adapter = new TradePartnersAdapter();
+
         setupRecyclerViews();
         setupTabLayout();
+        viewModel.getSentTrades();
 
-        // Observe the trade partners (or any data source)
-        notificationsViewModel.getTradePartners().observe(getViewLifecycleOwner(), tradePartners -> {
-            if (tradePartners != null) {
-                messagesList.clear();
-                messagesList.addAll(tradePartners);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        viewModel.getSentTradesLiveData().observe(getViewLifecycleOwner(), sentTrades -> adapter.updateList(sentTrades));
+        viewModel.getReceivedTradesLiveData().observe(getViewLifecycleOwner(), receivedTrades -> adapter.updateList(receivedTrades));
 
         return root;
     }
 
     private void setupRecyclerViews() {
-        // Set up RecyclerViews with the same adapter
-        adapter = new TradePartnersAdapter(messagesList); // Initially using messagesList
+        binding.recyclerViewSentTrades.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewSentTrades.setAdapter(adapter);
 
-        binding.recyclerViewMessages.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerViewMessages.setAdapter(adapter);
+        binding.recyclerViewReceivedTrades.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewReceivedTrades.setAdapter(adapter);
 
-        binding.recyclerViewNotifications.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerViewNotifications.setAdapter(adapter);
-
-        // Initially, show messages and hide notifications
-        binding.recyclerViewMessages.setVisibility(View.VISIBLE);
-        binding.recyclerViewNotifications.setVisibility(View.GONE);
+        binding.recyclerViewSentTrades.setVisibility(View.VISIBLE);
+        binding.recyclerViewReceivedTrades.setVisibility(View.GONE);
     }
 
     private void setupTabLayout() {
-        // Add tabs manually
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Messages"));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Notifications"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.SENT_TRADES));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.RECEIVED_TRADES));
 
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
-                    binding.recyclerViewMessages.setVisibility(View.VISIBLE);
-                    binding.recyclerViewNotifications.setVisibility(View.GONE);
-                    adapter.updateList(messagesList);
+                    binding.recyclerViewSentTrades.setVisibility(View.VISIBLE);
+                    binding.recyclerViewReceivedTrades.setVisibility(View.GONE);
+                    viewModel.getSentTrades();
+
                 } else {
-                    binding.recyclerViewMessages.setVisibility(View.GONE);
-                    binding.recyclerViewNotifications.setVisibility(View.VISIBLE);
-                    adapter.updateList(notificationsList);
+                    binding.recyclerViewSentTrades.setVisibility(View.GONE);
+                    binding.recyclerViewReceivedTrades.setVisibility(View.VISIBLE);
+                    viewModel.getReceivedTrades();
                 }
             }
 

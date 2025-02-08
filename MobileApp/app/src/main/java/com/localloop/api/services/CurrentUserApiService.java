@@ -1,5 +1,6 @@
 package com.localloop.api.services;
 
+import com.localloop.api.responses.TradeResponse;
 import com.localloop.api.responses.UserProfile;
 import com.localloop.data.models.Item;
 import com.localloop.data.models.User;
@@ -20,6 +21,9 @@ public interface CurrentUserApiService {
     @GET("current-user/profile")
     Call<UserProfile> getUserProfile();
 
-    @GET("current-user/trade-partners")
-    Call<List<User>> getTradePartners();
+    @GET("current-user/sent-trades")
+    Call<List<TradeResponse>> getSentTrades();
+
+    @GET("current-user/received-trades")
+    Call<List<TradeResponse>> getReceivedTrades();
 }

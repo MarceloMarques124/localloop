@@ -1,6 +1,7 @@
 package com.localloop.data.repositories;
 
 import com.localloop.api.repositories.CurrentUserRepository;
+import com.localloop.api.responses.TradeResponse;
 import com.localloop.api.responses.UserProfile;
 import com.localloop.api.services.CurrentUserApiService;
 import com.localloop.data.models.Item;
@@ -36,7 +37,12 @@ public class CurrentUserRepositoryImpl extends BaseRepositoryImpl implements Cur
     }
 
     @Override
-    public void getTradePartners(DataCallBack<List<User>> callBack) {
-        enqueueCall(apiService.getTradePartners(), callBack, "Failed to get Current User Trade Partners");
+    public void getSentTrades(DataCallBack<List<TradeResponse>> callBack) {
+        enqueueCall(apiService.getSentTrades(), callBack, "Failed to get sent trades");
+    }
+
+    @Override
+    public void getReceivedTrades(DataCallBack<List<TradeResponse>> callBack) {
+        enqueueCall(apiService.getReceivedTrades(), callBack, "Failed to get received trades");
     }
 }

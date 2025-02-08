@@ -48,4 +48,6 @@
     <string name="THE_ADVERTISEMENT">The Advertisement</string>
     <string name="THE_ADVERTISEMENTS">The Advertisements</string>
     <string name="USER_IMAGE">User Image</string>
+    <string name="SENT_TRADES">Sent Trades</string>
+    <string name="RECEIVED_TRADES">Received Trades</string>
 </resources>

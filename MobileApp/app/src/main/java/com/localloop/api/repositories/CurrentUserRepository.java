@@ -1,5 +1,6 @@
 package com.localloop.api.repositories;
 
+import com.localloop.api.responses.TradeResponse;
 import com.localloop.api.responses.UserProfile;
 import com.localloop.data.models.Item;
 import com.localloop.data.models.User;
@@ -14,5 +15,7 @@ public interface CurrentUserRepository {
 
     void getUserProfile(DataCallBack<UserProfile> callBack);
 
-    void getTradePartners(DataCallBack<List<User>> callBack);
+    void getSentTrades(DataCallBack<List<TradeResponse>> callBack);
+
+    void getReceivedTrades(DataCallBack<List<TradeResponse>> callBack);
 }

@@ -31,7 +31,7 @@
             android:layout_weight="1">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_messages"
+                android:id="@+id/recycler_view_sent_trades"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -40,7 +40,7 @@
                 tools:listitem="@layout/item_message" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_notifications"
+                android:id="@+id/recycler_view_received_trades"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"

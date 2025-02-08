@@ -13,17 +13,14 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.localloop.R;
-import com.localloop.data.models.User;
+import com.localloop.api.responses.TradeResponse;
+import com.localloop.utils.ArgumentKeys;
 
 import java.util.List;
 
 public class TradePartnersAdapter extends RecyclerView.Adapter<TradePartnersAdapter.ViewHolder> {
 
-    private List<User> tradePartners;
-
-    public TradePartnersAdapter(List<User> tradePartners) {
-        this.tradePartners = tradePartners;
-    }
+    private List<TradeResponse> trades;
 
     @NonNull
     @Override
@@ -33,17 +30,17 @@ public class TradePartnersAdapter extends RecyclerView.Adapter<TradePartnersAdap
         return new ViewHolder(view);
     }
 
-    public void updateList(List<User> newList) {
-        this.tradePartners = newList;
+    public void updateList(List<TradeResponse> trades) {
+        this.trades = trades;
         notifyDataSetChanged();
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = tradePartners.get(position);
-        holder.textName.setText(user.getName());
-        holder.textMessagePreview.setText(user.getEmail());
+        TradeResponse trade = trades.get(position);
+        holder.advertisementTitle.setText(trade.getAdvertisementTitle());
+        holder.lastProposalMessage.setText(trade.getLastProposalMessage());
 
         holder.imageProfile.setImageResource(R.drawable.place_holder_image);
 
@@ -51,7 +48,7 @@ public class TradePartnersAdapter extends RecyclerView.Adapter<TradePartnersAdap
             NavController navController = Navigation.findNavController(v);
 
             Bundle args = new Bundle();
-//            args.putString(ArgumentKeys.TRADE_ID, String.valueOf(user.get));
+            args.putString(ArgumentKeys.TRADE_ID, String.valueOf(trade.getTradeId()));
 
             navController.navigate(R.id.action_navigation_notifications_to_navigation_trade, args);
         });
@@ -59,19 +56,19 @@ public class TradePartnersAdapter extends RecyclerView.Adapter<TradePartnersAdap
 
     @Override
     public int getItemCount() {
-        return tradePartners != null ? tradePartners.size() : 0;
+        return trades != null ? trades.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageProfile;
-        TextView textName;
-        TextView textMessagePreview;
+        TextView advertisementTitle;
+        TextView lastProposalMessage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageProfile = itemView.findViewById(R.id.image_profile);
-            textName = itemView.findViewById(R.id.text_name);
-            textMessagePreview = itemView.findViewById(R.id.text_message_preview);
+            advertisementTitle = itemView.findViewById(R.id.advertisement_title);
+            lastProposalMessage = itemView.findViewById(R.id.last_proposal_message);
         }
     }
 }
