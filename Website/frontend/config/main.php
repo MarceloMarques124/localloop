@@ -61,7 +61,9 @@ return [
                     'POST signup' => 'signup',
                 ]],
                 ['class' => UrlRule::class, 'controller' => 'api/advertisement', 'tokens' => ['{id}' => '<id:\\d+>']],
-                ['class' => UrlRule::class, 'controller' => 'api/cart', 'tokens' => ['{id}' => '<id:\\d+>']],
+                ['class' => UrlRule::class, 'controller' => 'api/cart', 'extraPatterns' => [
+                    'POST toggle-item' => 'toggle-item',
+                ]],
                 ['class' => UrlRule::class, 'controller' => 'api/cart-item', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/invoice', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/item', 'tokens' => ['{id}' => '<id:\\d+>']],

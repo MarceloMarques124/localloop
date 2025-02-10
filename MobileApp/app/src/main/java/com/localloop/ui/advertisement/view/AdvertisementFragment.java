@@ -60,7 +60,7 @@ public class AdvertisementFragment extends Fragment {
 
         viewModel.getUserMutableLiveData().observe(viewLifecycleOwner, user -> {
             if (user != null && user.getId() == viewModel.getAdvertisement().getUserId()) {
-                binding.actionButton.setVisibility(View.GONE);
+                binding.buttonContainer.setVisibility(View.GONE);
             }
         });
 
@@ -90,7 +90,7 @@ public class AdvertisementFragment extends Fragment {
             binding.accountCreated.setText(accountCreatedAt);
         });
 
-        viewModel.getError().observe(getViewLifecycleOwner(), errorMessage -> {
+        viewModel.getError().observe(viewLifecycleOwner, errorMessage -> {
             if (errorMessage != null) {
                 Log.e("API Failure", errorMessage);
                 showErrorPopup(getContext(), errorMessage);
@@ -105,6 +105,14 @@ public class AdvertisementFragment extends Fragment {
                 viewModel.getAdvertisement(advertisementId);
             }
         }
+
+        viewModel.getIsOnCart().observe(viewLifecycleOwner, isOnCart -> {
+            if (isOnCart) {
+                binding.addToCartButton.setText(R.string.REMOVE_FROM_CART);
+            } else {
+                binding.addToCartButton.setText(R.string.ADD_TO_CART);
+            }
+        });
 
         return binding.getRoot();
     }
@@ -142,15 +150,13 @@ public class AdvertisementFragment extends Fragment {
                 makeProposalDrawer.show(getParentFragmentManager(), makeProposalDrawer.getTag());
             }
         });
-        // Handle Report Button Click
-        binding.reportButton.setOnClickListener(v -> {
-            // Show a dialog asking for the reason for reporting the ad
-            showReportDialog();
-        });
+
+        binding.addToCartButton.setOnClickListener(v -> viewModel.toggleCartItem(viewModel.getAdvertisement().getId()));
+
+        binding.reportButton.setOnClickListener(v -> showReportDialog());
     }
 
     private void showReportDialog() {
-        // Example dialog where user can type in the reason for reporting
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(getString(R.string.REPORT_ADVERTISEMENT));
 
@@ -161,9 +167,8 @@ public class AdvertisementFragment extends Fragment {
         builder.setPositiveButton(getString(R.string.SUBMIT), (dialog, which) -> {
             String reason = input.getText().toString();
             if (!reason.isEmpty()) {
-                // Here, we're using the ReportRepository to insert the report
-                String entityType = "advertisement";  // or the appropriate entity type
-                int reportId = viewModel.getAdvertisement().getId();  // assuming this is the advertisement ID
+                String entityType = "advertisement";
+                int reportId = viewModel.getAdvertisement().getId();
 
                 viewModel.reportAdvertisement(entityType, reportId);
             } else {

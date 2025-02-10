@@ -16,11 +16,21 @@ public class Advertisement extends BaseModel {
     private Boolean isSaved;
     @SerializedName("current_user_trade")
     private Trade currentUserTrade;
+    @SerializedName("is_on_cart")
+    private Boolean isOnCart;
 
     public Advertisement(String title, String description, Boolean isService) {
         this.title = title;
         this.description = description;
         this.isService = isService;
+    }
+
+    public Boolean getOnCart() {
+        return isOnCart;
+    }
+
+    public void setOnCart(Boolean onCart) {
+        isOnCart = onCart;
     }
 
     public Trade getCurrentUserTrade() {

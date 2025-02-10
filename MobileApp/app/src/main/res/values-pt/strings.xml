@@ -49,4 +49,11 @@
     <string name="USER_IMAGE">Imagem do Utilizador</string>
     <string name="SENT_TRADES">Trocas Enviadas</string>
     <string name="RECEIVED_TRADES">Trocas Recebidas</string>
+    <string name="TRADE">Troca</string>
+    <string name="ACCEPT_TRADE">Aceitar troca</string>
+    <string name="REJECT_TRADE">Rejeitar troca</string>
+    <string name="PENDING">Pendente</string>
+    <string name="REJECTED">Rejeitada</string>
+    <string name="ACCEPTED">Aceite</string>
+    <string name="REMOVE_FROM_CART">Remover do Carrinho</string>
 </resources>
