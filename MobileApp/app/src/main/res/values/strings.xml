@@ -50,6 +50,12 @@
     <string name="USER_IMAGE">User Image</string>
     <string name="SENT_TRADES">Sent Trades</string>
     <string name="RECEIVED_TRADES">Received Trades</string>
+    <string name="REPORT_ADVERTISEMENT">Report Advertisement</string>
+    <string name="REPORT_COMMENT">reportComment</string>
+    <string name="SUBMIT">reportSubmit</string>
+    <string name="REPORT_SUBMITTED">reportSubmitted</string>
+    <string name="PLEASE_ADD_COMMENT">reportCommentAdd</string>
+    <string name="CANCEL">reportCancel</string>
     <string name="TRADE">Trade</string>
     <string name="ACCEPT_TRADE">Accept Trade</string>
     <string name="REJECT_TRADE">Reject Trade</string>

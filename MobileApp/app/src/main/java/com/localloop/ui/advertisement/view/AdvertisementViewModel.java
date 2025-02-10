@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.localloop.api.repositories.AdvertisementRepository;
-import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.data.models.Advertisement;
-import com.localloop.data.models.User;
 import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
 
@@ -18,6 +16,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
 public class AdvertisementViewModel extends BaseViewModel {
+
+    private final ReportRepository reportRepository;
+
 
     private final MutableLiveData<String> description = new MutableLiveData<>();
     private final MutableLiveData<String> title = new MutableLiveData<>();
@@ -32,8 +33,9 @@ public class AdvertisementViewModel extends BaseViewModel {
     private Advertisement advertisement;
 
     @Inject
-    public AdvertisementViewModel(AdvertisementRepository advertisementRepository, CurrentUserRepository currentUserRepository) {
+    public AdvertisementViewModel(AdvertisementRepository advertisementRepository, ReportRepository reportRepository, CurrentUserRepository currentUserRepository) {
         this.advertisementRepository = advertisementRepository;
+        this.reportRepository = reportRepository;
         this.currentUserRepository = currentUserRepository;
     }
 
@@ -124,5 +126,23 @@ public class AdvertisementViewModel extends BaseViewModel {
 
     public void setButtonText(String text) {
         this.buttonText.setValue(text);
+    }
+
+    // Method to submit the report
+    public void reportAdvertisement(String reason, int advertisementId) {
+        // Perform the report submission through the repository
+        reportRepository.insertReport("advertisement", advertisementId, new DataCallBack<Report>() {
+            @Override
+            public void onSuccess(Report report) {
+                // Notify success
+                //success.setValue("Report submitted successfully.");
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                // Notify error
+                error.setValue(errorMessage);
+            }
+        });
     }
 }

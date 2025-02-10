@@ -124,6 +124,17 @@
 
                 </LinearLayout>
             </LinearLayout>
+
+            <!-- Report Button added here, just before actionButton -->
+            <Button
+                android:id="@+id/reportButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/rounded_button"
+                android:contentDescription="@string/REPORT_ADVERTISEMENT"
+                android:padding="12dp"
+                android:text="@string/REPORT_ADVERTISEMENT" />
         </LinearLayout>
     </ScrollView>
 

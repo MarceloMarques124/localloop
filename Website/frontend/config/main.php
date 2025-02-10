@@ -65,7 +65,7 @@ return [
                 ['class' => UrlRule::class, 'controller' => 'api/cart-item', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/invoice', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/item', 'tokens' => ['{id}' => '<id:\\d+>']],
-                ['class' => UrlRule::class, 'controller' => 'api/report', 'tokens' => ['{id}' => '<id:\\d+>']],
+                //['class' => UrlRule::class, 'controller' => 'api/report', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/saved-advertisement', 'tokens' => ['{id}' => '<id:\\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/trade', 'extraPatterns' => [
                     'POST {id}/add-proposal' => 'add-proposal',
@@ -74,7 +74,12 @@ return [
                     'PATCH {id}/update-status' => 'update-status',
                     'PATCH {id}/accept' => 'accept',
                 ]],
+                ['class' => UrlRule::class, 'controller' => 'api/report', 'tokens' => ['{id}' => '<id:\\d+>'], 'extraPatterns' => [
+                    'POST create' => 'create',
+                ]],
+
                 ['class' => UrlRule::class, 'controller' => 'api/trade-proposal-item', 'tokens' => ['{id}' => '<id:\\d+>']],
+                ['class' => UrlRule::class, 'controller' => 'api/review', 'tokens' => ['{id}' => '<id:\d+>']],
                 ['class' => UrlRule::class, 'controller' => 'api/user', 'extraPatterns' => [
                     'GET current-user' => 'get-current-user',
                 ]],
