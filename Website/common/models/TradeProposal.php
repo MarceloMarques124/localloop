@@ -2,7 +2,8 @@
 
 namespace common\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "trade_proposal".
@@ -20,9 +21,14 @@ use Yii;
  * @property Trade $trade
  * @property TradeProposalItem[] $tradeProposalItems
  */
-class TradeProposal extends \yii\db\ActiveRecord
+class TradeProposal extends ActiveRecord
 {
+    const STATE_PENDING = 0;
+    const STATE_ACCEPTED = 1;
+    const STATE_REJECTED = 2;
+
     public $item_id;
+
     /**
      * {@inheritdoc}
      */
@@ -64,7 +70,7 @@ class TradeProposal extends \yii\db\ActiveRecord
     /**
      * Gets query for [[CartItems]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCartItems()
     {
@@ -74,7 +80,7 @@ class TradeProposal extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Carts]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCarts()
     {
@@ -84,7 +90,7 @@ class TradeProposal extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Items]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getItems()
     {
@@ -94,7 +100,7 @@ class TradeProposal extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Trade]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getTrade()
     {
@@ -104,7 +110,7 @@ class TradeProposal extends \yii\db\ActiveRecord
     /**
      * Gets query for [[TradeProposalItems]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getTradeProposalItems()
     {

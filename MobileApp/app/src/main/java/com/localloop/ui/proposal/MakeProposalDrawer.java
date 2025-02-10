@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.localloop.R;
+import com.localloop.api.requests.AddProposalRequest;
 import com.localloop.api.requests.InitTradeRequest;
 import com.localloop.data.models.Item;
 import com.localloop.databinding.FragmentMakeProposalBinding;
@@ -30,6 +31,8 @@ public class MakeProposalDrawer extends BottomSheetDialogFragment {
     FragmentMakeProposalBinding binding;
     MakeProposalViewModel viewModel;
     int advertisementId;
+    int userId;
+    private int tradeId;
 
 
     @Nullable
@@ -44,18 +47,24 @@ public class MakeProposalDrawer extends BottomSheetDialogFragment {
         Bundle args = getArguments();
         if (args != null) {
             advertisementId = args.getInt(ArgumentKeys.ADVERTISEMENT_ID);
+            userId = args.getInt(ArgumentKeys.USER_ID);
+            tradeId = args.getInt(ArgumentKeys.TRADE_ID);
         }
 
-        viewModel.fetchCurrentUserItems();
+        if (userId != 0) {
+            viewModel.getUserItems(userId);
+        } else {
+            viewModel.fetchCurrentUserItems();
+        }
 
-        viewModel.getItems().observe(getViewLifecycleOwner(), items -> {
+        viewModel.getItemsLiveData().observe(getViewLifecycleOwner(), items -> {
             if (items != null) {
                 MakeProposalDrawerAdapter adapter = new MakeProposalDrawerAdapter(items);
                 binding.itemList.setAdapter(adapter);
             }
         });
 
-        viewModel.getCreatedTrade().observe(getViewLifecycleOwner(), createTrade -> {
+        viewModel.getTradeMutableLiveData().observe(getViewLifecycleOwner(), createTrade -> {
             if (createTrade != null) {
                 Toast.makeText(requireContext(), R.string.PROPOSAL_SENT, Toast.LENGTH_SHORT).show();
                 sendProposalSuccess();
@@ -82,7 +91,13 @@ public class MakeProposalDrawer extends BottomSheetDialogFragment {
             new AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.CONFIRM_PROPOSAL_SEND))
                     .setMessage(getString(R.string.ARE_YOU_SURE_YOU_WANT_TO_SEND_THIS_PROPOSAL))
-                    .setPositiveButton(getString(R.string.YES), (dialog, which) -> initTrade(selectedItems))
+                    .setPositiveButton(getString(R.string.YES), (dialog, which) -> {
+                        if (tradeId > 0) {
+                            addProposal(selectedItems);
+                        } else {
+                            initTrade(selectedItems);
+                        }
+                    })
                     .setNegativeButton(getString(R.string.NO), (dialog, which) -> dialog.dismiss())
                     .show();
         });
@@ -98,6 +113,13 @@ public class MakeProposalDrawer extends BottomSheetDialogFragment {
         List<Integer> itemIds = selectedItems.stream().map(Item::getId).collect(Collectors.toList());
 
         viewModel.initTrade(new InitTradeRequest(advertisementId, message, itemIds));
+    }
+
+    private void addProposal(List<Item> selectedItems) {
+        String message = binding.messageInput.getText().toString();
+        List<Integer> itemIds = selectedItems.stream().map(Item::getId).collect(Collectors.toList());
+
+        viewModel.addProposal(tradeId, new AddProposalRequest(itemIds, message));
     }
 
     private void sendProposalSuccess() {

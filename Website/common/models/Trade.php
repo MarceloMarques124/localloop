@@ -23,6 +23,10 @@ use yii\db\ActiveRecord;
  */
 class Trade extends ActiveRecord
 {
+    const STATE_PENDING = 0;
+    const STATE_ACCEPTED = 1;
+    const STATE_REJECTED = 2;
+
     /**
      * {@inheritdoc}
      */
@@ -35,6 +39,7 @@ class Trade extends ActiveRecord
     {
         return self::find()->count();
     }
+
     public static function getTotalTradesToday()
     {
         $startOfDay = date('Y-m-d 00:00:00'); // Início do dia atual
@@ -44,6 +49,7 @@ class Trade extends ActiveRecord
             ->where(['between', 'created_at', $startOfDay, $endOfDay])
             ->count();
     }
+
     public static function getTotalTradesOpen()
     {
         return self::find()->where(['state' => 0])->count();

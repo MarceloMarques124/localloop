@@ -37,7 +37,7 @@
                 android:clipToPadding="false"
                 android:paddingVertical="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_message" />
+                tools:listitem="@layout/trade_message" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_received_trades"
@@ -47,7 +47,7 @@
                 android:paddingVertical="8dp"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_message" />
+                tools:listitem="@layout/trade_message" />
 
         </FrameLayout>
 
