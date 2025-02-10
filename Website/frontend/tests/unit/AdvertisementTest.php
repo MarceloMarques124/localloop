@@ -24,28 +24,25 @@ class AdvertisementTest extends Unit
             $this->userInfo->save(false);
         }
 
-        if (!Advertisement::findOne(1)) {
-            $this->createAdvertisement(1);
-        }
+        Advertisement::deleteAll(); // Ensure a clean database state
+        $this->createAdvertisement(1, 'ad1');
     }
 
-    private function createAdvertisement($id)
+    private function createAdvertisement($id, $title)
     {
-        $ad = Advertisement::findOne($id);
-        if (!$ad) {
-            $ad = new Advertisement([
-                'id' => $id,
-                'user_info_id' => $this->userInfo->id,
-                'title' => "ad{$id}",
-                'description' => 'Test description',
-                'is_service' => 0,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]);
-            if (!$ad->save()) {
-                echo "Failed to create Advertisement:\n";
-                print_r($ad->errors);
-            }
+        $ad = new Advertisement([
+            'id' => $id,
+            'user_info_id' => $this->userInfo->id,
+            'title' => $title,
+            'description' => 'Test description',
+            'is_service' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        if (!$ad->save()) {
+            echo "Failed to create Advertisement:\n";
+            print_r($ad->errors);
         }
     }
 
@@ -72,7 +69,7 @@ class AdvertisementTest extends Unit
             $this->fail("Advertisement with ID 1 does not exist.");
         }
 
-        $this->assertInstanceOf(Advertisement::class, $advertisement);
+        echo "Found Advertisement Title: " . $advertisement->title . "\n";
         $this->assertEquals('ad1', $advertisement->title);
     }
 
@@ -96,11 +93,9 @@ class AdvertisementTest extends Unit
     {
         $advertisement = Advertisement::findOne(1);
         if (!$advertisement) {
-            $this->createAdvertisement(1);
-            $advertisement = Advertisement::findOne(1);
+            $this->fail("Advertisement with ID 1 does not exist.");
         }
 
-        $this->assertNotNull($advertisement, "Failed to prepare advertisement for deletion.");
         $this->assertTrue($advertisement->delete() > 0, "Failed to delete advertisement.");
 
         $deletedAd = Advertisement::findOne(1);
