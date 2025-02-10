@@ -4,6 +4,7 @@ import com.localloop.api.services.AdvertisementApiService;
 import com.localloop.api.services.AuthApiService;
 import com.localloop.api.services.CurrentUserApiService;
 import com.localloop.api.services.ItemApiService;
+import com.localloop.api.services.ReportApiService;
 import com.localloop.api.services.SavedAdvertisementApiService;
 import com.localloop.api.services.TradeApiService;
 import com.localloop.api.services.TradeProposalApiService;
@@ -48,6 +49,12 @@ public class ApiServiceModule {
     @Singleton
     public SavedAdvertisementApiService provideSavedAdvertisementApiService(Retrofit retrofit) {
         return retrofit.create(SavedAdvertisementApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public ReportApiService provideReportApiService(Retrofit retrofit) {
+        return retrofit.create(ReportApiService.class);
     }
 
     @Provides
