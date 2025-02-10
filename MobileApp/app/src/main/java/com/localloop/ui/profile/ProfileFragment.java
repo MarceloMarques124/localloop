@@ -2,6 +2,7 @@ package com.localloop.ui.profile;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.localloop.api.responses.UserProfile;
 import com.localloop.data.models.CartItem;
 import com.localloop.data.models.User;
 import com.localloop.databinding.FragmentProfileBinding;
+import com.localloop.ui.auth.AuthActivity;
 
 import java.util.List;
 
@@ -46,6 +48,13 @@ public class ProfileFragment extends Fragment {
         profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         setupObservers();
         profileViewModel.getCurrentUserProfile();
+
+        binding.signOutButton.setOnClickListener(v -> {
+            profileViewModel.signOut();
+            Intent intent = new Intent(requireActivity(), AuthActivity.class);
+            startActivity(intent);
+            requireActivity().finish();
+        });
     }
 
     private void setupObservers() {

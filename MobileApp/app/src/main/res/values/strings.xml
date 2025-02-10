@@ -63,4 +63,5 @@
     <string name="REJECTED">Rejected</string>
     <string name="ACCEPTED">Accepted</string>
     <string name="REMOVE_FROM_CART">Remove from Cart</string>
+    <string name="SIGN_OUT">Sign Out</string>
 </resources>

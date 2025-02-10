@@ -7,6 +7,7 @@ import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.api.responses.UserProfile;
 import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
+import com.localloop.utils.SecureStorage;
 
 import javax.inject.Inject;
 
@@ -16,11 +17,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class ProfileViewModel extends BaseViewModel {
 
     private final CurrentUserRepository currentUserRepository;
+    private final SecureStorage secureStorage;
     private final MutableLiveData<UserProfile> userLiveData = new MutableLiveData<>();
 
     @Inject
-    public ProfileViewModel(CurrentUserRepository currentUserRepository) {
+    public ProfileViewModel(CurrentUserRepository currentUserRepository, SecureStorage secureStorage) {
         this.currentUserRepository = currentUserRepository;
+        this.secureStorage = secureStorage;
     }
 
     public LiveData<UserProfile> getUserProfileLiveData() {
@@ -39,5 +42,9 @@ public class ProfileViewModel extends BaseViewModel {
                 error.setValue(errorMessage);
             }
         });
+    }
+
+    public void signOut() {
+        secureStorage.removeAuthKey();
     }
 }
