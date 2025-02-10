@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.localloop.api.repositories.AdvertisementRepository;
+import com.localloop.api.repositories.CurrentUserRepository;
 import com.localloop.data.models.Advertisement;
+import com.localloop.data.models.User;
 import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
 
@@ -24,13 +26,15 @@ public class AdvertisementViewModel extends BaseViewModel {
     private final MutableLiveData<LocalDateTime> accountCreatedAt = new MutableLiveData<>();
     private final MutableLiveData<String> buttonText = new MutableLiveData<>();
     private final MutableLiveData<Boolean> hasProposal = new MutableLiveData<>();
-
+    private final MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
     private final AdvertisementRepository advertisementRepository;
+    private final CurrentUserRepository currentUserRepository;
     private Advertisement advertisement;
 
     @Inject
-    public AdvertisementViewModel(AdvertisementRepository advertisementRepository) {
+    public AdvertisementViewModel(AdvertisementRepository advertisementRepository, CurrentUserRepository currentUserRepository) {
         this.advertisementRepository = advertisementRepository;
+        this.currentUserRepository = currentUserRepository;
     }
 
     public void getAdvertisement(int id) {
@@ -47,8 +51,24 @@ public class AdvertisementViewModel extends BaseViewModel {
         });
     }
 
+    private void getCurrentUser() {
+        currentUserRepository.getUser(new DataCallBack<User>() {
+            @Override
+            public void onSuccess(User user) {
+                userMutableLiveData.setValue(user);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                error.setValue(errorMessage);
+            }
+        });
+    }
+
     private void updateData(Advertisement advertisement) {
         setAdvertisement(advertisement);
+
+        getCurrentUser();
 
         description.setValue(advertisement.getDescription());
         title.setValue(advertisement.getTitle());
@@ -56,6 +76,10 @@ public class AdvertisementViewModel extends BaseViewModel {
         rating.setValue(advertisement.getUser().getAverageStars());
         accountCreatedAt.setValue(advertisement.getUser().getCreatedAt());
         hasProposal.setValue(advertisement.getCurrentUserTrade() != null);
+    }
+
+    public LiveData<User> getUserMutableLiveData() {
+        return userMutableLiveData;
     }
 
     public Advertisement getAdvertisement() {
