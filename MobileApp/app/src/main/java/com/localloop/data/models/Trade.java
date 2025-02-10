@@ -11,6 +11,7 @@ public class Trade extends BaseModel {
     @SerializedName("user_info_id")
     private int userInfoId;
     private int state;
+    @SerializedName("trade_proposals")
     private List<TradeProposal> tradeProposals;
     private Advertisement advertisement;
 

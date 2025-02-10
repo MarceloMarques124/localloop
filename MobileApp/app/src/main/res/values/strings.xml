@@ -50,4 +50,10 @@
     <string name="USER_IMAGE">User Image</string>
     <string name="SENT_TRADES">Sent Trades</string>
     <string name="RECEIVED_TRADES">Received Trades</string>
+    <string name="TRADE">Trade</string>
+    <string name="ACCEPT_TRADE">Accept Trade</string>
+    <string name="REJECT_TRADE">Reject Trade</string>
+    <string name="PENDING">Pending</string>
+    <string name="REJECTED">Rejected</string>
+    <string name="ACCEPTED">Accepted</string>
 </resources>

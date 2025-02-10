@@ -56,6 +56,12 @@ public class AdvertisementFragment extends Fragment {
             }
         });
 
+        viewModel.getUserMutableLiveData().observe(viewLifecycleOwner, user -> {
+            if (user != null && user.getId() == viewModel.getAdvertisement().getUserId()) {
+                binding.actionButton.setVisibility(View.GONE);
+            }
+        });
+
         viewModel.getDescription().observe(viewLifecycleOwner, binding.descriptionText::setText);
         viewModel.getTitle().observe(viewLifecycleOwner, binding.advertisementName::setText);
 

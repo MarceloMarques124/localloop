@@ -3,13 +3,17 @@ package com.localloop.di;
 import com.localloop.api.repositories.AdvertisementRepository;
 import com.localloop.api.repositories.AuthRepository;
 import com.localloop.api.repositories.CurrentUserRepository;
+import com.localloop.api.repositories.ItemRepository;
 import com.localloop.api.repositories.SavedAdvertisementRepository;
+import com.localloop.api.repositories.TradeProposalRepository;
 import com.localloop.api.repositories.TradeRepository;
 import com.localloop.api.repositories.UserRepository;
 import com.localloop.data.repositories.AdvertisementRepositoryImpl;
 import com.localloop.data.repositories.AuthRepositoryImpl;
 import com.localloop.data.repositories.CurrentUserRepositoryImpl;
+import com.localloop.data.repositories.ItemRepositoryImpl;
 import com.localloop.data.repositories.SavedAdvertisementRepositoryImpl;
+import com.localloop.data.repositories.TradeProposalRepositoryImpl;
 import com.localloop.data.repositories.TradeRepositoryImpl;
 import com.localloop.data.repositories.UserRepositoryImpl;
 
@@ -48,4 +52,12 @@ public abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract TradeRepository bindTradeRepository(TradeRepositoryImpl repository);
+
+    @Binds
+    @Singleton
+    abstract TradeProposalRepository bindTradeProposalRepository(TradeProposalRepositoryImpl repository);
+
+    @Binds
+    @Singleton
+    abstract ItemRepository bindItemRepository(ItemRepositoryImpl repository);
 }

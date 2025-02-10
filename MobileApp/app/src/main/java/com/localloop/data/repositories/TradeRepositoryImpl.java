@@ -1,8 +1,7 @@
 package com.localloop.data.repositories;
 
-import androidx.annotation.NonNull;
-
 import com.localloop.api.repositories.TradeRepository;
+import com.localloop.api.requests.AddProposalRequest;
 import com.localloop.api.requests.InitTradeRequest;
 import com.localloop.api.services.TradeApiService;
 import com.localloop.data.models.Trade;
@@ -10,36 +9,26 @@ import com.localloop.utils.DataCallBack;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class TradeRepositoryImpl implements TradeRepository {
-    private final TradeApiService tradeApiService;
+public class TradeRepositoryImpl extends BaseRepositoryImpl implements TradeRepository {
+    private final TradeApiService apiService;
 
     @Inject
-    public TradeRepositoryImpl(TradeApiService tradeApiService) {
-        this.tradeApiService = tradeApiService;
+    public TradeRepositoryImpl(TradeApiService apiService) {
+        this.apiService = apiService;
     }
 
     @Override
     public void initTrade(InitTradeRequest trade, DataCallBack<Trade> callBack) {
-        var call = tradeApiService.initTrade(trade);
+        enqueueCall(apiService.initTrade(trade), callBack, "Failed to save Trades");
+    }
 
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<Trade> call, @NonNull Response<Trade> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callBack.onSuccess(response.body());
-                } else {
-                    callBack.onError("Failed to save Trade");
-                }
-            }
+    @Override
+    public void getTrade(int id, DataCallBack<Trade> callBack) {
+        enqueueCall(apiService.getTrade(id), callBack, "Failed to get the trade");
+    }
 
-            @Override
-            public void onFailure(@NonNull Call<Trade> call, @NonNull Throwable t) {
-                callBack.onError(t.getMessage());
-            }
-        });
+    @Override
+    public void addProposal(int tradeId, AddProposalRequest addProposalRequest, DataCallBack<Trade> callBack) {
+        enqueueCall(apiService.addProposal(tradeId, addProposalRequest), callBack, "Failed to Add the proposal");
     }
 }
