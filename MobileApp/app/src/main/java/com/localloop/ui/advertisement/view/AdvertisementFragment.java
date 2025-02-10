@@ -61,6 +61,7 @@ public class AdvertisementFragment extends Fragment {
         viewModel.getUserMutableLiveData().observe(viewLifecycleOwner, user -> {
             if (user != null && user.getId() == viewModel.getAdvertisement().getUserId()) {
                 binding.buttonContainer.setVisibility(View.GONE);
+                binding.reportButton.setVisibility(View.GONE);
             }
         });
 
