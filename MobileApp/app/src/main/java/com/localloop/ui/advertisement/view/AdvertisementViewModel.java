@@ -4,7 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.localloop.api.repositories.AdvertisementRepository;
+import com.localloop.api.repositories.CartRepository;
+import com.localloop.api.repositories.CurrentUserRepository;
+import com.localloop.api.repositories.ReportRepository;
 import com.localloop.data.models.Advertisement;
+import com.localloop.data.models.Report;
+import com.localloop.data.models.User;
 import com.localloop.ui.BaseViewModel;
 import com.localloop.utils.DataCallBack;
 
@@ -28,15 +33,25 @@ public class AdvertisementViewModel extends BaseViewModel {
     private final MutableLiveData<String> buttonText = new MutableLiveData<>();
     private final MutableLiveData<Boolean> hasProposal = new MutableLiveData<>();
     private final MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isOnCart = new MutableLiveData<>(false);
     private final AdvertisementRepository advertisementRepository;
     private final CurrentUserRepository currentUserRepository;
+    private final CartRepository cartRepository;
     private Advertisement advertisement;
 
     @Inject
-    public AdvertisementViewModel(AdvertisementRepository advertisementRepository, ReportRepository reportRepository, CurrentUserRepository currentUserRepository) {
+    public AdvertisementViewModel(AdvertisementRepository advertisementRepository,
+                                  ReportRepository reportRepository,
+                                  CurrentUserRepository currentUserRepository,
+                                  CartRepository cartRepository) {
         this.advertisementRepository = advertisementRepository;
         this.reportRepository = reportRepository;
         this.currentUserRepository = currentUserRepository;
+        this.cartRepository = cartRepository;
+    }
+
+    public LiveData<Boolean> getIsOnCart() {
+        return isOnCart;
     }
 
     public void getAdvertisement(int id) {
@@ -78,6 +93,7 @@ public class AdvertisementViewModel extends BaseViewModel {
         rating.setValue(advertisement.getUser().getAverageStars());
         accountCreatedAt.setValue(advertisement.getUser().getCreatedAt());
         hasProposal.setValue(advertisement.getCurrentUserTrade() != null);
+        isOnCart.setValue(advertisement.getOnCart());
     }
 
     public LiveData<User> getUserMutableLiveData() {
@@ -128,19 +144,28 @@ public class AdvertisementViewModel extends BaseViewModel {
         this.buttonText.setValue(text);
     }
 
-    // Method to submit the report
     public void reportAdvertisement(String reason, int advertisementId) {
-        // Perform the report submission through the repository
         reportRepository.insertReport("advertisement", advertisementId, new DataCallBack<Report>() {
             @Override
             public void onSuccess(Report report) {
-                // Notify success
-                //success.setValue("Report submitted successfully.");
             }
 
             @Override
             public void onError(String errorMessage) {
-                // Notify error
+                error.setValue(errorMessage);
+            }
+        });
+    }
+
+    public void toggleCartItem(int advertisementId) {
+        cartRepository.toggleCartItem(advertisementId, new DataCallBack<>() {
+            @Override
+            public void onSuccess(Void data) {
+                isOnCart.setValue(Boolean.FALSE.equals(isOnCart.getValue()));
+            }
+
+            @Override
+            public void onError(String errorMessage) {
                 error.setValue(errorMessage);
             }
         });

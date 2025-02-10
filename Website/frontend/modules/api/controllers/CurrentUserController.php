@@ -3,6 +3,8 @@
 namespace frontend\modules\api\controllers;
 
 use common\models\Advertisement;
+use common\models\Cart;
+use common\models\CartItem;
 use common\models\Item;
 use common\models\Trade;
 use common\models\UserInfo;
@@ -86,9 +88,20 @@ class CurrentUserController extends ActiveController
             throw new BadRequestHttpException('User info not found.');
         }
 
-        $userData = UserTransformer::transform($userInfo);
+        $userData['user'] = UserTransformer::transform($userInfo);
         $userData['items'] = Item::find()->where(['user_info_id' => $user->id])->asArray()->all();
         $userData['advertisements'] = Advertisement::find()->where(['user_info_id' => $user->id])->asArray()->all();
+
+        $cart = Cart::findOne($user->id);
+        $userData['cart'] = $cart ? $cart->attributes : null;
+
+        if ($cart) {
+            $userData['cart']['items'] = CartItem::find()
+                ->where(['cart_id' => $cart->id])
+                ->with('advertisement')
+                ->asArray()
+                ->all();
+        }
 
         return $userData;
     }

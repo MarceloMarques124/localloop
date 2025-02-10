@@ -3,6 +3,7 @@
 namespace frontend\modules\api\controllers;
 
 use common\models\Advertisement;
+use common\models\CartItem;
 use common\models\SavedAdvertisement;
 use common\models\Trade;
 use frontend\modules\api\transformers\UserTransformer;
@@ -57,6 +58,18 @@ class AdvertisementController extends ActiveController
             ->where(['advertisement_id' => $id, 'user_info_id' => $currentUserId])
             ->asArray()
             ->one();
+
+        try {
+            $cartItem = CartItem::find()
+                ->where(['advertisement_id' => $id, 'cart_id' => $currentUserId])
+                ->asArray()
+                ->one();
+
+            $advertisement['is_on_cart'] = $cartItem !== null ? 1 : 0;
+        } catch (\Exception $e) {
+            Yii::error('Failed to fetch cart item: ' . $e->getMessage());
+            $advertisement['is_on_cart'] = 0;
+        }
 
         $advertisement['current_user_trade'] = $userTrade;
         $advertisement['user'] = UserTransformer::transform($advertisement['userInfo']);

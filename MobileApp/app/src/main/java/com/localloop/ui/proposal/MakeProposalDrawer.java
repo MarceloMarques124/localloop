@@ -102,9 +102,6 @@ public class MakeProposalDrawer extends BottomSheetDialogFragment {
                     .show();
         });
 
-        binding.addToCartButton.setOnClickListener(v -> {
-        });
-
         return binding.getRoot();
     }
 

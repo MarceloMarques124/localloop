@@ -2,6 +2,7 @@ package com.localloop.di;
 
 import com.localloop.api.services.AdvertisementApiService;
 import com.localloop.api.services.AuthApiService;
+import com.localloop.api.services.CartApiService;
 import com.localloop.api.services.CurrentUserApiService;
 import com.localloop.api.services.ItemApiService;
 import com.localloop.api.services.ReportApiService;
@@ -73,5 +74,11 @@ public class ApiServiceModule {
     @Singleton
     public TradeProposalApiService provideTradeProposalApiService(Retrofit retrofit) {
         return retrofit.create(TradeProposalApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public CartApiService provideCartApiService(Retrofit retrofit) {
+        return retrofit.create(CartApiService.class);
     }
 }

@@ -1,6 +1,7 @@
 package com.localloop.api.responses;
 
 import com.localloop.data.models.Advertisement;
+import com.localloop.data.models.Cart;
 import com.localloop.data.models.Item;
 import com.localloop.data.models.User;
 
@@ -10,11 +11,20 @@ public class UserProfile {
     private User user;
     private List<Item> items;
     private List<Advertisement> advertisements;
+    private Cart cart;
 
     public UserProfile(User user, List<Item> items, List<Advertisement> advertisements) {
         this.user = user;
         this.items = items;
         this.advertisements = advertisements;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public User getUser() {
